@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Благодійна ініціатива з закупівлі книг</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* Загальні стилі */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #5B2EFF, #7423F0); color: #FFFFFF; }
+    header { text-align: center; padding: 40px 10px; }
+    header h1 { font-size: 2.2em; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    header .subtitle { margin-top: 8px; font-size: 1em; font-weight: 400; color: #FFEB99; }
+
+    /* Заголовок Статистики */
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px 10px; }
+    .dashboard-title {
+      font-size: 2em;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #FFF380;
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* Карточки */
+    .dashboard { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, background 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .card h3 { font-size: 1.1em; font-weight: 600; margin-bottom: 10px; color: #FFF380; }
+    .card .value { font-size: 2.4em; font-weight: 800; color: #CCF2FF; }
+
+    /* Звітування Facebook */
+    .report { margin-top: 30px; text-align: center; }
+    .report h2 { color: #FFF380; font-weight: 600; font-size: 1.6em; margin-bottom: 16px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+    .report iframe { width: 100%; max-width: 500px; height: auto; aspect-ratio: 500/825; border: none; overflow: hidden; }
+
+    /* Текст перед кнопкою */
+    .contact p { margin-bottom: 12px; font-size: 0.95em; color: #FFFFFF; line-height: 1.4; }
+    .contact { text-align: center; margin: 30px 0; padding: 0 10px; }
+    .contact-button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #FFFFFF;
+      color: #7423F0;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .contact-button:hover {
+      background: #FFF380;
+      transform: translateY(-4px);
+    }
+
+    /* Мобільна адаптація */
+    @media (max-width: 600px) {
+      header { padding: 30px 5px; }
+      header h1 { font-size: 1.8em; }
+      header .subtitle { font-size: 0.9em; }
+      .dashboard-title { font-size: 1.6em; margin-bottom: 8px; }
+      .dashboard { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .card { padding: 16px; }
+      .card .value { font-size: 2em; }
+      .report h2 { font-size: 1.4em; margin-bottom: 12px; }
+      .contact p { font-size: 0.9em; }
+      .contact-button { padding: 12px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Благодійна ініціатива з закупівлі книг</h1>
+    <p class="subtitle">за державною програмою «ЄКнига»</p>
+  </header>
+
+  <div class="container">
+    <div class="dashboard-title">Статистика ініціативи</div>
+    <div class="dashboard">
+      <div class="card">
+        <h3>Зібрано (₴)</h3>
+        <div class="value" id="totalAmount">0</div>
+      </div>
+      <div class="card">
+        <h3>Благодійників</h3>
+        <div class="value" id="donorsCount">0</div>
+      </div>
+      <div class="card">
+        <h3>Дитячих будинків</h3>
+        <div class="value" id="orphanagesCount">0</div>
+      </div>
+      <div class="card">
+        <h3>Одиниць книг/матеріалів</h3>
+        <div class="value" id="itemsCount">0</div>
+      </div>
+      <div class="card">
+        <h3>До цілі (₴)</h3>
+        <div class="value" id="remaining">0</div>
+      </div>
+    </div>
+
+    <div class="report">
+      <h2>Звітування</h2>
+      <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkzT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true"></iframe>
+    </div>
+
+    <div class="contact">
+      <p>Якщо ти вже отримав/ла або хочеш отримати 908 грн за програмою ЄКнига та передати їх на благодійну ініціативу...</p>
+      <a href="https://t.me/iamhlixli" target="_blank" class="contact-button">Зв'язатися в Telegram</a>
+    </div>
+  </div>
+
+  <script>
+    // Дані для дашборду – змінюйте тут
+    const data = {
+      totalAmount: 16603,
+      donorsCount: 15,
+      orphanagesCount: 2,
+      itemsCount: 51,
+      targetAmount: 50000
+    };
+
+    // Функція анімації з requestAnimationFrame
+    function animateCount(id, endValue, duration) {
+      const el = document.getElementById(id);
+      const startTime = performance.now();
+      function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        el.textContent = Math.floor(progress * endValue);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      animateCount('totalAmount', data.totalAmount, 800);
+      animateCount('donorsCount', data.donorsCount, 600);
+      animateCount('orphanagesCount', data.orphanagesCount, 600);
+      animateCount('itemsCount', data.itemsCount, 600);
+      animateCount('remaining', data.targetAmount - data.totalAmount, 600);
+    });
+  </script>
+</body>
+</html>
