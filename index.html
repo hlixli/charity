@@ -68,6 +68,63 @@
       transform: translateY(-4px);
     }
 
+    /* Інформаційний блок */
+    .info-block {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin: 30px 0;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .info-block h2 {
+      font-size: 1.8em;
+      font-weight: 800;
+      color: #FFF380;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+    }
+    .info-block p {
+      font-size: 1em;
+      line-height: 1.5;
+      color: #FFFFFF;
+    }
+    .info-block strong {
+      color: #FFEB99;
+      font-weight: 600;
+    }
+    .info-block ul {
+      list-style: disc inside;
+      margin: 8px 0 0 0;
+      padding-left: 0;
+    }
+    .info-block li {
+      margin-bottom: 6px;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      margin-top: 12px; /* ось доданий простір */
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     /* Мобільна адаптація */
     @media (max-width: 600px) {
       header { padding: 30px 5px; }
@@ -80,7 +137,16 @@
       .report h2 { font-size: 1.4em; margin-bottom: 12px; }
       .contact p { font-size: 0.9em; }
       .contact-button { padding: 12px 24px; }
+      .info-block { padding: 20px 16px; }
+      .info-block h2 { font-size: 1.5em; }
     }
+
+    /* Додаткові фокуси для доступності */
+    .contact-button:focus-visible {
+      outline: 3px solid #FFF380;
+      outline-offset: 2px;
+    }
+    a { word-break: break-word; }
   </style>
 </head>
 <body>
@@ -116,13 +182,40 @@
 
     <div class="report">
       <h2>Звітування</h2>
-      <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkzT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true"></iframe>
+      <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkzT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true" loading="lazy" title="Facebook звіт"></iframe>
     </div>
 
     <div class="contact">
       <p>Якщо ти вже отримав/ла або хочеш отримати 908 грн за програмою ЄКнига та передати їх на благодійну ініціативу...</p>
-      <a href="https://t.me/iamhlixli" target="_blank" class="contact-button">Зв'язатися в Telegram</a>
+      <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button">Зв'язатися в Telegram</a>
     </div>
+
+    <!-- Новий інформаційний блок -->
+    <section class="info-block" aria-label="Інформація про ініціативу та інструкцію">
+      <h2>Про ініціативу</h2>
+      <p>Я збираю книжки для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Це благодійна ініціатива, до якої може долучитися кожен охочий, який має право на <strong>“єКнига”</strong> — без жодних власних витрат.</p>
+
+      <div>
+        <p><strong>Як це працює?</strong></p>
+        <ul>
+          <li>Держава надає 908 грн у межах програми “єКнига”.</li>
+          <li>Ці кошти можна витратити лише на придбання книжок.</li>
+          <li>Отримати їх можуть ті, кому зараз виповнилося 18 років.</li>
+        </ul>
+      </div>
+
+      <div>
+        <p><strong>Як оформити картку і замовити книги?</strong></p>
+        <p>Дивись коротке відеоінструкцію — усе просто та швидко:</p>
+        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8PyF" title="Відеоінструкція: як оформити картку єКнига" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <p>Після подачі заявки картка надходить протягом кількох днів, а кошти з'являються на ній протягом <strong>3 днів</strong> з моменту оформлення.</p>
+      <p><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
+    </section>
+
   </div>
 
   <script>
