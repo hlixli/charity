@@ -345,6 +345,9 @@
     }
 
     @media (max-width: 840px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
       .goal-amounts {
         flex-direction: column;
       }
@@ -517,11 +520,6 @@
       } else {
         if (toGoalText) toGoalText.textContent = `Залишилось ${formatter.format(remaining)} ₴`;
         if (remainingEl) remainingEl.textContent = formatter.format(remaining);
-      }
-
-      const progressBar = document.querySelector('[role="progressbar"]');
-      if (progressBar) {
-        progressBar.setAttribute('aria-valuenow', Math.min(percent, 100));
       }
 
       if (goalUpdated) {
