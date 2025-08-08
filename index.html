@@ -28,6 +28,15 @@
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
+
+    /* --- Фікс горизонтального скролу на мобільних --- */
+    html, body { overflow-x: hidden; }
+    @supports (overflow: clip) {
+      html, body { overflow-x: clip; } /* сучасні браузери */
+    }
+    /* Підстраховка для вбудованих медіа/віджетів */
+    img, video, iframe { max-width: 100%; height: auto; }
+
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
@@ -185,9 +194,6 @@
     }
     .mini-nav a:hover { transform: translateY(-1px); }
     .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
-    .mini-nav a:hover { transform: translateY(-1px); }
-    .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
-    /* indicator removed */
     .mini-nav .active { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
 
     /* Desktop: робимо навігацію липкою зверху та трохи меншою */
@@ -289,7 +295,6 @@
     /* Поважаємо користувачів з Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .mini-nav .indicator { transition: none; }
       .card, .contact-button, .hero-cta .btn { transition: none; }
     }
   </style>
@@ -304,7 +309,6 @@
       <div class="hero-meta">
         <span class="hero-note">Використання державної програми задля добра</span>
       </div>
-      
     </div>
   </header>
 
@@ -376,7 +380,7 @@
       </div>
     </section>
 
-    <!-- Контакт (залишив як у вас, нижче ще одна кнопка в hero) -->
+    <!-- Контакт -->
     <div class="contact">
       <p>Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
       <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
@@ -590,7 +594,7 @@
       });
     }
 
-    /* ===== MINI NAV JS: активний пункт + індикатор ===== */
+    /* ===== MINI NAV JS: активний пункт ===== */
     function initMiniNav() {
       const links = [...document.querySelectorAll('.mini-nav a[data-nav]')];
       if (!links.length) return;
@@ -624,7 +628,7 @@
       sections.forEach(sec => io.observe(sec));
     }
 
-window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
       // Лічильники/прогрес
       animateCount('totalAmount', data.totalAmount, 900);
       animateCount('donorsCount', data.donorsCount, 700);
