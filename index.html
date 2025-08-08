@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Благодійна ініціатива з закупівлі книг</title>
-  <meta name="description" content="Ініціатива єКнига: збір коштів для дитячих будинків шляхом передачі 908 грн від благодійників" />
+  <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
   <meta name="theme-color" content="#7423F0" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -22,19 +22,23 @@
       --glass-border: rgba(255,255,255,0.16);
       --focus: #FFF380;
       --step-radius: 20px;
+      --safe-bottom: env(safe-area-inset-bottom);
+      --mini-nav-h: 54px;
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: 'Montserrat', system-ui,-apple-system,sans-serif;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
-      line-height: 1.45;
+      line-height: 1.5;
       min-height: 100vh;
       background: #5B2EFF;
       isolation: isolate;
+      padding-bottom: calc(var(--mini-nav-h) + max(8px, var(--safe-bottom)));
     }
 
     body::before{
@@ -55,389 +59,208 @@
 
     a { color: inherit; text-decoration: none; word-break: break-word; }
 
-    header {
-      padding: 40px 16px 28px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 2.6vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
-    }
-    header .subtitle {
-      margin-top: 8px;
-      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-      font-weight: 600;
-      color: #FFEB99;
-    }
-    .small-meta {
-      margin-top: 6px;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 14px 68px;
-    }
-
-    .dashboard-title {
-      font-size: 1.95rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-align: center;
-      color: var(--accent);
-      margin: 6px 0 8px;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
-    }
-    .dashboard-kicker{
-      text-align:center;
-      font-size:.74rem;
-      color:rgba(255,255,255,.85);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-bottom:16px;
-    }
-
-    /* Статистика */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 20px 18px;
+    /* ===== HERO (перероблений перший блок) ===== */
+    .hero {
       position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: clamp(32px, 7vw, 64px) 16px clamp(22px, 5vw, 40px);
       text-align: center;
-      gap: 10px;
-      min-height: 150px;
-      transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      background: color-mix(in oklab, white 6%, transparent);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: clamp(24px, 7vw, 44px) clamp(20px, 6vw, 48px);
+      backdrop-filter: saturate(130%) blur(10px);
       box-shadow: var(--shadow);
     }
-    .card:hover { transform: translateY(-4px); background: var(--glass-bg-hover); }
-    .card h3 {
-      font-size: 1.18rem;
-      font-weight: 700;
-      margin: 0;
-      color: var(--accent);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      line-height: 1.2;
-    }
-    .card .value {
-      font-size: clamp(2rem, 4vw, 2.6rem);
+    .hero-eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      font-size: .84rem;
       font-weight: 800;
-      color: var(--accent-light);
-      line-height: 1.1;
-      display: block;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.92);
     }
-    .stat-footnote {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.82);
+    .hero h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(1.7rem, 5.2vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: .6px;
+      line-height: 1.15;
+      background: linear-gradient(92deg, #FFFFFF, var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-wrap: balance;
     }
-
-    /* 🔎 Більший заголовок лише в картці «Учасників» */
-    .card--participants h3 { font-size: 1.32rem; }
-
-    /* ↔️ Заголовок і сума в один рядок тільки для «Зібрано (₴)» */
-    .card--inline { align-items: stretch; }
-    .card--inline .card-top {
+    .hero-subtitle {
+      margin: 6px auto 0;
+      max-width: 48ch;
+      font-size: clamp(1rem, 3vw, 1.16rem);
+      color: rgba(255,255,255,.94);
+      text-wrap: balance;
+    }
+    .hero-meta {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-      text-align: left;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px 16px;
+      margin-top: 18px;
     }
+    .hero-note { font-size: .9rem; color: rgba(255,255,255,.9); }
+
+    .hero-cta {
+      margin-top: 14px;
+      display: flex; justify-content: center;
+    }
+    .hero-cta .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: #FFFFFF;
+      color: #7423F0;
+      font-weight: 800;
+      box-shadow: 0 12px 32px -4px rgba(0,0,0,.3);
+      transition: transform var(--transition), box-shadow var(--transition), filter .3s;
+    }
+    .hero-cta .btn:hover { transform: translateY(-2px); }
+    .hero-cta .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    /* Декоровані ореоли */
+    .hero::after, .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto;
+      width: 420px; height: 420px;
+      filter: blur(60px);
+      z-index: -1;
+      opacity: .35;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    .hero::before { background: radial-gradient(circle at 30% 30%, var(--accent-light), transparent 60%); left: -120px; top: -80px; }
+    .hero::after { background: radial-gradient(circle at 70% 70%, var(--accent), transparent 60%); right: -120px; bottom: -80px; }
+
+    /* ===== MINI NAV (компактна навігація) ===== */
+    .mini-nav {
+      position: fixed;
+      left: 50%; transform: translateX(-50%);
+      bottom: max(10px, var(--safe-bottom));
+      z-index: 50;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      padding: 6px;
+      backdrop-filter: saturate(140%) blur(10px);
+      box-shadow: var(--shadow);
+      height: var(--mini-nav-h);
+      display: grid; place-items: center;
+      width: max(280px, 68vw);
+      max-width: 520px;
+    }
+    .mini-nav ul { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 0; margin: 0; align-items: center; }
+    .mini-nav a {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 40px; padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.06);
+      font-weight: 800; font-size: .95rem;
+      color: rgba(255,255,255,.95);
+      letter-spacing: .2px;
+      outline: none;
+      transition: transform .18s ease, background .2s ease, border-color .2s ease;
+      white-space: nowrap;
+    }
+    .mini-nav a:hover { transform: translateY(-1px); }
+    .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
+    .mini-nav a:hover { transform: translateY(-1px); }
+    .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
+    /* indicator removed */
+    .mini-nav .active { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+
+    /* Desktop: робимо навігацію липкою зверху та трохи меншою */
+    @media (min-width: 980px) {
+      body { padding-bottom: 0; }
+      .mini-nav { top: 12px; bottom: auto; width: auto; left: 50%; transform: translateX(-50%); height: 48px; }
+      .mini-nav a { height: 36px; }
+    }
+
+    /* ===== ORIGINAL STYLES (скориговані відступи) ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 14px 68px; }
+
+    .dashboard-title { font-size: 1.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; color: var(--accent); margin: 6px 0 8px; text-shadow: 1px 1px 4px rgba(0,0,0,0.3); }
+    .dashboard-kicker{ text-align:center; font-size:.74rem; color:rgba(255,255,255,.85); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px 18px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 10px; min-height: 150px; transition: transform var(--transition), background var(--transition), box-shadow var(--transition); box-shadow: var(--shadow); }
+    .card:hover { transform: translateY(-4px); background: var(--glass-bg-hover); }
+    .card h3 { font-size: 1.18rem; font-weight: 700; margin: 0; color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.2; }
+    .card .value { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800; color: var(--accent-light); line-height: 1.1; display: block; }
+    .stat-footnote { font-size: 0.78rem; color: rgba(255,255,255,0.82); }
+    .card--participants h3 { font-size: 1.32rem; }
+    .card--inline { align-items: stretch; }
+    .card--inline .card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; text-align: left; }
     .card--inline h3 { margin: 0; }
     .card--inline .value { line-height: 1; white-space: nowrap; }
 
-    /* Інше */
     .goal-section { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 16px; }
-    .goal-card {
-      flex: 1 1 100%;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 22px 18px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: var(--shadow);
-    }
-    .goal-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .goal-header h3 {
-      margin: 0;
-      font-size: 1.12rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--accent);
-      flex: 1;
-      letter-spacing: .5px;
-    }
-    .goal-amounts {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-    }
-    .large-number {
-      font-size: clamp(2rem, 5.6vw, 2.6rem);
-      font-weight: 800;
-      color: #FFFFFF;
-      background: rgba(255,255,255,0.08);
-      padding: 12px 18px;
-      border-radius: 12px;
-      min-width: 160px;
-      text-align: center;
-      position: relative;
-      border: 1px solid var(--glass-border);
-    }
+    .goal-card { flex: 1 1 100%; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 22px 18px; position: relative; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); }
+    .goal-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .goal-header h3 { margin: 0; font-size: 1.12rem; font-weight: 800; text-transform: uppercase; color: var(--accent); flex: 1; letter-spacing: .5px; }
+    .goal-amounts { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .large-number { font-size: clamp(2rem, 5.6vw, 2.6rem); font-weight: 800; color: #FFFFFF; background: rgba(255,255,255,0.08); padding: 12px 18px; border-radius: 12px; min-width: 160px; text-align: center; position: relative; border: 1px solid var(--glass-border); }
     .progress-container { margin-top: 2px; }
-    .progress-bar-wrapper {
-      position: relative;
-      height: 22px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      overflow: hidden;
-      border: 1px solid var(--glass-border);
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, #CCF2FF 0%, #FFF380 100%);
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 8px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #1A1A1A;
-      will-change: width;
-      transition: width .6s ease;
-    }
-    .goal-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      margin-top: 6px;
-      flex-wrap: wrap;
-      gap: 6px;
-      color: #fff;
-    }
-    .overgoaled {
-      background: rgba(160,255,184,0.15);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #A0FFB8;
-      display: inline-block;
-      margin-top: 6px;
-      align-self: start;
-      border: 1px solid rgba(160,255,184,0.35);
-    }
-    .last-updated {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.72);
-    }
+    .progress-bar-wrapper { position: relative; height: 22px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; border: 1px solid var(--glass-border); }
+    .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #CCF2FF 0%, #FFF380 100%); border-radius: 999px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.78rem; font-weight: 800; color: #1A1A1A; will-change: width; transition: width .6s ease; }
+    .goal-meta { display: flex; justify-content: space-between; font-size: 0.9rem; margin-top: 6px; flex-wrap: wrap; gap: 6px; color: #fff; }
+    .overgoaled { background: rgba(160,255,184,0.15); border-radius: 8px; padding: 8px 12px; font-size: 0.9rem; font-weight: 700; color: #A0FFB8; display: inline-block; margin-top: 6px; align-self: start; border: 1px solid rgba(160,255,184,0.35); }
+    .last-updated { font-size: 0.7rem; color: rgba(255,255,255,0.72); }
 
-    .info-block {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 24px 18px;
-      margin: 28px 0;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      box-shadow: var(--shadow);
-    }
-    .info-block h2 {
-      font-size: clamp(1.4rem, 2.2vw, 1.7rem);
-      font-weight: 800;
-      margin: 0;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
-    }
+    .info-block { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px 18px; margin: 28px 0; position: relative; display: flex; flex-direction: column; gap: 18px; box-shadow: var(--shadow); }
+    .info-block h2 { font-size: clamp(1.4rem, 2.2vw, 1.7rem); font-weight: 800; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.25); }
     .info-block p, .info-block li { font-size: 1rem; color: #fff; }
     .info-block strong { color: #FFEB99; font-weight: 800; }
     .info-block ul { list-style: disc inside; margin: 6px 0 0; }
 
     .steps { display: grid; gap: 14px; }
     .steps-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .steps-title {
-      margin: 0;
-      font-size: clamp(1.2rem, 2vw, 1.4rem);
-      font-weight: 800;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: .6px;
-    }
-    /* Кнопка замість "Гортай →" */
-    .steps-button {
-      font-size: 0.9rem;
-      color: rgba(20,20,20,0.95);
-      background: linear-gradient(135deg, #CCF2FF, #FFF380);
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--glass-border);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-weight: 800;
-      box-shadow: none;
-    }
-    .steps-button:focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
+    .steps-title { margin: 0; font-size: clamp(1.2rem, 2vw, 1.4rem); font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .6px; }
+    .steps-button { font-size: 0.9rem; color: rgba(20,20,20,0.95); background: linear-gradient(135deg, #CCF2FF, #FFF380); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--glass-border); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; box-shadow: none; }
+    .steps-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-    .steps-track {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(340px, 1fr);
-      gap: 16px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      overscroll-behavior-inline: contain;
-      scroll-snap-type: x mandatory;
-      padding: 6px 2px 10px;
-      scrollbar-width: thin;
-      -webkit-overflow-scrolling: touch;
-      max-height: none;
-    }
+    .steps-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(340px, 1fr); gap: 16px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; padding: 6px 2px 10px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; max-height: none; }
     .steps-track::-webkit-scrollbar { height: 8px; }
     .steps-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 999px; }
 
-    /* Карточки кроків — без анімацій і без тіні */
-    .step {
-      scroll-snap-align: start;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--step-radius);
-      padding: 24px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      grid-template-areas: "badge title" "badge text";
-      column-gap: 16px;
-      row-gap: 10px;
-      min-height: 260px;
-      max-height: none;
-      box-shadow: none;               /* тіні немає */
-      backdrop-filter: saturate(120%) blur(8px);
-    }
+    .step { scroll-snap-align: start; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--step-radius); padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "badge title" "badge text"; column-gap: 16px; row-gap: 10px; min-height: 260px; max-height: none; box-shadow: none; backdrop-filter: saturate(120%) blur(8px); }
+    .step-badge { grid-area: badge; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #CCF2FF, #FFF380); color: #1A1A1A; display: grid; place-items: center; font-weight: 900; font-size: 1.15rem; }
+    .step-title { grid-area: title; margin: 0; font-weight: 800; font-size: 1.16rem; color: var(--accent-light); letter-spacing: .3px; align-self: center; }
+    .step-text { grid-area: text; margin: 0; font-size: 1.06rem; color: #fff; display: block; overflow: visible; }
 
-    .step-badge {
-      grid-area: badge;
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #CCF2FF, #FFF380);
-      color: #1A1A1A;
-      display: grid; place-items: center;
-      font-weight: 900;
-      font-size: 1.15rem;
-    }
-    .step-title {
-      grid-area: title;
-      margin: 0;
-      font-weight: 800;
-      font-size: 1.16rem;
-      color: var(--accent-light);
-      letter-spacing: .3px;
-      align-self: center;
-    }
-    .step-text {
-      grid-area: text;
-      margin: 0;
-      font-size: 1.06rem;
-      color: #fff;
-      display: block;
-      overflow: visible;
-    }
-
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
-      background: #1f1f35;
-      border: 1px solid var(--glass-border);
-    }
+    .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 36px rgba(0,0,0,0.35); background: #1f1f35; border: 1px solid var(--glass-border); }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-    .report {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+    .report { margin-top: 40px; display: flex; flex-direction: column; gap: 14px; }
     .report .dashboard-title { margin-bottom: 8px; }
-    .report-frame {
-      position: relative;
-      width: 100%;
-      max-width: 580px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: var(--glass-bg);
-      margin-inline: auto;
-      border: 1px solid var(--glass-border);
-    }
+    .report-frame { position: relative; width: 100%; max-width: 580px; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); background: var(--glass-bg); margin-inline: auto; border: 1px solid var(--glass-border); }
     .report-frame iframe { width: 100%; height: 100%; aspect-ratio: 500/825; border: none; }
-    .report-fallback {
-      font-size: 0.9rem;
-      background: rgba(255,255,255,0.06);
-      padding: 12px 16px;
-      border-radius: 10px;
-      display: inline-block;
-      margin-top: 6px;
-      border: 1px solid var(--glass-border);
-    }
+    .report-fallback { font-size: 0.9rem; background: rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 10px; display: inline-block; margin-top: 6px; border: 1px solid var(--glass-border); }
 
     .contact { text-align: center; margin: 30px 0 10px; padding: 0 10px; }
     .contact p { margin-bottom: 12px; font-size: 1rem; line-height: 1.4; }
-    .contact-button {
-      display: inline-block;
-      padding: 14px 30px;
-      background: #FFFFFF;
-      color: #7423F0;
-      font-weight: 800;
-      border-radius: 50px;
-      text-decoration: none;
-      box-shadow: 0 12px 32px -4px rgba(0,0,0,0.3);
-      transition: transform var(--transition), filter .3s, box-shadow var(--transition);
-      position: relative;
-    }
+    .contact-button { display: inline-block; padding: 14px 30px; background: #FFFFFF; color: #7423F0; font-weight: 800; border-radius: 50px; text-decoration: none; box-shadow: 0 12px 32px -4px rgba(0,0,0,0.3); transition: transform var(--transition), filter .3s, box-shadow var(--transition); position: relative; }
     .contact-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
     .contact-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
@@ -448,98 +271,119 @@
       .report { align-items: center; }
     }
     @media (max-width: 520px) {
-      header { padding: 32px 16px 24px; }
-
+      .hero-inner { padding: 22px 18px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
       .card { min-height: 170px; padding: 22px 16px; }
       .card h3 { font-size: 1.22rem; }
       .card--participants h3 { font-size: 1.38rem; }
       .card--inline .card-top { flex-direction: column; align-items: center; gap: 6px; }
-
       .stat-footnote { font-size: 0.82rem; }
-
       .goal-amounts { flex-direction: column; align-items: stretch; }
       .large-number { width: 100%; }
-
       .steps-track { grid-auto-columns: minmax(300px, 1fr); max-height: none; }
       .step { min-height: 280px; padding: 22px; }
       .step-text { font-size: 1.04rem; }
       .step-badge { width: 56px; height: 56px; }
     }
+
+    /* Поважаємо користувачів з Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .mini-nav .indicator { transition: none; }
+      .card, .contact-button, .hero-cta .btn { transition: none; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Благодійна ініціатива з закупівлі книг</h1>
-    <p class="subtitle">за державною програмою «єКнига» — 908 грн на книжки для дітей</p>
-    <div class="small-meta" id="updatedAt">Оновлено: —</div>
+  <!-- HERO: перший блок -->
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-eyebrow" aria-hidden="true">Благодійна ініціатива</div>
+      <h1>Книжки для дітей за «єКнига»</h1>
+      <p class="hero-subtitle">Це не ваші особисті кошти — держава надає кошти за програмою «єКнига». Ми спрямовуємо їх на книжки для дітей.</p>
+      <div class="hero-meta">
+        <span class="hero-note">Використання державної програми задля добра</span>
+      </div>
+      
+    </div>
   </header>
+
+  <!-- MINI NAV: компактна сучасна навігація -->
+  <nav class="mini-nav" aria-label="Швидка навігація сайтом">
+    <ul role="tablist" aria-label="Навігація сторінкою">
+      <li><a href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
+      <li><a href="#guide" data-nav role="tab" aria-controls="guide" aria-selected="false">Інструкція</a></li>
+    </ul>
+  </nav>
 
   <div class="container">
     <!-- Статистика -->
-    <div class="dashboard-title">Статистика ініціативи</div>
-    <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
+    <section id="stats">
+      <div class="dashboard-title">Статистика ініціативи</div>
+      <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
 
-    <div class="stats" aria-label="Ключова статистика ініціативи">
-      <div class="card card--inline" aria-label="Зібрано гривень">
-        <div class="card-top">
-          <h3>Зібрано (₴)</h3>
-          <div class="value" id="totalAmount">0</div>
+      <div class="stats" aria-label="Ключова статистика ініціативи">
+        <div class="card card--inline" aria-label="Зібрано гривень">
+          <div class="card-top">
+            <h3>Зібрано (₴)</h3>
+            <div class="value" id="totalAmount">0</div>
+          </div>
+          <div class="stat-footnote">Завдяки благодійникам</div>
         </div>
-        <div class="stat-footnote">Завдяки благодійникам</div>
-      </div>
 
-      <div class="card card--participants" aria-label="Кількість благодійників">
-        <h3>Учасників</h3>
-        <div class="value" id="donorsCount">0</div>
-        <div class="stat-footnote">Людей, які долучилися</div>
-      </div>
-
-      <div class="card" aria-label="Дитячі будинки">
-        <h3>Дитячих будинків</h3>
-        <div class="value" id="orphanagesCount">0</div>
-        <div class="stat-footnote">Заклади, які підтримали</div>
-      </div>
-
-      <div class="card" aria-label="Одиниці книг / матеріалів">
-        <h3>Одиниць книг/матеріалів</h3>
-        <div class="value" id="itemsCount">0</div>
-        <div class="stat-footnote">Передано</div>
-      </div>
-    </div>
-
-    <!-- До цілі -->
-    <div class="goal-section">
-      <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
-        <div class="goal-header">
-          <h3>До цілі (₴)</h3>
-          <div class="last-updated" id="goalUpdated"> </div>
+        <div class="card card--participants" aria-label="Кількість благодійників">
+          <h3>Учасників</h3>
+          <div class="value" id="donorsCount">0</div>
+          <div class="stat-footnote">Людей, які долучилися</div>
         </div>
-        <div class="goal-amounts">
-          <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
-          <div style="flex:1; min-width:220px;">
-            <div class="progress-container">
-              <div class="progress-bar-wrapper" aria-hidden="true">
-                <div class="progress-fill" id="progressFill">0%</div>
-              </div>
-              <div class="goal-meta" aria-live="polite">
-                <div id="percentText">0% зібрано</div>
-                <div id="toGoalText">Залишилось 0 ₴</div>
+
+        <div class="card" aria-label="Дитячі будинки">
+          <h3>Дитячих будинків</h3>
+          <div class="value" id="orphanagesCount">0</div>
+          <div class="stat-footnote">Заклади, які підтримали</div>
+        </div>
+
+        <div class="card" aria-label="Одиниці книг / матеріалів">
+          <h3>Одиниць книг/матеріалів</h3>
+          <div class="value" id="itemsCount">0</div>
+          <div class="stat-footnote">Передано</div>
+        </div>
+      </div>
+
+      <!-- До цілі -->
+      <div class="goal-section">
+        <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
+          <div class="goal-header">
+            <h3>До цілі (₴)</h3>
+            <div class="last-updated" id="goalUpdated"> </div>
+          </div>
+          <div class="goal-amounts">
+            <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
+            <div style="flex:1; min-width:220px;">
+              <div class="progress-container">
+                <div class="progress-bar-wrapper" aria-hidden="true">
+                  <div class="progress-fill" id="progressFill">0%</div>
+                </div>
+                <div class="goal-meta" aria-live="polite">
+                  <div id="percentText">0% зібрано</div>
+                  <div id="toGoalText">Залишилось 0 ₴</div>
+                </div>
               </div>
             </div>
           </div>
+          <div id="overFlowText" aria-live="polite"></div>
         </div>
-        <div id="overFlowText" aria-live="polite"></div>
       </div>
-    </div>
+    </section>
 
-    <!-- Контакт -->
+    <!-- Контакт (залишив як у вас, нижче ще одна кнопка в hero) -->
     <div class="contact">
       <p>Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
       <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
     </div>
 
     <!-- Інформація + Інструкція -->
-    <section class="info-block" aria-label="Інформація про ініціативу та інструкцію">
+    <section id="guide" class="info-block" aria-label="Інформація про ініціативу та інструкцію">
       <h2>Про ініціативу</h2>
       <p>Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.</p>
 
@@ -610,7 +454,7 @@
     </section>
 
     <!-- Звітування -->
-    <div class="report">
+    <section id="reports" class="report">
       <div class="dashboard-title">Звітування</div>
       <div class="report-frame">
         <iframe
@@ -620,7 +464,7 @@
         </iframe>
       </div>
       <div class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
-    </div>
+    </section>
   </div>
 
   <script>
@@ -746,6 +590,75 @@
       });
     }
 
+    /* ===== MINI NAV JS: активний пункт + індикатор ===== */
+    function initMiniNav() {
+      const links = [...document.querySelectorAll('.mini-nav a[data-nav]')];
+      if (!links.length) return;
+
+      function setActive(id) {
+        links.forEach(a => {
+          const match = a.getAttribute('href') === `#${id}`;
+          a.classList.toggle('active', match);
+          a.setAttribute('aria-selected', match ? 'true' : 'false');
+        });
+      }
+
+      // Клік — плавний скрол до секції
+      links.forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const id = a.getAttribute('href').slice(1);
+          const target = document.getElementById(id);
+          if (!target) return;
+          const y = target.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 980 ? 84 : 10);
+          window.scrollTo({ top: y, behavior: 'smooth' });
+          setActive(id);
+        });
+      });
+
+      // Виділення активного пункту за видимістю секції
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) setActive(en.target.id); });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: [0, .2, .5, .8, 1] });
+      sections.forEach(sec => io.observe(sec));
+    }
+
+      // Set initial
+      moveIndicatorTo(links[0]);
+
+      // Smooth scroll to targets with proper offset (sticky top on desktop)
+      links.forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const id = a.getAttribute('href');
+          const target = document.querySelector(id);
+          if (!target) return;
+          const y = target.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 980 ? 80 : 10);
+          window.scrollTo({ top: y, behavior: 'smooth' });
+          moveIndicatorTo(a);
+        });
+      });
+
+      // Highlight by section visibility
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const io = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(en => en.isIntersecting)
+          .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const active = links.find(a => a.getAttribute('href') === `#${visible.target.id}`);
+        if (active) moveIndicatorTo(active);
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: [0, .25, .5, .75, 1] });
+      sections.forEach(sec => io.observe(sec));
+
+      // Recalc on resize
+      window.addEventListener('resize', () => {
+        const current = document.querySelector('.mini-nav a.active') || links[0];
+        moveIndicatorTo(current);
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       // Лічильники/прогрес
       animateCount('totalAmount', data.totalAmount, 900);
@@ -753,12 +666,14 @@
       animateCount('orphanagesCount', data.orphanagesCount, 700);
       animateCount('itemsCount', data.itemsCount, 700);
       animateProgress(Math.min(100, Math.round((data.totalAmount / data.targetAmount) * 100)), 900);
-      setUpdatedTimestamp();
 
       // Пролистування кроків
       initStepsKeyboardNav();
       lockVerticalScrollInSteps();
       initStepsButton();
+
+      // Навігація
+      initMiniNav();
     });
   </script>
 </body>
