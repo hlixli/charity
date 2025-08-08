@@ -624,42 +624,7 @@
       sections.forEach(sec => io.observe(sec));
     }
 
-      // Set initial
-      moveIndicatorTo(links[0]);
-
-      // Smooth scroll to targets with proper offset (sticky top on desktop)
-      links.forEach(a => {
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          const id = a.getAttribute('href');
-          const target = document.querySelector(id);
-          if (!target) return;
-          const y = target.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 980 ? 80 : 10);
-          window.scrollTo({ top: y, behavior: 'smooth' });
-          moveIndicatorTo(a);
-        });
-      });
-
-      // Highlight by section visibility
-      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-      const io = new IntersectionObserver((entries) => {
-        const visible = entries
-          .filter(en => en.isIntersecting)
-          .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        const active = links.find(a => a.getAttribute('href') === `#${visible.target.id}`);
-        if (active) moveIndicatorTo(active);
-      }, { rootMargin: '-40% 0px -55% 0px', threshold: [0, .25, .5, .75, 1] });
-      sections.forEach(sec => io.observe(sec));
-
-      // Recalc on resize
-      window.addEventListener('resize', () => {
-        const current = document.querySelector('.mini-nav a.active') || links[0];
-        moveIndicatorTo(current);
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
       // Лічильники/прогрес
       animateCount('totalAmount', data.totalAmount, 900);
       animateCount('donorsCount', data.donorsCount, 700);
