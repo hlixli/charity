@@ -21,9 +21,6 @@
       --glass-bg-hover: rgba(255,255,255,0.14);
       --glass-border: rgba(255,255,255,0.16);
       --focus: #FFF380;
-      --step-shadow: 0 3px 8px rgba(0,0,0,.18), 0 14px 28px rgba(0,0,0,.22), 0 48px 80px -18px rgba(0,0,0,.34);
-      --step-shadow-hover: 0 6px 14px rgba(0,0,0,.22), 0 22px 44px rgba(0,0,0,.28), 0 70px 120px -20px rgba(0,0,0,.38);
-      --focus-strong: rgba(255,243,128,0.65);
       --step-radius: 20px;
     }
 
@@ -303,16 +300,24 @@
       text-transform: uppercase;
       letter-spacing: .6px;
     }
-    .steps-hint {
+    /* Кнопка замість "Гортай →" */
+    .steps-button {
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.85);
-      background: rgba(255,255,255,0.08);
-      padding: 10px 12px;
+      color: rgba(20,20,20,0.95);
+      background: linear-gradient(135deg, #CCF2FF, #FFF380);
+      padding: 10px 14px;
       border-radius: 10px;
+      border: 1px solid var(--glass-border);
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: none;
+    }
+    .steps-button:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
     }
 
     .steps-track {
@@ -332,6 +337,7 @@
     .steps-track::-webkit-scrollbar { height: 8px; }
     .steps-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 999px; }
 
+    /* Карточки кроків — без анімацій і без тіні */
     .step {
       scroll-snap-align: start;
       background: var(--glass-bg);
@@ -345,24 +351,8 @@
       row-gap: 10px;
       min-height: 260px;
       max-height: none;
-      box-shadow: var(--step-shadow);
+      box-shadow: none;               /* тіні немає */
       backdrop-filter: saturate(120%) blur(8px);
-      transform: translateY(8px);
-      opacity: 0;
-      transition: transform .6s var(--transition), opacity .6s ease, box-shadow .35s ease, background-color .35s ease, border-color .35s ease;
-      will-change: transform, box-shadow;
-    }
-    .step.in-view { transform: translateY(0); opacity: 1; }
-    .step:hover,
-    .step:focus-within {
-      box-shadow: var(--step-shadow-hover);
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.22);
-    }
-    .step:focus-within {
-      outline: 3px solid var(--focus-strong);
-      outline-offset: 2px;
     }
 
     .step-badge {
@@ -374,12 +364,7 @@
       display: grid; place-items: center;
       font-weight: 900;
       font-size: 1.15rem;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.28);
-      transform: scale(0.95);
-      transition: transform .5s var(--transition), box-shadow .5s var(--transition);
     }
-    .step.in-view .step-badge { transform: scale(1); box-shadow: 0 14px 28px rgba(0,0,0,0.32); }
-
     .step-title {
       grid-area: title;
       margin: 0;
@@ -396,8 +381,6 @@
       color: #fff;
       display: block;
       overflow: visible;
-      -webkit-line-clamp: unset;
-      -webkit-box-orient: unset;
     }
 
     .video-wrapper {
@@ -572,7 +555,9 @@
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 class="steps-title">Покрокова інструкція</h3>
-          <span class="steps-hint" aria-hidden="true">Гортай →</span>
+          <button id="scrollNext" type="button" class="steps-button" aria-label="Прокрутити на одну картку праворуч">
+            Гортай →
+          </button>
         </div>
 
         <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
@@ -703,30 +688,27 @@
       el.textContent = `Оновлено: ${d.toLocaleString('uk-UA', opts)}`;
     }
 
-    function initStepsObserver() {
-      const steps = document.querySelectorAll('.step');
-      if (!('IntersectionObserver' in window) || steps.length === 0) {
-        steps.forEach(s => s.classList.add('in-view'));
-        return;
-      }
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in-view'); });
-      }, { threshold: 0.2 });
-      steps.forEach(step => io.observe(step));
-    }
-
+    /* Клавіатурна навігація ← → */
     function initStepsKeyboardNav() {
       const track = document.getElementById('stepsTrack');
       if (!track) return;
       track.addEventListener('keydown', (e) => {
+        const firstCard = track.querySelector('.step');
+        if (!firstCard) return;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 16);
+        const stepWidth = firstCard.getBoundingClientRect().width + gap;
+
         if (e.key === 'ArrowRight') {
-          track.scrollBy({ left: track.clientWidth * 0.9, behavior: 'smooth' });
+          e.preventDefault();
+          track.scrollBy({ left: stepWidth, behavior: 'smooth' });
         } else if (e.key === 'ArrowLeft') {
-          track.scrollBy({ left: -track.clientWidth * 0.9, behavior: 'smooth' });
+          e.preventDefault();
+          track.scrollBy({ left: -stepWidth, behavior: 'smooth' });
         }
       });
     }
 
+    /* Вертикальну прокрутку колесом миші переводимо в горизонтальну */
     function lockVerticalScrollInSteps(){
       const track = document.getElementById('stepsTrack');
       if (!track) return;
@@ -737,16 +719,42 @@
       }, { passive: false });
     }
 
+    /* Кнопка "Гортай →" — прокручує рівно на 1 картку, з поверненням на початок в кінці */
+    function initStepsButton() {
+      const btn = document.getElementById('scrollNext');
+      const track = document.getElementById('stepsTrack');
+      if (!btn || !track) return;
+
+      btn.addEventListener('click', () => {
+        const firstCard = track.querySelector('.step');
+        if (!firstCard) return;
+
+        const styles = getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || 16);
+        const stepWidth = firstCard.getBoundingClientRect().width + gap;
+
+        const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+        if (nearEnd) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: stepWidth, behavior: 'smooth' });
+        }
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+      // Лічильники/прогрес
       animateCount('totalAmount', data.totalAmount, 900);
       animateCount('donorsCount', data.donorsCount, 700);
       animateCount('orphanagesCount', data.orphanagesCount, 700);
       animateCount('itemsCount', data.itemsCount, 700);
       animateProgress(Math.min(100, Math.round((data.totalAmount / data.targetAmount) * 100)), 900);
       setUpdatedTimestamp();
-      initStepsObserver();
+
+      // Пролистування кроків
       initStepsKeyboardNav();
       lockVerticalScrollInSteps();
+      initStepsButton();
     });
   </script>
 </body>
