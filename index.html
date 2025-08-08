@@ -10,14 +10,21 @@
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #5B2EFF 0%, #7423F0 100%);
+      --bg-blur: 32px;
       --accent: #FFF380;
       --accent-light: #CCF2FF;
       --radius: 16px;
       --shadow: 0 12px 36px -4px rgba(0,0,0,0.35);
       --transition: .35s cubic-bezier(.4,.2,.2,1);
       --text: #FFFFFF;
-      --card-bg: rgba(255,255,255,0.08);
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-bg-hover: rgba(255,255,255,0.14);
+      --glass-border: rgba(255,255,255,0.16);
       --focus: #FFF380;
+      --step-shadow: 0 3px 8px rgba(0,0,0,.18), 0 14px 28px rgba(0,0,0,.22), 0 48px 80px -18px rgba(0,0,0,.34);
+      --step-shadow-hover: 0 6px 14px rgba(0,0,0,.22), 0 22px 44px rgba(0,0,0,.28), 0 70px 120px -20px rgba(0,0,0,.38);
+      --focus-strong: rgba(255,243,128,0.65);
+      --step-radius: 20px;
     }
 
     * { box-sizing: border-box; }
@@ -25,22 +32,39 @@
     body {
       margin: 0;
       font-family: 'Montserrat', system-ui,-apple-system,sans-serif;
-      background: var(--bg-gradient);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       line-height: 1.45;
       min-height: 100vh;
+      background: #5B2EFF;
+      isolation: isolate;
+    }
+
+    body::before{
+      content:"";
+      position: fixed;
+      inset: -60px;
+      z-index: -1;
+      pointer-events: none;
+      background: var(--bg-gradient);
+      filter: blur(var(--bg-blur));
+      will-change: filter, transform;
+      transform: translateZ(0);
+    }
+
+    @supports not ((filter: blur(1px))) {
+      body::before{ inset: 0; filter: none; }
     }
 
     a { color: inherit; text-decoration: none; word-break: break-word; }
 
     header {
-      padding: 40px 16px 28px; /* ширину полей сохранили */
+      padding: 40px 16px 28px;
       text-align: center;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 2.6vw, 2.8rem); /* вернули прежний размер */
+      font-size: clamp(1.8rem, 2.6vw, 2.8rem);
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -61,11 +85,11 @@
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 14px 68px; /* ширину полей сохранили */
+      padding: 0 14px 68px;
     }
 
     .dashboard-title {
-      font-size: 1.95rem; /* прежний крупный */
+      font-size: 1.95rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1.5px;
@@ -91,9 +115,10 @@
       margin-bottom: 24px;
     }
     .card {
-      background: var(--card-bg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 20px 18px;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -101,40 +126,57 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      gap: 8px;
-      min-height: 130px; /* прежняя высота */
-      transition: transform var(--transition), background var(--transition);
+      gap: 10px;
+      min-height: 150px;
+      transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
       box-shadow: var(--shadow);
-      backdrop-filter: saturate(120%) blur(2px);
     }
-    .card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.14); }
+    .card:hover { transform: translateY(-4px); background: var(--glass-bg-hover); }
     .card h3 {
-      font-size: 1.05rem; /* прежний */
+      font-size: 1.18rem;
       font-weight: 700;
       margin: 0;
       color: var(--accent);
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      line-height: 1.2;
     }
     .card .value {
-      font-size: clamp(1.8rem, 3.4vw, 2.3rem); /* прежний крупный */
+      font-size: clamp(2rem, 4vw, 2.6rem);
       font-weight: 800;
       color: var(--accent-light);
       line-height: 1.1;
       display: block;
     }
     .stat-footnote {
-      font-size: 0.7rem;
+      font-size: 0.78rem;
       color: rgba(255,255,255,0.82);
     }
 
-    /* До цілі */
+    /* 🔎 Більший заголовок лише в картці «Учасників» */
+    .card--participants h3 { font-size: 1.32rem; }
+
+    /* ↔️ Заголовок і сума в один рядок тільки для «Зібрано (₴)» */
+    .card--inline { align-items: stretch; }
+    .card--inline .card-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+    }
+    .card--inline h3 { margin: 0; }
+    .card--inline .value { line-height: 1; white-space: nowrap; }
+
+    /* Інше */
     .goal-section { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 16px; }
     .goal-card {
       flex: 1 1 100%;
-      background: rgba(255,255,255,0.12);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius);
-      padding: 22px 18px; /* прежняя плотность, ширина полей сохранена */
+      padding: 22px 18px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -150,7 +192,7 @@
     }
     .goal-header h3 {
       margin: 0;
-      font-size: 1.12rem; /* прежний */
+      font-size: 1.12rem;
       font-weight: 800;
       text-transform: uppercase;
       color: var(--accent);
@@ -165,7 +207,7 @@
       justify-content: center;
     }
     .large-number {
-      font-size: clamp(2rem, 5.6vw, 2.6rem); /* прежний крупный */
+      font-size: clamp(2rem, 5.6vw, 2.6rem);
       font-weight: 800;
       color: #FFFFFF;
       background: rgba(255,255,255,0.08);
@@ -174,14 +216,16 @@
       min-width: 160px;
       text-align: center;
       position: relative;
+      border: 1px solid var(--glass-border);
     }
     .progress-container { margin-top: 2px; }
     .progress-bar-wrapper {
       position: relative;
-      height: 22px; /* прежняя высота */
+      height: 22px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       overflow: hidden;
+      border: 1px solid var(--glass-border);
     }
     .progress-fill {
       height: 100%;
@@ -192,7 +236,7 @@
       align-items: center;
       justify-content: flex-end;
       padding-right: 8px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 800;
       color: #1A1A1A;
       will-change: width;
@@ -201,7 +245,7 @@
     .goal-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem; /* прежний */
+      font-size: 0.9rem;
       margin-top: 6px;
       flex-wrap: wrap;
       gap: 6px;
@@ -211,23 +255,24 @@
       background: rgba(160,255,184,0.15);
       border-radius: 8px;
       padding: 8px 12px;
-      font-size: 0.86rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: #A0FFB8;
       display: inline-block;
       margin-top: 6px;
       align-self: start;
+      border: 1px solid rgba(160,255,184,0.35);
     }
     .last-updated {
       font-size: 0.7rem;
       color: rgba(255,255,255,0.72);
     }
 
-    /* Інформаційний блок */
     .info-block {
-      background: rgba(255,255,255,0.06);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius);
-      padding: 24px 18px; /* ширину полей сохранили */
+      padding: 24px 18px;
       margin: 28px 0;
       position: relative;
       display: flex;
@@ -236,7 +281,7 @@
       box-shadow: var(--shadow);
     }
     .info-block h2 {
-      font-size: clamp(1.4rem, 2.2vw, 1.7rem); /* прежний */
+      font-size: clamp(1.4rem, 2.2vw, 1.7rem);
       font-weight: 800;
       margin: 0;
       color: var(--accent);
@@ -248,12 +293,11 @@
     .info-block strong { color: #FFEB99; font-weight: 800; }
     .info-block ul { list-style: disc inside; margin: 6px 0 0; }
 
-    /* ПОКРОКОВА ІНСТРУКЦІЯ — большой вариант, как раньше */
     .steps { display: grid; gap: 14px; }
     .steps-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .steps-title {
       margin: 0;
-      font-size: clamp(1.2rem, 2vw, 1.4rem); /* прежний крупный */
+      font-size: clamp(1.2rem, 2vw, 1.4rem);
       font-weight: 800;
       color: var(--accent);
       text-transform: uppercase;
@@ -268,76 +312,92 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      border: 1px solid var(--glass-border);
     }
+
     .steps-track {
       display: grid;
       grid-auto-flow: column;
-      grid-auto-columns: minmax(260px, 1fr); /* шире карточки как раньше */
-      gap: 12px;
+      grid-auto-columns: minmax(340px, 1fr);
+      gap: 16px;
       overflow-x: auto;
-      overflow-y: hidden;          /* запрет вертикального скролла */
+      overflow-y: hidden;
       overscroll-behavior-inline: contain;
       scroll-snap-type: x mandatory;
-      padding: 2px 2px 6px;
+      padding: 6px 2px 10px;
       scrollbar-width: thin;
       -webkit-overflow-scrolling: touch;
-      max-height: 150px;           /* больше высота, как в большом варианте */
+      max-height: none;
     }
     .steps-track::-webkit-scrollbar { height: 8px; }
     .steps-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 999px; }
+
     .step {
       scroll-snap-align: start;
-      background: rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 14px 16px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--step-radius);
+      padding: 24px;
       display: grid;
       grid-template-columns: auto 1fr;
       grid-template-areas: "badge title" "badge text";
-      column-gap: 12px;
-      row-gap: 6px;
-      min-height: 130px;           /* крупнее */
-      max-height: 130px;
-      box-shadow: var(--shadow);
+      column-gap: 16px;
+      row-gap: 10px;
+      min-height: 260px;
+      max-height: none;
+      box-shadow: var(--step-shadow);
+      backdrop-filter: saturate(120%) blur(8px);
       transform: translateY(8px);
       opacity: 0;
-      transition: transform .6s var(--transition), opacity .6s ease;
+      transition: transform .6s var(--transition), opacity .6s ease, box-shadow .35s ease, background-color .35s ease, border-color .35s ease;
+      will-change: transform, box-shadow;
     }
     .step.in-view { transform: translateY(0); opacity: 1; }
-    @media (prefers-reduced-motion: reduce) {
-      .step { transition: none; transform: none; opacity: 1; }
-      .progress-fill { transition: none; }
+    .step:hover,
+    .step:focus-within {
+      box-shadow: var(--step-shadow-hover);
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.22);
     }
+    .step:focus-within {
+      outline: 3px solid var(--focus-strong);
+      outline-offset: 2px;
+    }
+
     .step-badge {
       grid-area: badge;
-      width: 40px; height: 40px; /* крупная плашка как раньше */
+      width: 60px; height: 60px;
       border-radius: 50%;
       background: linear-gradient(135deg, #CCF2FF, #FFF380);
       color: #1A1A1A;
       display: grid; place-items: center;
       font-weight: 900;
-      font-size: 1rem;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      font-size: 1.15rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.28);
       transform: scale(0.95);
       transition: transform .5s var(--transition), box-shadow .5s var(--transition);
     }
-    .step.in-view .step-badge { transform: scale(1); box-shadow: 0 10px 22px rgba(0,0,0,0.3); }
+    .step.in-view .step-badge { transform: scale(1); box-shadow: 0 14px 28px rgba(0,0,0,0.32); }
+
     .step-title {
       grid-area: title;
       margin: 0;
       font-weight: 800;
-      font-size: 1rem; /* прежний */
+      font-size: 1.16rem;
       color: var(--accent-light);
       letter-spacing: .3px;
+      align-self: center;
     }
     .step-text {
       grid-area: text;
       margin: 0;
-      font-size: 0.95rem; /* прежний */
+      font-size: 1.06rem;
       color: #fff;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;       /* не растягивать высоту */
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      display: block;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+      -webkit-box-orient: unset;
     }
 
     .video-wrapper {
@@ -348,10 +408,10 @@
       overflow: hidden;
       box-shadow: 0 12px 36px rgba(0,0,0,0.35);
       background: #1f1f35;
+      border: 1px solid var(--glass-border);
     }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-    /* Звітування */
     .report {
       margin-top: 40px;
       display: flex;
@@ -366,8 +426,9 @@
       border-radius: 14px;
       overflow: hidden;
       box-shadow: var(--shadow);
-      background: #1f1f35;
+      background: var(--glass-bg);
       margin-inline: auto;
+      border: 1px solid var(--glass-border);
     }
     .report-frame iframe { width: 100%; height: 100%; aspect-ratio: 500/825; border: none; }
     .report-fallback {
@@ -377,13 +438,14 @@
       border-radius: 10px;
       display: inline-block;
       margin-top: 6px;
+      border: 1px solid var(--glass-border);
     }
 
     .contact { text-align: center; margin: 30px 0 10px; padding: 0 10px; }
     .contact p { margin-bottom: 12px; font-size: 1rem; line-height: 1.4; }
     .contact-button {
       display: inline-block;
-      padding: 14px 30px; /* ширину полей сохранили */
+      padding: 14px 30px;
       background: #FFFFFF;
       color: #7423F0;
       font-weight: 800;
@@ -399,14 +461,26 @@
     /* Мобільні */
     @media (max-width: 980px) {
       .stats { grid-template-columns: repeat(2, 1fr); }
+      .card { min-height: 160px; }
       .report { align-items: center; }
     }
     @media (max-width: 520px) {
       header { padding: 32px 16px 24px; }
+
+      .card { min-height: 170px; padding: 22px 16px; }
+      .card h3 { font-size: 1.22rem; }
+      .card--participants h3 { font-size: 1.38rem; }
+      .card--inline .card-top { flex-direction: column; align-items: center; gap: 6px; }
+
+      .stat-footnote { font-size: 0.82rem; }
+
       .goal-amounts { flex-direction: column; align-items: stretch; }
       .large-number { width: 100%; }
-      .steps-track { max-height: 150px; }
-      .step { min-height: 130px; max-height: 130px; }
+
+      .steps-track { grid-auto-columns: minmax(300px, 1fr); max-height: none; }
+      .step { min-height: 280px; padding: 22px; }
+      .step-text { font-size: 1.04rem; }
+      .step-badge { width: 56px; height: 56px; }
     }
   </style>
 </head>
@@ -420,24 +494,29 @@
   <div class="container">
     <!-- Статистика -->
     <div class="dashboard-title">Статистика ініціативи</div>
-    <div class="dashboard-kicker" aria-hidden="true">DASHBOARD · live snapshot</div>
+    <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
 
     <div class="stats" aria-label="Ключова статистика ініціативи">
-      <div class="card" aria-label="Зібрано гривень">
-        <h3>Зібрано (₴)</h3>
-        <div class="value" id="totalAmount">0</div>
+      <div class="card card--inline" aria-label="Зібрано гривень">
+        <div class="card-top">
+          <h3>Зібрано (₴)</h3>
+          <div class="value" id="totalAmount">0</div>
+        </div>
         <div class="stat-footnote">Завдяки благодійникам</div>
       </div>
-      <div class="card" aria-label="Кількість благодійників">
-        <h3>Благодійників</h3>
+
+      <div class="card card--participants" aria-label="Кількість благодійників">
+        <h3>Учасників</h3>
         <div class="value" id="donorsCount">0</div>
         <div class="stat-footnote">Людей, які долучилися</div>
       </div>
+
       <div class="card" aria-label="Дитячі будинки">
         <h3>Дитячих будинків</h3>
         <div class="value" id="orphanagesCount">0</div>
         <div class="stat-footnote">Заклади, які підтримали</div>
       </div>
+
       <div class="card" aria-label="Одиниці книг / матеріалів">
         <h3>Одиниць книг/матеріалів</h3>
         <div class="value" id="itemsCount">0</div>
@@ -490,7 +569,6 @@
         </ul>
       </div>
 
-      <!-- ПОКРОКОВА ІНСТРУКЦІЯ (большая) -->
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 class="steps-title">Покрокова інструкція</h3>
@@ -536,11 +614,10 @@
         </div>
       </div>
 
-      <!-- Відео -->
       <div>
         <p><strong>Відеоінструкція</strong> — усе просто та швидко:</p>
         <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8PyF" title="Відеоінструкція: як оформити картку єКнига" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8Py" title="Відеоінструкція: як оформити картку єКнига" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
 
@@ -551,14 +628,13 @@
     <div class="report">
       <div class="dashboard-title">Звітування</div>
       <div class="report-frame">
-        <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkzT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true" loading="lazy" title="Facebook звіт"></iframe>
+        <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkзT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true" loading="lazy" title="Facebook звіт"></iframe>
       </div>
       <div class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
     </div>
   </div>
 
   <script>
-    // Дані (можна тягнути з API)
     const data = {
       totalAmount: 21952,
       donorsCount: 19,
@@ -575,7 +651,7 @@
       const start = performance.now();
       const step = now => {
         const t = Math.min((now - start) / duration, 1);
-        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; // easeInOut
+        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
         el.textContent = formatter.format(Math.floor(eased * endValue));
         if (t < 1) requestAnimationFrame(step);
       };
@@ -627,7 +703,6 @@
       el.textContent = `Оновлено: ${d.toLocaleString('uk-UA', opts)}`;
     }
 
-    // Появление шагов при прокрутке
     function initStepsObserver() {
       const steps = document.querySelectorAll('.step');
       if (!('IntersectionObserver' in window) || steps.length === 0) {
@@ -640,7 +715,6 @@
       steps.forEach(step => io.observe(step));
     }
 
-    // Навигация по шагам клавишами (горизонтальная)
     function initStepsKeyboardNav() {
       const track = document.getElementById('stepsTrack');
       if (!track) return;
@@ -653,12 +727,11 @@
       });
     }
 
-    // Преобразуем вертикальное колесо в горизонтальный скролл внутри степпера и блокируем вертикальный скролл
     function lockVerticalScrollInSteps(){
       const track = document.getElementById('stepsTrack');
       if (!track) return;
       track.addEventListener('wheel', e => {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // разрешаем чисто горизонтальные
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
         track.scrollBy({ left: e.deltaY, behavior: 'auto' });
         e.preventDefault();
       }, { passive: false });
