@@ -2,9 +2,14 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Благодійна ініціатива з закупівлі книг</title>
   <meta name="description" content="Ініціатива єКнига: збір коштів для дитячих будинків шляхом передачі 908 грн від благодійників" />
+  <meta name="theme-color" content="#7423F0" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Благодійна ініціатива з закупівлі книг — єКнига" />
+  <meta property="og:description" content="Передай свої 908 грн на книжки для дитячих будинків. Долучитися легко: 5 кроків у Дії." />
+  <meta property="og:type" content="website" />
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -21,46 +26,47 @@
     }
 
     * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: 'Montserrat', system-ui,-apple-system,sans-serif;
+      font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       background: var(--bg-gradient);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
-      line-height: 1.45;
+      line-height: 1.5;
       min-height: 100vh;
     }
 
     a { color: inherit; text-decoration: none; word-break: break-word; }
 
     header {
-      padding: 40px 16px;
+      padding: 40px 16px 28px;
       text-align: center;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+      font-size: clamp(1.8rem, 2.6vw, 2.8rem);
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
       text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
     }
     header .subtitle {
-      margin-top: 6px;
-      font-size: 0.95rem;
-      font-weight: 400;
+      margin-top: 8px;
+      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+      font-weight: 600;
       color: #FFEB99;
     }
     .small-meta {
-      margin-top: 4px;
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.75);
+      margin-top: 6px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.8);
     }
 
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 14px 60px;
+      padding: 0 14px 68px;
     }
 
     .dashboard-title {
@@ -70,21 +76,21 @@
       letter-spacing: 1.5px;
       text-align: center;
       color: var(--accent);
-      margin: 4px 0 16px;
+      margin: 6px 0 16px;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
     }
 
     /* Статистика */
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
     .card {
       background: var(--card-bg);
       border-radius: var(--radius);
-      padding: 20px 18px;
+      padding: 18px;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -93,51 +99,43 @@
       align-items: center;
       text-align: center;
       gap: 8px;
-      min-height: 150px;
+      min-height: 130px;
       transition: transform var(--transition), background var(--transition);
       box-shadow: var(--shadow);
+      backdrop-filter: saturate(120%) blur(2px);
     }
-    .card:hover {
-      transform: translateY(-4px);
-      background: rgba(255,255,255,0.14);
-    }
+    .card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.14); }
     .card h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
+      font-size: 0.98rem;
+      font-weight: 700;
       margin: 0;
       color: var(--accent);
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
     .card .value {
-      font-size: 2.4rem;
+      font-size: clamp(1.8rem, 3.4vw, 2.3rem);
       font-weight: 800;
       color: var(--accent-light);
-      line-height: 1.05;
+      line-height: 1.1;
       display: block;
     }
     .stat-footnote {
-      font-size: 0.65rem;
-      margin-top: 4px;
-      color: rgba(255,255,255,0.7);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.82);
     }
 
-    /* Картка "До цілі" */
-    .goal-section {
-      margin-top: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    /* До цілі */
+    .goal-section { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 16px; }
     .goal-card {
       flex: 1 1 100%;
       background: rgba(255,255,255,0.12);
       border-radius: var(--radius);
-      padding: 26px 24px;
+      padding: 22px 18px;
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       box-shadow: var(--shadow);
     }
     .goal-header {
@@ -149,11 +147,12 @@
     }
     .goal-header h3 {
       margin: 0;
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.12rem;
+      font-weight: 800;
       text-transform: uppercase;
       color: var(--accent);
       flex: 1;
+      letter-spacing: .5px;
     }
     .goal-amounts {
       display: flex;
@@ -163,7 +162,7 @@
       justify-content: center;
     }
     .large-number {
-      font-size: 2.8rem;
+      font-size: clamp(2rem, 5.6vw, 2.6rem);
       font-weight: 800;
       color: #FFFFFF;
       background: rgba(255,255,255,0.08);
@@ -173,16 +172,7 @@
       text-align: center;
       position: relative;
     }
-    .sub-info {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.85);
-      margin-top: 4px;
-      text-align: center;
-    }
-
-    .progress-container {
-      margin-top: 4px;
-    }
+    .progress-container { margin-top: 2px; }
     .progress-bar-wrapper {
       position: relative;
       height: 22px;
@@ -200,7 +190,7 @@
       justify-content: flex-end;
       padding-right: 8px;
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #1A1A1A;
       will-change: width;
       transition: width .6s ease;
@@ -208,7 +198,7 @@
     .goal-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 0.75rem;
+      font-size: 0.82rem;
       margin-top: 6px;
       flex-wrap: wrap;
       gap: 6px;
@@ -217,12 +207,153 @@
       background: rgba(160,255,184,0.15);
       border-radius: 8px;
       padding: 8px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.86rem;
+      font-weight: 700;
       color: #A0FFB8;
       display: inline-block;
       margin-top: 6px;
       align-self: start;
+    }
+
+    /* Інформаційний блок і інструкція */
+    .info-block {
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 24px 18px;
+      margin: 28px 0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: var(--shadow);
+    }
+    .info-block h2 {
+      font-size: clamp(1.4rem, 2.2vw, 1.7rem);
+      font-weight: 800;
+      margin: 0;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+    }
+    .info-block p, .info-block li { font-size: 1rem; color: #fff; }
+    .info-block strong { color: #FFEB99; font-weight: 800; }
+    .info-block ul { list-style: disc inside; margin: 6px 0 0; }
+
+    /* Степпер (покрокова інструкція) */
+    .steps {
+      display: grid;
+      gap: 14px;
+    }
+    .steps-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .steps-title {
+      margin: 0;
+      font-size: clamp(1.2rem, 2vw, 1.4rem);
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+    .steps-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(240px, 1fr);
+      gap: 12px;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+    .steps-track::-webkit-scrollbar { height: 8px; }
+    .steps-track::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.25);
+      border-radius: 999px;
+    }
+    .step {
+      scroll-snap-align: start;
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-areas:
+        "badge title"
+        "badge text";
+      column-gap: 12px;
+      row-gap: 6px;
+      min-height: 104px;
+      box-shadow: var(--shadow);
+      transform: translateY(8px);
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: transform .6s var(--transition), opacity .6s ease;
+    }
+    .step.in-view { transform: translateY(0); opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      .step { transition: none; transform: none; opacity: 1; }
+    }
+
+    .step-badge {
+      grid-area: badge;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #CCF2FF, #FFF380);
+      color: #1A1A1A;
+      display: grid; place-items: center;
+      font-weight: 900;
+      font-size: 1rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      position: relative;
+      isolation: isolate;
+      transform: scale(0.92);
+      transition: transform .5s var(--transition), box-shadow .5s var(--transition);
+    }
+    .step.in-view .step-badge { transform: scale(1); box-shadow: 0 10px 22px rgba(0,0,0,0.3); }
+
+    .step-title {
+      grid-area: title;
+      margin: 0;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--accent-light);
+      letter-spacing: .3px;
+    }
+    .step-text {
+      grid-area: text;
+      margin: 0;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .steps-hint {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.08);
+      padding: 10px 12px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+      background: #1f1f35;
+    }
+    .video-wrapper iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
     }
 
     /* Звітування */
@@ -232,9 +363,7 @@
       flex-direction: column;
       gap: 14px;
     }
-    .report .dashboard-title {
-      margin-bottom: 8px;
-    }
+    .report .dashboard-title { margin-bottom: 8px; }
     .report-frame {
       position: relative;
       width: 100%;
@@ -251,7 +380,7 @@
       border: none;
     }
     .report-fallback {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       background: rgba(255,255,255,0.06);
       padding: 12px 16px;
       border-radius: 10px;
@@ -261,12 +390,12 @@
 
     .contact {
       text-align: center;
-      margin: 32px 0 12px;
+      margin: 30px 0 10px;
       padding: 0 10px;
     }
     .contact p {
       margin-bottom: 12px;
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.4;
     }
     .contact-button {
@@ -274,95 +403,40 @@
       padding: 14px 30px;
       background: #FFFFFF;
       color: #7423F0;
-      font-weight: 700;
+      font-weight: 800;
       border-radius: 50px;
       text-decoration: none;
       box-shadow: 0 12px 32px -4px rgba(0,0,0,0.3);
-      transition: transform var(--transition), filter .3s;
+      transition: transform var(--transition), filter .3s, box-shadow var(--transition);
       position: relative;
     }
-    .contact-button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.05);
-    }
-    .contact-button:focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
-
-    .info-block {
-      background: rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      margin: 30px 0;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      box-shadow: var(--shadow);
-    }
-    .info-block h2 {
-      font-size: 1.7rem;
-      font-weight: 800;
-      margin: 0;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
-    }
-    .info-block p, .info-block li {
-      font-size: 1rem;
-      color: #fff;
-    }
-    .info-block strong {
-      color: #FFEB99;
-      font-weight: 700;
-    }
-    .info-block ul {
-      list-style: disc inside;
-      padding-left: 0;
-      margin: 6px 0 0;
-    }
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
+    .contact-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .contact-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
     .last-updated {
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.6);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.72);
       margin-top: 2px;
       text-align: right;
     }
 
-    @media (max-width: 840px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .goal-amounts {
-        flex-direction: column;
-      }
-      .large-number {
-        width: 100%;
-      }
+    /* Мобільні покращення */
+    @media (max-width: 980px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .report { align-items: center; }
+      .report-frame { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      header { padding: 30px 14px 22px; }
+      .goal-amounts { flex-direction: column; align-items: stretch; }
+      .large-number { width: 100%; }
+      .step { grid-template-columns: auto 1fr; }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Благодійна ініціатива з закупівлі книг</h1>
-    <p class="subtitle">за державною програмою «ЄКнига»</p>
+    <p class="subtitle">за державною програмою «єКнига» — 908 грн на книжки для дітей</p>
     <div class="small-meta" id="updatedAt">Оновлено: —</div>
   </header>
 
@@ -400,15 +474,13 @@
           <div class="last-updated" id="goalUpdated"> </div>
         </div>
         <div class="goal-amounts">
-          <div class="large-number" aria-label="Залишилось до цілі" id="remaining">
-            0
-          </div>
-          <div style="flex:1; min-width:180px;">
+          <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
+          <div style="flex:1; min-width:220px;">
             <div class="progress-container">
               <div class="progress-bar-wrapper" aria-hidden="true">
                 <div class="progress-fill" id="progressFill">0%</div>
               </div>
-              <div class="goal-meta">
+              <div class="goal-meta" aria-live="polite">
                 <div id="percentText">0% зібрано</div>
                 <div id="toGoalText">Залишилось 0 ₴</div>
               </div>
@@ -421,31 +493,79 @@
 
     <!-- Контакт / заклик -->
     <div class="contact">
-      <p>Якщо ти вже отримав/ла або хочеш отримати 908 грн за програмою єКнига та передати їх на благодійну ініціативу — долучайся просто зараз.</p>
+      <p>Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — це без жодних власних витрат.</p>
       <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
     </div>
 
     <!-- Інформаційний блок -->
     <section class="info-block" aria-label="Інформація про ініціативу та інструкцію">
       <h2>Про ініціативу</h2>
-      <p>Я збираю благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Це благодійна ініціатива, до якої може долучитися кожен охочий, який має право на <strong>“єКнига”</strong> — без жодних власних витрат та спонсорувати придбання книжок у <strong>дитячий будинок</strong>.</p>
+      <p>Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> саме на книжки для дітей — швидко та прозоро.</p>
+
       <div>
         <p><strong>Як це працює?</strong></p>
         <ul>
-          <li>Держава надає 908 грн у межах програми “єКнига”.</li>
-          <li>Ці кошти можна витратити лише на придбання книжок.</li>
-          <li>Отримати їх можуть ті, кому зараз є 18 років.</li>
+          <li>Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.</li>
+          <li>Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.</li>
+          <li>Ми звітуємо про кожну передачу книжок публічно.</li>
         </ul>
       </div>
-      <div>
-        <p><strong>Як оформити картку і замовити книги?</strong></p>
-        <p>Дивись коротку відеоінструкцію — усе просто та швидко:</p>
-        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8PyF" title="Відеоінструкція: як оформити картку єКнига" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+
+      <!-- ПОКРОКОВА ІНСТРУКЦІЯ -->
+      <div class="steps" aria-label="Покрокова інструкція">
+        <div class="steps-header">
+          <h3 class="steps-title">Покрокова інструкція</h3>
+          <span class="steps-hint" aria-hidden="true">Гортай →</span>
+        </div>
+
+        <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
+          <article class="step" aria-label="Крок 1">
+            <div class="step-badge" aria-hidden="true">1</div>
+            <h4 class="step-title">Відкрий застосунок Дія</h4>
+            <p class="step-text">Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.</p>
+          </article>
+
+          <article class="step" aria-label="Крок 2">
+            <div class="step-badge" aria-hidden="true">2</div>
+            <h4 class="step-title">Обери послугу «єКнига»</h4>
+            <p class="step-text">Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.</p>
+          </article>
+
+          <article class="step" aria-label="Крок 3">
+            <div class="step-badge" aria-hidden="true">3</div>
+            <h4 class="step-title">Ознайомся з умовами</h4>
+            <p class="step-text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
+          </article>
+
+          <article class="step" aria-label="Крок 4">
+            <div class="step-badge" aria-hidden="true">4</div>
+            <h4 class="step-title">Вибери картку для виплати</h4>
+            <p class="step-text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
+          </article>
+
+          <article class="step" aria-label="Крок 5">
+            <div class="step-badge" aria-hidden="true">5</div>
+            <h4 class="step-title">Підтверди заяву</h4>
+            <p class="step-text">Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.</p>
+          </article>
+
+          <article class="step" aria-label="Крок 6">
+            <div class="step-badge" aria-hidden="true">6</div>
+            <h4 class="step-title">Оплата книжок</h4>
+            <p class="step-text">Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.</p>
+          </article>
         </div>
       </div>
-      <p>Після подачі заявки карта зʼявляється миттєво, а кошти з'являються на ній протягом <strong>3 днів</strong> з моменту подачі заявки.</p>
-      <p><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
+
+      <!-- Відео -->
+      <div>
+        <p><strong>Відеоінструкція</strong> — усе просто та швидко:</p>
+        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8PyF" title="Відеоінструкція: як оформити картку єКнига" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <p>Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
     </section>
 
     <!-- Звітування -->
@@ -454,14 +574,12 @@
       <div class="report-frame">
         <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0K4papRs7pWK5GxzETpuWXVpy3CkkzT4S2wbZzK3fzsYCtkeAKTcGTajJ4uqfDgztl%26id%3D100091519694547&show_text=true" loading="lazy" title="Facebook звіт"></iframe>
       </div>
-      <div class="report-fallback">
-        Якщо допис не завантажився — можна відкрити його вручну у Facebook або оновити сторінку.
-      </div>
+      <div class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
     </div>
   </div>
 
   <script>
-    // Дані (можна міняти, тягнути з API)
+    // Дані (можна тягнути з API)
     const data = {
       totalAmount: 21952,
       donorsCount: 19,
@@ -470,20 +588,19 @@
       targetAmount: 50000
     };
 
-    // Форматування
     const formatter = new Intl.NumberFormat('uk-UA');
 
     function animateCount(id, endValue, duration) {
       const el = document.getElementById(id);
       if (!el) return;
       const start = performance.now();
-      function tick(now) {
+      const step = now => {
         const t = Math.min((now - start) / duration, 1);
-        const current = Math.floor(t * endValue);
-        el.textContent = formatter.format(current);
-        if (t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+        const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
+        el.textContent = formatter.format(Math.floor(eased * endValue));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
     }
 
     function animateProgress(percent, duration) {
@@ -495,33 +612,25 @@
       const goalUpdated = document.getElementById('goalUpdated');
 
       const start = performance.now();
-      function step(now) {
+      const tick = now => {
         const t = Math.min((now - start) / duration, 1);
         const currentPercent = Math.floor(t * percent);
-        if (fill) {
-          fill.style.width = currentPercent + '%';
-          fill.textContent = `${currentPercent}%`;
-        }
+        if (fill) { fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
         if (percentText) percentText.textContent = `${currentPercent}% зібрано`;
-
-        if (t < 1) {
-          requestAnimationFrame(step);
-        }
-      }
-      requestAnimationFrame(step);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
 
       const remaining = Math.max(0, data.targetAmount - data.totalAmount);
       const over = data.totalAmount - data.targetAmount;
       if (data.totalAmount >= data.targetAmount) {
-        if (toGoalText) toGoalText.textContent = `Ціль перевиконано`;
-        if (overFlowText) {
-          overFlowText.className = 'overgoaled';
-          overFlowText.textContent = `Перевиконано на ${formatter.format(over)} ₴`;
-        }
-        if (remainingEl) remainingEl.textContent = formatter.format(0);
+        toGoalText.textContent = `Ціль перевиконано`;
+        overFlowText.className = 'overgoaled';
+        overFlowText.textContent = `Перевиконано на ${formatter.format(over)} ₴`;
+        remainingEl.textContent = formatter.format(0);
       } else {
-        if (toGoalText) toGoalText.textContent = `Залишилось ${formatter.format(remaining)} ₴`;
-        if (remainingEl) remainingEl.textContent = formatter.format(remaining);
+        toGoalText.textContent = `Залишилось ${formatter.format(remaining)} ₴`;
+        remainingEl.textContent = formatter.format(remaining);
       }
 
       if (goalUpdated) {
@@ -539,13 +648,54 @@
       el.textContent = `Оновлено: ${d.toLocaleString('uk-UA', opts)}`;
     }
 
+    // Спостерігач для анімації кроків при появі в зоні перегляду
+    function initStepsObserver() {
+      const steps = document.querySelectorAll('.step');
+      if (!('IntersectionObserver' in window) || steps.length === 0) {
+        steps.forEach(s => s.classList.add('in-view'));
+        return;
+      }
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('in-view');
+        });
+      }, { threshold: 0.2 });
+      steps.forEach(step => io.observe(step));
+    }
+
+    // Додатковий UX: клавіатурна навігація степпером (стрілки)
+    function initStepsKeyboardNav() {
+      const track = document.getElementById('stepsTrack');
+      if (!track) return;
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          track.scrollBy({ left: track.clientWidth * 0.9, behavior: 'smooth' });
+        } else if (e.key === 'ArrowLeft') {
+          track.scrollBy({ left: -track.clientWidth * 0.9, behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Повага до reduce motion: прибрати «літаючі» речі
+    function respectReducedMotion() {
+      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mql.matches) {
+        document.querySelectorAll('.step').forEach(s => { s.style.transition = 'none'; s.style.transform = 'none'; s.style.opacity = '1'; });
+        const fill = document.getElementById('progressFill');
+        if (fill) { fill.style.transition = 'none'; }
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      animateCount('totalAmount', data.totalAmount, 800);
-      animateCount('donorsCount', data.donorsCount, 600);
-      animateCount('orphanagesCount', data.orphanagesCount, 600);
-      animateCount('itemsCount', data.itemsCount, 600);
+      animateCount('totalAmount', data.totalAmount, 900);
+      animateCount('donorsCount', data.donorsCount, 700);
+      animateCount('orphanagesCount', data.orphanagesCount, 700);
+      animateCount('itemsCount', data.itemsCount, 700);
       animateProgress(Math.min(100, Math.round((data.totalAmount / data.targetAmount) * 100)), 900);
       setUpdatedTimestamp();
+      respectReducedMotion();
+      initStepsObserver();
+      initStepsKeyboardNav();
     });
   </script>
 </body>
