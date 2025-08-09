@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Благодійна ініціатива з закупівлі книг</title>
-  <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
+  <meta charset="UTF-8" /><meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
   <meta name="theme-color" content="#7423F0" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -177,11 +174,24 @@
       width: max(280px, 68vw);
       max-width: 520px;
     }
-    .mini-nav ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0; margin: 0; align-items: center; }
+    .mini-nav ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* рівні колонки */
+      gap: 6px;
+      padding: 0;
+      margin: 0;
+      align-items: stretch; /* розтягуємо елементи на всю висоту */
+      width: 100%;
+    }
+    .mini-nav li { min-width: 0; } /* запобігає переповненню через довгі слова */
+
     .mini-nav a {
       position: relative;
-      display: inline-flex; align-items: center; justify-content: center;
+      display: flex; /* було inline-flex */
+      align-items: center; justify-content: center;
       height: 40px; padding: 0 14px;
+      width: 100%; /* розтягнути фон/кнопку на всю ширину колонки */
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       background: rgba(255,255,255,0.06);
@@ -191,6 +201,7 @@
       outline: none;
       transition: transform .18s ease, background .2s ease, border-color .2s ease;
       white-space: nowrap;
+      text-align: center;
     }
     .mini-nav a:hover { transform: translateY(-1px); }
     .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
@@ -200,7 +211,7 @@
     @media (min-width: 980px) {
       body { padding-bottom: 0; }
       .mini-nav { top: 12px; bottom: auto; width: auto; left: 50%; transform: translateX(-50%); height: 48px; }
-      .mini-nav a { height: 36px; }
+      .mini-nav a { height: 36px; } /* зберегти однакову висоту */
     }
 
     /* ===== ORIGINAL STYLES (скориговані відступи) ===== */
