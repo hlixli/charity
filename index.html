@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" /><meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Благодійна ініціатива з закупівлі книг</title>
+  <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
   <meta name="theme-color" content="#7423F0" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -170,28 +173,27 @@
       backdrop-filter: saturate(140%) blur(10px);
       box-shadow: var(--shadow);
       height: var(--mini-nav-h);
-      display: grid; place-items: center;
-      width: max(280px, 68vw);
-      max-width: 520px;
+      /* === ИСПРАВЛЕНО: фон под размер трёх кнопок и идеальный центр === */
+      display: inline-flex;               /* сжимается по контенту */
+      align-items: center;
+      width: auto;                        /* убран фиксированный/относительный размер */
+      max-width: none;
+      white-space: nowrap;                /* чтобы кнопки не переносились */
     }
     .mini-nav ul {
+      /* было: grid с 3 колонками, из-за чего фон мог быть шире/неровно центрован */
       list-style: none;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr)); /* рівні колонки */
+      display: flex;                      /* равномерный зазор и ширина = сумме кнопок */
       gap: 6px;
       padding: 0;
       margin: 0;
-      align-items: stretch; /* розтягуємо елементи на всю висоту */
-      width: 100%;
+      align-items: center;
+      justify-content: center;
     }
-    .mini-nav li { min-width: 0; } /* запобігає переповненню через довгі слова */
-
     .mini-nav a {
       position: relative;
-      display: flex; /* було inline-flex */
-      align-items: center; justify-content: center;
+      display: inline-flex; align-items: center; justify-content: center;
       height: 40px; padding: 0 14px;
-      width: 100%; /* розтягнути фон/кнопку на всю ширину колонки */
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       background: rgba(255,255,255,0.06);
@@ -201,7 +203,6 @@
       outline: none;
       transition: transform .18s ease, background .2s ease, border-color .2s ease;
       white-space: nowrap;
-      text-align: center;
     }
     .mini-nav a:hover { transform: translateY(-1px); }
     .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
@@ -211,7 +212,7 @@
     @media (min-width: 980px) {
       body { padding-bottom: 0; }
       .mini-nav { top: 12px; bottom: auto; width: auto; left: 50%; transform: translateX(-50%); height: 48px; }
-      .mini-nav a { height: 36px; } /* зберегти однакову висоту */
+      .mini-nav a { height: 36px; }
     }
 
     /* ===== ORIGINAL STYLES (скориговані відступи) ===== */
