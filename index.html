@@ -359,62 +359,6 @@
       html { scroll-behavior: auto; }
       .card, .contact-button, .hero-cta .btn { transition: none; }
     }
-
-    /* ================================
-       ПК-РЕЖИМ: тільки відображення
-       — дашборд, його значення,
-       — відображення блоку «Звіти»
-       ================================ */
-    @media (min-width: 980px) {
-      /* Дашборд: компактніший, з акцентом на загальну суму */
-      .stats {
-        grid-template-columns: 1.4fr repeat(3, 1fr);
-        gap: 20px;
-      }
-      .stats .card:first-child {
-        background: linear-gradient(135deg, #FFFFFF 0%, #FFEB99 100%);
-        color: #1A1A1A;
-        border-color: rgba(255,255,255,0.6);
-      }
-      .stats .card:first-child h3 {
-        color: #4B2AD6;
-      }
-      .stats .card:first-child .value {
-        color: #1A1A1A;
-        font-size: 2.8rem;
-      }
-      .card .value {
-        letter-spacing: .5px;
-      }
-
-      /* Прогрес-бар трохи вищий на ПК */
-      .progress-bar-wrapper { height: 26px; }
-      .progress-fill { font-size: 0.86rem; }
-
-      /* Звіти: макет у два стовпці, ширше вбудовування */
-      .report {
-        display: grid;
-        grid-template-columns: 1fr minmax(640px, 720px);
-        align-items: start;
-        gap: 22px;
-      }
-      .report .dashboard-title {
-        grid-column: 1 / -1;
-        text-align: left;
-        margin-bottom: 4px;
-      }
-      .report-frame {
-        max-width: none;
-        margin-inline: 0;
-      }
-      .report-frame iframe {
-        aspect-ratio: 3 / 4;
-      }
-      .report-fallback {
-        align-self: start;
-        margin-top: 0;
-      }
-    }
   </style>
 </head>
 <body>
@@ -436,18 +380,17 @@
     </ul>
   </nav>
 
-    <div class="container">
+  <div class="container">
     <!-- Статистика -->
     <section id="stats">
       <div class="dashboard-title">Статистика ініціативи</div>
       <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
 
       <div class="stats" aria-label="Ключова статистика ініціативи">
-        <div class="card card--inline" aria-label="Зібрано гривень">
-          <div class="card-top">
-            <h3>Зібрано (₴)</h3>
-            <div class="value" id="totalAmount">0</div>
-          </div>
+        <!-- Змінено тільки відображення блоку "Зібрано (₴)" -->
+        <div class="card" aria-label="Зібрано гривень">
+          <h3>Зібрано (₴)</h3>
+          <div class="value" id="totalAmount">0</div>
           <div class="stat-footnote">Завдяки благодійникам</div>
         </div>
 
@@ -615,19 +558,6 @@
       targetAmount: 50000
     };
 
-    /* ПК-версія: інші значення тільки для відображення */
-    const mqDesktop = window.matchMedia('(min-width: 980px)');
-    let current = { ...data };
-    if (mqDesktop.matches) {
-      current = {
-        ...data,
-        totalAmount: 58908,   // оновлене значення «Зібрано (₴)» для ПК
-        donorsCount: 26,
-        orphanagesCount: 5,
-        itemsCount: 121
-      };
-    }
-
     const formatter = new Intl.NumberFormat('uk-UA');
 
     function animateCount(id, endValue, duration) {
@@ -661,9 +591,9 @@
       };
       requestAnimationFrame(tick);
 
-      const remaining = Math.max(0, current.targetAmount - current.totalAmount);
-      const over = current.totalAmount - current.targetAmount;
-      if (current.totalAmount >= current.targetAmount) {
+      const remaining = Math.max(0, data.targetAmount - data.totalAmount);
+      const over = data.totalAmount - data.targetAmount;
+      if (data.totalAmount >= data.targetAmount) {
         toGoalText.textContent = `Ціль перевиконано`;
         overFlowText.className = 'overgoaled';
         overFlowText.textContent = `Перевиконано на ${formatter.format(over)} ₴`;
@@ -796,12 +726,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Лічильники/прогрес (з ПК-override)
-      animateCount('totalAmount', current.totalAmount, 900);
-      animateCount('donorsCount', current.donorsCount, 700);
-      animateCount('orphanagesCount', current.orphanagesCount, 700);
-      animateCount('itemsCount', current.itemsCount, 700);
-      animateProgress(Math.min(100, Math.round((current.totalAmount / current.targetAmount) * 100)), 900);
+      // Лічильники/прогрес
+      animateCount('totalAmount', data.totalAmount, 900);
+      animateCount('donorsCount', data.donorsCount, 700);
+      animateCount('orphanagesCount', data.orphanagesCount, 700);
+      animateCount('itemsCount', data.itemsCount, 700);
+      animateProgress(Math.min(100, Math.round((data.totalAmount / data.targetAmount) * 100)), 900);
 
       // Пролистування кроків
       initStepsKeyboardNav();
