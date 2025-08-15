@@ -7,8 +7,11 @@
   <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
   <meta name="theme-color" content="#7423F0" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Додано: числовий шрифт для кращої читабельності на графіку -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root {
+    :root{
       --bg-gradient: linear-gradient(135deg, #5B2EFF 0%, #7423F0 100%);
       --bg-blur: 32px;
       --accent: #FFF380;
@@ -26,343 +29,256 @@
       --mini-nav-h: 54px;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
 
-    /* --- Фікс горизонтального скролу на мобільних --- */
+    /* --- Anti horizontal scroll on mobile --- */
     html, body { overflow-x: hidden; }
-    @supports (overflow: clip) {
-      html, body { overflow-x: clip; } /* сучасні браузери */
-    }
-    /* Підстраховка для вбудованих медіа/віджетів */
+    @supports (overflow: clip) { html, body { overflow-x: clip; } }
     img, video, iframe { max-width: 100%; height: auto; }
 
     html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: 'Montserrat', system-ui,-apple-system,sans-serif;
-      color: var(--text);
+    body{
+      margin:0;
+      font-family:'Montserrat',system-ui,-apple-system,sans-serif;
+      color:var(--text);
       -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
-      min-height: 100vh;
-      background: #5B2EFF;
-      isolation: isolate;
+      line-height:1.5;
+      min-height:100vh;
+      background:#5B2EFF;
+      isolation:isolate;
       padding-bottom: calc(var(--mini-nav-h) + max(8px, var(--safe-bottom)));
     }
-
     body::before{
       content:"";
-      position: fixed;
-      inset: -60px;
-      z-index: -1;
-      pointer-events: none;
-      background: var(--bg-gradient);
-      filter: blur(var(--bg-blur));
-      will-change: filter, transform;
-      transform: translateZ(0);
+      position:fixed; inset:-60px; z-index:-1; pointer-events:none;
+      background:var(--bg-gradient); filter: blur(var(--bg-blur));
+      will-change: filter, transform; transform: translateZ(0);
     }
+    @supports not ((filter: blur(1px))) { body::before{ inset:0; filter:none; } }
 
-    @supports not ((filter: blur(1px))) {
-      body::before{ inset: 0; filter: none; }
-    }
+    a{ color:inherit; text-decoration:none; word-break:break-word; }
 
-    a { color: inherit; text-decoration: none; word-break: break-word; }
-
-    /* ===== HERO (перероблений перший блок) ===== */
-    .hero {
-      position: relative;
-      padding: clamp(32px, 7vw, 64px) 16px clamp(22px, 5vw, 40px);
-      text-align: center;
-    }
-    .hero-inner {
-      max-width: 900px;
-      margin: 0 auto;
+    /* ===== HERO ===== */
+    .hero{ position:relative; padding:clamp(32px,7vw,64px) 16px clamp(22px,5vw,40px); text-align:center; }
+    .hero-inner{
+      max-width:900px; margin:0 auto;
       background: color-mix(in oklab, white 6%, transparent);
-      border: 1px solid var(--glass-border);
-      border-radius: 28px;
-      padding: clamp(24px, 7vw, 44px) clamp(20px, 6vw, 48px);
-      backdrop-filter: saturate(130%) blur(10px);
-      box-shadow: var(--shadow);
+      border:1px solid var(--glass-border); border-radius:28px;
+      padding:clamp(24px,7vw,44px) clamp(20px,6vw,48px);
+      backdrop-filter:saturate(130%) blur(10px); box-shadow:var(--shadow);
     }
-    .hero-eyebrow {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--glass-border);
-      background: var(--glass-bg);
-      font-size: .84rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.92);
+    .hero-eyebrow{
+      display:inline-flex; gap:8px; align-items:center; padding:6px 10px;
+      border-radius:999px; border:1px solid var(--glass-border);
+      background:var(--glass-bg); font-size:.84rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.92);
     }
-    .hero h1 {
-      margin: 12px 0 10px;
-      font-size: clamp(1.7rem, 5.2vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: .6px;
-      line-height: 1.15;
+    .hero h1{
+      margin:12px 0 10px; font-size:clamp(1.7rem,5.2vw,2.8rem);
+      font-weight:800; letter-spacing:.6px; line-height:1.15;
       background: linear-gradient(92deg, #FFFFFF, var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
       text-wrap: balance;
     }
-    .hero-subtitle {
-      margin: 6px auto 0;
-      max-width: 48ch;
-      font-size: clamp(1rem, 3vw, 1.16rem);
-      color: rgba(255,255,255,.94);
-      text-wrap: balance;
+    .hero-subtitle{ margin:6px auto 0; max-width:48ch; font-size:clamp(1rem,3vw,1.16rem); color:rgba(255,255,255,.94); text-wrap: balance; }
+    .hero::after,.hero::before{
+      content:""; position:absolute; inset:auto; width:420px; height:420px; filter:blur(60px); z-index:-1; opacity:.35; pointer-events:none; border-radius:50%;
     }
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 12px 16px;
-      margin-top: 18px;
-    }
-    .hero-note { font-size: .9rem; color: rgba(255,255,255,.9); }
+    .hero::before{ background: radial-gradient(circle at 30% 30%, #CCF2FF, transparent 60%); left:-120px; top:-80px; }
+    .hero::after{ background: radial-gradient(circle at 70% 70%, #FFF380, transparent 60%); right:-120px; bottom:-80px; }
 
-    .hero-cta {
-      margin-top: 14px;
-      display: flex; justify-content: center;
+    /* ===== MINI NAV ===== */
+    .mini-nav{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:max(10px, var(--safe-bottom)); z-index:50;
+      background:rgba(255,255,255,0.10);
+      border:1px solid var(--glass-border); border-radius:999px; padding:6px;
+      backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
+      height:var(--mini-nav-h); display:inline-flex; align-items:center; white-space:nowrap;
     }
-    .hero-cta .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      border: 1px solid var(--glass-border);
-      background: #FFFFFF;
-      color: #7423F0;
-      font-weight: 800;
-      box-shadow: 0 12px 32px -4px rgba(0,0,0,.3);
-      transition: transform var(--transition), box-shadow var(--transition), filter .3s;
+    .mini-nav ul{ list-style:none; display:flex; gap:6px; padding:0; margin:0; align-items:center; justify-content:center; }
+    .mini-nav a{
+      position:relative; display:inline-flex; align-items:center; justify-content:center;
+      height:40px; padding:0 14px; border-radius:12px; border:1px solid var(--glass-border);
+      background:rgba(255,255,255,0.06); font-weight:800; font-size:.95rem; color:rgba(255,255,255,.95);
+      letter-spacing:.2px; outline:none; transition: transform .18s ease, background .2s ease, border-color .2s ease;
     }
-    .hero-cta .btn:hover { transform: translateY(-2px); }
-    .hero-cta .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-
-    /* Декоровані ореоли */
-    .hero::after, .hero::before {
-      content: "";
-      position: absolute;
-      inset: auto;
-      width: 420px; height: 420px;
-      filter: blur(60px);
-      z-index: -1;
-      opacity: .35;
-      pointer-events: none;
-      border-radius: 50%;
-    }
-    .hero::before { background: radial-gradient(circle at 30% 30%, var(--accent-light), transparent 60%); left: -120px; top: -80px; }
-    .hero::after { background: radial-gradient(circle at 70% 70%, var(--accent), transparent 60%); right: -120px; bottom: -80px; }
-
-    /* ===== MINI NAV (компактна навігація) ===== */
-    .mini-nav {
-      position: fixed;
-      left: 50%; transform: translateX(-50%);
-      bottom: max(10px, var(--safe-bottom));
-      z-index: 50;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid var(--glass-border);
-      border-radius: 999px;
-      padding: 6px;
-      backdrop-filter: saturate(140%) blur(10px);
-      box-shadow: var(--shadow);
-      height: var(--mini-nav-h);
-      /* === ИСПРАВЛЕНО: фон под размер трёх кнопок и идеальный центр === */
-      display: inline-flex;               /* сжимается по контенту */
-      align-items: center;
-      width: auto;                        /* убран фиксированный/относительный размер */
-      max-width: none;
-      white-space: nowrap;                /* чтобы кнопки не переносились */
-    }
-    .mini-nav ul {
-      /* было: grid с 3 колонками, из-за чего фон мог быть шире/неровно центрован */
-      list-style: none;
-      display: flex;                      /* равномерный зазор и ширина = сумме кнопок */
-      gap: 6px;
-      padding: 0;
-      margin: 0;
-      align-items: center;
-      justify-content: center;
-    }
-    .mini-nav a {
-      position: relative;
-      display: inline-flex; align-items: center; justify-content: center;
-      height: 40px; padding: 0 14px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      background: rgba(255,255,255,0.06);
-      font-weight: 800; font-size: .95rem;
-      color: rgba(255,255,255,.95);
-      letter-spacing: .2px;
-      outline: none;
-      transition: transform .18s ease, background .2s ease, border-color .2s ease;
-      white-space: nowrap;
-    }
-    .mini-nav a:hover { transform: translateY(-1px); }
-    .mini-nav a:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
-    .mini-nav .active { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
-
-    /* Desktop: робимо навігацію липкою зверху та трохи меншою */
-    @media (min-width: 980px) {
-      body { padding-bottom: 0; }
-      .mini-nav { top: 12px; bottom: auto; width: auto; left: 50%; transform: translateX(-50%); height: 48px; }
-      .mini-nav a { height: 36px; }
+    .mini-nav a:hover{ transform: translateY(-1px); }
+    .mini-nav a:focus-visible{ box-shadow:0 0 0 3px var(--focus); }
+    .mini-nav .active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); }
+    @media (min-width:980px){
+      body{ padding-bottom:0; }
+      .mini-nav{ top:12px; bottom:auto; height:48px; }
+      .mini-nav a{ height:36px; }
     }
 
-    /* ===== ORIGINAL STYLES (скориговані відступи) ===== */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 14px 68px; }
+    /* ===== BASE LAYOUT ===== */
+    .container{ max-width:1100px; margin:0 auto; padding:0 14px 68px; }
 
-    .dashboard-title { font-size: 1.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; color: var(--accent); margin: 6px 0 8px; text-shadow: 1px 1px 4px rgba(0,0,0,0.3); }
+    .dashboard-title{ font-size:1.95rem; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; text-align:center; color:var(--accent); margin:6px 0 8px; text-shadow:1px 1px 4px rgba(0,0,0,0.3); }
     .dashboard-kicker{ text-align:center; font-size:.74rem; color:rgba(255,255,255,.85); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; }
 
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-    .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px 18px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 10px; min-height: 150px; transition: transform var(--transition), background var(--transition), box-shadow var(--transition); box-shadow: var(--shadow); }
-    .card:hover { transform: translateY(-4px); background: var(--glass-bg-hover); }
-    .card h3 { font-size: 1.18rem; font-weight: 700; margin: 0; color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.2; }
-    .card .value { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800; color: var(--accent-light); line-height: 1.1; display: block; }
-    .stat-footnote { font-size: 0.78rem; color: rgba(255,255,255,0.82); }
-    .card--participants h3 { font-size: 1.32rem; }
-    .card--inline { align-items: stretch; }
-    .card--inline .card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; text-align: left; }
-    .card--inline h3 { margin: 0; }
-    .card--inline .value { line-height: 1; white-space: nowrap; }
-
-    .goal-section { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 16px; }
-    .goal-card { flex: 1 1 100%; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 22px 18px; position: relative; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); }
-    .goal-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
-    .goal-header h3 { margin: 0; font-size: 1.12rem; font-weight: 800; text-transform: uppercase; color: var(--accent); flex: 1; letter-spacing: .5px; }
-    .goal-amounts { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: center; }
-    .large-number { font-size: clamp(2rem, 5.6vw, 2.6rem); font-weight: 800; color: #FFFFFF; background: rgba(255,255,255,0.08); padding: 12px 18px; border-radius: 12px; min-width: 160px; text-align: center; position: relative; border: 1px solid var(--glass-border); }
-    .progress-container { margin-top: 2px; }
-    .progress-bar-wrapper { position: relative; height: 22px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; border: 1px solid var(--glass-border); }
-    .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #CCF2FF 0%, #FFF380 100%); border-radius: 999px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.78rem; font-weight: 800; color: #1A1A1A; will-change: width; transition: width .6s ease; }
-    .goal-meta { display: flex; justify-content: space-between; font-size: 0.9rem; margin-top: 6px; flex-wrap: wrap; gap: 6px; color: #fff; }
-    .overgoaled { background: rgba(160,255,184,0.15); border-radius: 8px; padding: 8px 12px; font-size: 0.9rem; font-weight: 700; color: #A0FFB8; display: inline-block; margin-top: 6px; align-self: start; border: 1px solid rgba(160,255,184,0.35); }
-    .last-updated { font-size: 0.7rem; color: rgba(255,255,255,0.72); }
-
-    .info-block { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px 18px; margin: 28px 0; position: relative; display: flex; flex-direction: column; gap: 18px; box-shadow: var(--shadow); }
-    .info-block h2 { font-size: clamp(1.4rem, 2.2vw, 1.7rem); font-weight: 800; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.25); }
-    .info-block p, .info-block li { font-size: 1rem; color: #fff; }
-    .info-block strong { color: #FFEB99; font-weight: 800; }
-    .info-block ul { list-style: disc inside; margin: 6px 0 0; }
-
-    .steps { display: grid; gap: 14px; }
-    .steps-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .steps-title { margin: 0; font-size: clamp(1.2rem, 2vw, 1.4rem); font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .6px; }
-    .steps-button { font-size: 0.9rem; color: rgba(20,20,20,0.95); background: linear-gradient(135deg, #CCF2FF, #FFF380); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--glass-border); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; box-shadow: none; }
-    .steps-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-
-    .steps-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(340px, 1fr); gap: 16px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; padding: 6px 2px 10px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; max-height: none; }
-    .steps-track::-webkit-scrollbar { height: 8px; }
-    .steps-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 999px; }
-
-    .step { scroll-snap-align: start; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--step-radius); padding: 24px; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "badge title" "badge text"; column-gap: 16px; row-gap: 10px; min-height: 260px; max-height: none; box-shadow: none; backdrop-filter: saturate(120%) blur(8px); }
-    .step-badge { grid-area: badge; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #CCF2FF, #FFF380); color: #1A1A1A; display: grid; place-items: center; font-weight: 900; font-size: 1.15rem; }
-    .step-title { grid-area: title; margin: 0; font-weight: 800; font-size: 1.16rem; color: var(--accent-light); letter-spacing: .3px; align-self: center; }
-    .step-text { grid-area: text; margin: 0; font-size: 1.06rem; color: #fff; display: block; overflow: visible; }
-
-    .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 36px rgba(0,0,0,0.35); background: #1f1f35; border: 1px solid var(--glass-border); }
-    .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-    .report { margin-top: 40px; display: flex; flex-direction: column; gap: 14px; }
-    .report .dashboard-title { margin-bottom: 8px; }
-    .report-frame { position: relative; width: 100%; max-width: 580px; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); background: var(--glass-bg); margin-inline: auto; border: 1px solid var(--glass-border); }
-    .report-frame iframe { width: 100%; height: 100%; aspect-ratio: 500/825; border: none; }
-    .report-fallback { font-size: 0.9rem; background: rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 10px; display: inline-block; margin-top: 6px; border: 1px solid var(--glass-border); }
-
-    .contact { text-align: center; margin: 30px 0 10px; padding: 0 10px; }
-    .contact p { margin-bottom: 12px; font-size: 1rem; line-height: 1.4; }
-    .contact-button { display: inline-block; padding: 14px 30px; background: #FFFFFF; color: #7423F0; font-weight: 800; border-radius: 50px; text-decoration: none; box-shadow: 0 12px 32px -4px rgba(0,0,0,0.3); transition: transform var(--transition), filter .3s, box-shadow var(--transition); position: relative; }
-    .contact-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
-    .contact-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-
-    /* ===== FAQ (стилі) ===== */
-    .faq-section h2 {
-      text-align: center;
-      color: var(--accent);
-      margin-top: 0;
+    .stats{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
+    .card{
+      background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius);
+      padding:20px 18px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:10px;
+      min-height:150px; transition: transform var(--transition), background var(--transition), box-shadow var(--transition); box-shadow:var(--shadow);
     }
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .faq-item {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 14px;
-      transition: max-height 0.3s ease-in-out;
-    }
-    .faq-item[open] summary {
-      color: var(--accent);
-    }
-    .faq-item summary {
-      font-weight: 800;
-      cursor: pointer;
-      list-style-position: inside;
-      outline: none;
-    }
-    .faq-item summary:focus-visible {
-      outline: 3px solid var(--focus);
-      border-radius: 8px;
-      outline-offset: 3px;
-    }
-    .faq-item p {
-      margin: 12px 0 0 0;
-      padding-left: 10px;
-      border-left: 2px solid var(--accent);
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.9);
-      line-height: 1.6;
-    }
-    .faq-item.closing {
-      animation: closing-animation 0.3s ease-out;
-    }
-    @keyframes closing-animation {
-      from { opacity: 1; max-height: 300px; }
-      to   { opacity: 0; max-height: 48px; }
-    }
-    summary::marker { content: '＋ '; color: var(--accent); font-size: 1.2em; }
-    details[open] summary::marker { content: '− '; }
+    .card:hover{ transform:translateY(-4px); background:var(--glass-bg-hover); }
+    .card h3{ font-size:1.18rem; font-weight:700; margin:0; color:var(--accent); letter-spacing:.5px; text-transform:uppercase; line-height:1.2; }
+    .card .value{ font-size:clamp(2rem,4vw,2.6rem); font-weight:800; color:var(--accent-light); line-height:1.1; display:block; }
+    .stat-footnote{ font-size:.78rem; color:rgba(255,255,255,0.82); }
+    .card--participants h3{ font-size:1.32rem; }
 
-    /* Мобільні */
-    @media (max-width: 980px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .card { min-height: 160px; }
-      .report { align-items: center; }
+    .goal-section{ margin-top:8px; display:flex; flex-wrap:wrap; gap:16px; }
+    .goal-card{ flex:1 1 100%; background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius); padding:22px 18px; display:flex; flex-direction:column; gap:14px; box-shadow:var(--shadow); }
+    .goal-header{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; }
+    .goal-header h3{ margin:0; font-size:1.12rem; font-weight:800; text-transform:uppercase; color:var(--accent); flex:1; letter-spacing:.5px; }
+    .goal-amounts{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:center; }
+    .large-number{ font-size:clamp(2rem,5.6vw,2.6rem); font-weight:800; color:#fff; background:rgba(255,255,255,0.08); padding:12px 18px; border-radius:12px; min-width:160px; text-align:center; position:relative; border:1px solid var(--glass-border); }
+    .progress-container{ margin-top:2px; }
+    .progress-bar-wrapper{ position:relative; height:22px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; border:1px solid var(--glass-border); }
+    .progress-fill{ height:100%; width:0; background: linear-gradient(90deg, #CCF2FF 0%, #FFF380 100%); border-radius:999px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:.78rem; font-weight:800; color:#1A1A1A; will-change: width; transition: width .6s ease; }
+    .goal-meta{ display:flex; justify-content:space-between; font-size:.9rem; margin-top:6px; flex-wrap:wrap; gap:6px; color:#fff; }
+    .overgoaled{ background:rgba(160,255,184,0.15); border-radius:8px; padding:8px 12px; font-size:.9rem; font-weight:700; color:#A0FFB8; display:inline-block; margin-top:6px; align-self:start; border:1px solid rgba(160,255,184,0.35); }
+    .last-updated{ font-size:.7rem; color:rgba(255,255,255,0.72); }
+
+    .info-block{ background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius); padding:24px 18px; margin:28px 0; display:flex; flex-direction:column; gap:18px; box-shadow:var(--shadow); }
+    .info-block h2{ font-size:clamp(1.4rem,2.2vw,1.7rem); font-weight:800; margin:0; color:var(--accent); text-transform:uppercase; letter-spacing:1px; text-shadow:1px 1px 2px rgba(0,0,0,0.25); }
+    .info-block p,.info-block li{ font-size:1rem; color:#fff; }
+    .info-block strong{ color:#FFEB99; font-weight:800; }
+    .info-block ul{ list-style:disc inside; margin:6px 0 0; }
+
+    .steps{ display:grid; gap:14px; }
+    .steps-header{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .steps-title{ margin:0; font-size:clamp(1.2rem,2vw,1.4rem); font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; }
+    .steps-button{ font-size:.9rem; color:rgba(20,20,20,0.95); background:linear-gradient(135deg,#CCF2FF,#FFF380); padding:10px 14px; border-radius:10px; border:1px solid var(--glass-border); display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-weight:800; box-shadow:none; }
+    .steps-button:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+    .steps-track{
+      display:grid; grid-auto-flow:column; grid-auto-columns:minmax(340px,1fr);
+      gap:16px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-inline:contain;
+      scroll-snap-type:x mandatory; padding:6px 2px 10px; scrollbar-width:thin; -webkit-overflow-scrolling:touch;
     }
-    @media (max-width: 520px) {
-      .hero-inner { padding: 22px 18px; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .card { min-height: 170px; padding: 22px 16px; }
-      .card h3 { font-size: 1.22rem; }
-      .card--participants h3 { font-size: 1.38rem; }
-      .card--inline .card-top { flex-direction: column; align-items: center; gap: 6px; }
-      .stat-footnote { font-size: 0.82rem; }
-      .goal-amounts { flex-direction: column; align-items: stretch; }
-      .large-number { width: 100%; }
-      .steps-track { grid-auto-columns: minmax(300px, 1fr); max-height: none; }
-      .step { min-height: 280px; padding: 22px; }
-      .step-text { font-size: 1.04rem; }
-      .step-badge { width: 56px; height: 56px; }
+    .steps-track::-webkit-scrollbar{ height:8px; }
+    .steps-track::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.25); border-radius:999px; }
+
+    .step{
+      scroll-snap-align:start; background:var(--glass-bg); border:1px solid var(--glass-border);
+      border-radius:var(--step-radius); padding:24px; display:grid; grid-template-columns:auto 1fr; grid-template-areas:"badge title" "badge text";
+      column-gap:16px; row-gap:10px; min-height:260px; backdrop-filter:saturate(120%) blur(8px);
+    }
+    .step-badge{ grid-area:badge; width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#CCF2FF,#FFF380); color:#1A1A1A; display:grid; place-items:center; font-weight:900; font-size:1.15rem; }
+    .step-title{ grid-area:title; margin:0; font-weight:800; font-size:1.16rem; color:var(--accent-light); letter-spacing:.3px; align-self:center; }
+    .step-text{ grid-area:text; margin:0; font-size:1.06rem; color:#fff; }
+
+    .video-wrapper{ position:relative; width:100%; padding-top:56.25%; border-radius:12px; overflow:hidden; box-shadow:0 12px 36px rgba(0,0,0,0.35); background:#1f1f35; border:1px solid var(--glass-border); }
+    .video-wrapper iframe{ position:absolute; inset:0; width:100%; height:100%; border:none; }
+
+    .report{ margin-top:40px; display:flex; flex-direction:column; gap:14px; }
+    .report .dashboard-title{ margin-bottom:8px; }
+    .report-frame{ position:relative; width:100%; max-width:580px; border-radius:14px; overflow:hidden; box-shadow:var(--shadow); background:var(--glass-bg); margin-inline:auto; border:1px solid var(--glass-border); }
+    .report-frame iframe{ width:100%; height:100%; aspect-ratio:500/825; border:none; }
+    .report-fallback{ font-size:.9rem; background:rgba(255,255,255,0.06); padding:12px 16px; border-radius:10px; display:inline-block; margin-top:6px; border:1px solid var(--glass-border); }
+
+    .contact{ text-align:center; margin:30px 0 10px; padding:0 10px; }
+    .contact p{ margin-bottom:12px; font-size:1rem; line-height:1.4; }
+    .contact-button{
+      display:inline-block; padding:14px 30px; background:#FFFFFF; color:#7423F0; font-weight:800; border-radius:50px; text-decoration:none;
+      box-shadow:0 12px 32px -4px rgba(0,0,0,0.3); transition: transform var(--transition), filter .3s, box-shadow var(--transition);
+    }
+    .contact-button:hover{ transform:translateY(-2px); filter:brightness(1.05); }
+    .contact-button:focus-visible{ outline:3px solid var(--focus); outline-offset:3px; }
+
+    /* ===== FAQ ===== */
+    .faq-section h2{ text-align:center; color:var(--accent); margin-top:0; }
+    .faq-list{ display:flex; flex-direction:column; gap:10px; }
+    .faq-item{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px; transition:max-height .3s ease-in-out; }
+    .faq-item[open] summary{ color:var(--accent); }
+    .faq-item summary{ font-weight:800; cursor:pointer; list-style-position:inside; outline:none; }
+    .faq-item summary:focus-visible{ outline:3px solid var(--focus); border-radius:8px; outline-offset:3px; }
+    .faq-item p{ margin:12px 0 0 0; padding-left:10px; border-left:2px solid var(--accent); font-size:.95rem; color:rgba(255,255,255,0.9); line-height:1.6; }
+    .faq-item.closing{ animation: closing-animation .3s ease-out; }
+    @keyframes closing-animation{ from{ opacity:1; max-height:300px; } to{ opacity:0; max-height:48px; } }
+    summary::marker{ content:'＋ '; color:var(--accent); font-size:1.2em; }
+    details[open] summary::marker{ content:'− '; }
+
+    /* ===== INFROGRAPHICS — ADVANCED CHART ===== */
+    .chart-card{
+      background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius);
+      padding:18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px;
+      /* Додано: числовий шрифт для всього блоку інфографіки */
+      font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
+    }
+    .chart-card h3{ margin:0; font-size:1.02rem; font-weight:800; letter-spacing:.3px; color:var(--accent); text-transform:uppercase; text-align:center; }
+    .chart-toolbar{
+      display:flex; gap:8px; justify-content:space-between; align-items:center; flex-wrap:wrap;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--glass-border); background:rgba(255,255,255,0.06); font-weight:700; font-size:.85rem; color:#fff;
+      /* Додано: моноширинне відображення цифр у чипах */
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .chip b{ color:var(--accent); }
+
+    .chart-wrap{ width:100%; height:340px; position:relative; }
+    .chart-wrap svg{ width:100%; height:100%; text-rendering:geometricPrecision; }
+
+    .chart-tip{
+      position:absolute; top:8px; left:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--glass-border);
+      background:rgba(255,255,255,0.12); backdrop-filter:saturate(140%) blur(8px); box-shadow:var(--shadow);
+      font-size:.9rem; pointer-events:none; display:none; white-space:nowrap;
+      /* Додано: краще вирівнювання цифр у підказці */
+      font-variant-numeric: tabular-nums lining-nums;
+      font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
     }
 
-    /* Поважаємо користувачів з Reduced Motion */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .card, .contact-button, .hero-cta .btn { transition: none; }
+    /* Додано: покращений вигляд цифр/дат на осях */
+    .axis-label{
+      font-size:.8rem; fill:rgba(255,255,255,.85);
+      font-weight:600;
+      font-variant-numeric: tabular-nums lining-nums;
+      letter-spacing:.02em;
+      font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
+    }
+    .grid-line{ stroke:rgba(255,255,255,.12); stroke-width:1; shape-rendering:crispEdges; }
+    .target-line{ stroke:rgba(255,255,255,.25); stroke-dasharray:6 6; shape-rendering:crispEdges; }
+    .line-stroke{ fill:none; stroke:url(#lineGradient); stroke-width:3; filter:url(#glow); }
+    .area-fill{ fill:url(#areaGradient); }
+    .point{ fill:#FFF380; transform-box:fill-box; transform-origin:center; }
+    .crosshair{ stroke:rgba(255,255,255,.2); stroke-width:1; shape-rendering:crispEdges; }
+    .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    /* Мобільні покращення саме для цифр/дат графіка */
+    @media (max-width:520px){
+      .chart-wrap{ height:300px; }
+      .axis-label{ font-size:0.95rem; }
+      .chart-tip{ font-size:1rem; }
+      .chip{ font-size:0.9rem; }
+    }
+
+    @media (max-width:980px){
+      .stats{ grid-template-columns:repeat(2, 1fr); }
+      .report{ align-items:center; }
+    }
+    @media (max-width:520px){
+      .hero-inner{ padding:22px 18px; }
+      .stats{ grid-template-columns:repeat(2, 1fr); }
+      .card{ min-height:170px; padding:22px 16px; }
+      .card h3{ font-size:1.22rem; }
+      .card--participants h3{ font-size:1.38rem; }
+      .chart-wrap{ height:300px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      .card, .contact-button, .progress-fill{ transition:none !important; }
     }
   </style>
 </head>
 <body>
-  <!-- HERO: перший блок -->
+  <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-inner">
       <div class="hero-eyebrow" aria-hidden="true">Благодійна ініціатива</div>
@@ -371,7 +287,7 @@
     </div>
   </header>
 
-  <!-- MINI NAV: компактна сучасна навігація -->
+  <!-- MINI NAV -->
   <nav class="mini-nav" aria-label="Швидка навігація сайтом">
     <ul role="tablist" aria-label="Навігація сторінкою">
       <li><a href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
@@ -387,7 +303,6 @@
       <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
 
       <div class="stats" aria-label="Ключова статистика ініціативи">
-        <!-- Змінено тільки відображення блоку "Зібрано (₴)" -->
         <div class="card" aria-label="Зібрано гривень">
           <h3>Зібрано (₴)</h3>
           <div class="value" id="totalAmount">0</div>
@@ -418,7 +333,7 @@
         <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
           <div class="goal-header">
             <h3>До цілі (₴)</h3>
-            <div class="last-updated" id="goalUpdated"> </div>
+            <div class="last-updated" id="goalUpdated"></div>
           </div>
           <div class="goal-amounts">
             <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
@@ -437,6 +352,68 @@
           <div id="overFlowText" aria-live="polite"></div>
         </div>
       </div>
+    </section>
+
+    <!-- ІНФОГРАФІКА — ПРО-ГРАФІК -->
+    <section id="insights" class="info-block" aria-label="Інфографіка ініціативи" data-target="50000">
+      <h2>Інфографіка</h2>
+
+      <article class="chart-card" aria-label="Графік зростання зібраної суми за днями">
+        <div class="chart-toolbar">
+          <div class="left">
+            <div class="chip">Період: <b id="periodLabel">—</b></div>
+            <!-- Вилучено: "Остання сума" -->
+          </div>
+
+          <!-- Вилучено: кнопка "Завантажити CSV" -->
+        </div>
+
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="growthChart" viewBox="0 0 720 340" preserveAspectRatio="none" role="img" aria-label="Графік зростання суми від дати до дати">
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#CCF2FF"/>
+                <stop offset="100%" stop-color="#FFF380"/>
+              </linearGradient>
+              <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFF380" stop-opacity="0.36"/>
+                <stop offset="100%" stop-color="#FFF380" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge>
+                  <feMergeNode in="b"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <clipPath id="revealClip" clipPathUnits="userSpaceOnUse">
+                <rect id="revealRect" x="0" y="0" width="0" height="340"></rect>
+              </clipPath>
+            </defs>
+          </svg>
+          <div class="chart-tip" id="chartTip" role="tooltip" aria-hidden="true"></div>
+          <div id="chartLive" class="sr-only" aria-live="polite"></div>
+        </div>
+
+        <!-- Fallback JSON серія (агреговано по днях, останнє значення дня) -->
+        <script id="series-data" type="application/json">
+          [
+            {"date":"2025-07-30","label":"30.07","amount":16603},
+            {"date":"2025-07-31","label":"31.07","amount":17525},
+            {"date":"2025-08-01","label":"01.08","amount":18535},
+            {"date":"2025-08-02","label":"02.08","amount":19485},
+            {"date":"2025-08-04","label":"04.08","amount":19485},
+            {"date":"2025-08-05","label":"05.08","amount":20452},
+            {"date":"2025-08-07","label":"07.08","amount":21952},
+            {"date":"2025-08-08","label":"08.08","amount":21952},
+            {"date":"2025-08-09","label":"09.08","amount":21952},
+            {"date":"2025-08-10","label":"10.08","amount":22352},
+            {"date":"2025-08-11","label":"11.08","amount":23387},
+            {"date":"2025-08-12","label":"12.08","amount":26334},
+            {"date":"2025-08-13","label":"13.08","amount":27301}
+          ]
+        </script>
+      </article>
     </section>
 
     <!-- Контакт -->
@@ -462,9 +439,7 @@
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 class="steps-title">Покрокова інструкція</h3>
-          <button id="scrollNext" type="button" class="steps-button" aria-label="Прокрутити на одну картку праворуч">
-            Гортай →
-          </button>
+          <button id="scrollNext" type="button" class="steps-button" aria-label="Прокрутити на одну картку праворуч">Гортай →</button>
         </div>
 
         <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
@@ -473,31 +448,26 @@
             <h4 class="step-title">Відкрий застосунок Дія</h4>
             <p class="step-text">Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.</p>
           </article>
-
           <article class="step" aria-label="Крок 2">
             <div class="step-badge" aria-hidden="true">2</div>
             <h4 class="step-title">Обери послугу «єКнига»</h4>
             <p class="step-text">Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.</p>
           </article>
-
           <article class="step" aria-label="Крок 3">
             <div class="step-badge" aria-hidden="true">3</div>
             <h4 class="step-title">Ознайомся з умовами</h4>
             <p class="step-text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
           </article>
-
           <article class="step" aria-label="Крок 4">
             <div class="step-badge" aria-hidden="true">4</div>
             <h4 class="step-title">Вибери картку для виплати</h4>
             <p class="step-text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
           </article>
-
           <article class="step" aria-label="Крок 5">
             <div class="step-badge" aria-hidden="true">5</div>
             <h4 class="step-title">Підтверди заяву</h4>
             <p class="step-text">Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.</p>
           </article>
-
           <article class="step" aria-label="Крок 6">
             <div class="step-badge" aria-hidden="true">6</div>
             <h4 class="step-title">Оплата книжок</h4>
@@ -550,200 +520,591 @@
   </div>
 
   <script>
-    const data = {
-      totalAmount: 27301,
-      donorsCount: 22,
-      orphanagesCount: 6,
-      itemsCount: 95,
-      targetAmount: 50000
-    };
-
+    /* ---------- CONFIG / FALLBACK DATA ---------- */
     const formatter = new Intl.NumberFormat('uk-UA');
+    const fallbackStats = { totalAmount: 27301, donorsCount: 22, orphanagesCount: 6, itemsCount: 95, targetAmount: 50000 };
 
-    function animateCount(id, endValue, duration) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const start = performance.now();
-      const step = now => {
-        const t = Math.min((now - start) / duration, 1);
+    /* ---------- SMALL UTILITIES ---------- */
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+    function animateCount(id, endValue, duration=800){
+      const el = document.getElementById(id); if(!el) return;
+      const startV = 0; const start = performance.now();
+      function step(now){
+        const t = clamp((now - start) / duration, 0, 1);
         const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
-        el.textContent = formatter.format(Math.floor(eased * endValue));
-        if (t < 1) requestAnimationFrame(step);
-      };
+        el.textContent = formatter.format(Math.floor(startV + eased * (endValue - startV)));
+        if(t < 1) requestAnimationFrame(step);
+      }
       requestAnimationFrame(step);
     }
 
-    function animateProgress(percent, duration) {
-      const fill = document.getElementById('progressFill');
-      const percentText = document.getElementById('percentText');
-      const toGoalText = document.getElementById('toGoalText');
-      const remainingEl = document.getElementById('remaining');
-      const overFlowText = document.getElementById('overFlowText');
-      const goalUpdated = document.getElementById('goalUpdated');
-
+    function animateProgress(percent, duration=900){
+      const fill = $('#progressFill'); const percentText = $('#percentText');
+      const toGoalText = $('#toGoalText'); const remainingEl = $('#remaining');
+      const overFlowText = $('#overFlowText'); const goalUpdated = $('#goalUpdated');
       const start = performance.now();
-      const tick = now => {
-        const t = Math.min((now - start) / duration, 1);
+      function tick(now){
+        const t = clamp((now - start)/duration, 0, 1);
         const currentPercent = Math.floor(t * percent);
-        if (fill) { fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
-        if (percentText) percentText.textContent = `${currentPercent}% зібрано`;
-        if (t < 1) requestAnimationFrame(tick);
-      };
+        if(fill){ fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
+        if(percentText){ percentText.textContent = `${currentPercent}% зібрано`; }
+        if(t < 1) requestAnimationFrame(tick);
+      }
       requestAnimationFrame(tick);
-
-      const remaining = Math.max(0, data.targetAmount - data.totalAmount);
-      const over = data.totalAmount - data.targetAmount;
-      if (data.totalAmount >= data.targetAmount) {
+      // static labels:
+      const target = Number(($('[data-target]')?.dataset.target) || fallbackStats.targetAmount) || fallbackStats.targetAmount;
+      const remaining = Math.max(0, target - currentStats.totalAmount);
+      const over = currentStats.totalAmount - target;
+      if(currentStats.totalAmount >= target){
         toGoalText.textContent = `Ціль перевиконано`;
         overFlowText.className = 'overgoaled';
         overFlowText.textContent = `Перевиконано на ${formatter.format(over)} ₴`;
         remainingEl.textContent = formatter.format(0);
-      } else {
+      }else{
         toGoalText.textContent = `Залишилось ${formatter.format(remaining)} ₴`;
         remainingEl.textContent = formatter.format(remaining);
       }
-
-      if (goalUpdated) {
+      if(goalUpdated){
         const d = new Date();
-        const opts = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-        goalUpdated.textContent = `Оновлено: ${d.toLocaleString('uk-UA', opts)}`;
+        goalUpdated.textContent = `Оновлено: ${d.toLocaleString('uk-UA', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' })}`;
       }
     }
 
-    function setUpdatedTimestamp() {
-      const el = document.getElementById('updatedAt');
-      if (!el) return;
-      const d = new Date();
-      const opts = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-      el.textContent = `Оновлено: ${d.toLocaleString('uk-UA', opts)}`;
+    /* ---------- CSV PARSER (robust, ; or , delimiter, quotes) ---------- */
+    function parseCSV(text){
+      // Detect delimiter
+      const firstLine = text.split(/\r?\n/).find(Boolean) || '';
+      const delim = (firstLine.match(/;/g)?.length || 0) > (firstLine.match(/,/g)?.length || 0) ? ';' : ',';
+      const rows = [];
+      let i = 0, field = '', inQuotes = false, row = [];
+      while(i < text.length){
+        const c = text[i];
+        if(c === '"'){
+          if(inQuotes && text[i+1] === '"'){ field += '"'; i += 2; continue; }
+          inQuotes = !inQuotes; i++; continue;
+        }
+        if(!inQuotes && (c === delim || c === '\n' || c === '\r')){
+          row.push(field.trim()); field = '';
+          if(c === delim){ i++; continue; }
+          // newline
+          // handle \r\n
+          if(c === '\r' && text[i+1] === '\n') i++;
+          i++;
+          if(row.length && row.some(v => v !== '')) rows.push(row);
+          row = [];
+          continue;
+        }
+        field += c; i++;
+      }
+      if(field.length || row.length){ row.push(field.trim()); if(row.some(v => v !== '')) rows.push(row); }
+      return rows;
     }
 
-    /* Клавіатурна навігація ← → */
-    function initStepsKeyboardNav() {
-      const track = document.getElementById('stepsTrack');
-      if (!track) return;
-      track.addEventListener('keydown', (e) => {
-        const firstCard = track.querySelector('.step');
-        if (!firstCard) return;
-        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 16);
-        const stepWidth = firstCard.getBoundingClientRect().width + gap;
+    function normalizeHeader(h){
+      const s = h.toLowerCase().trim();
+      return s
+        .replace(/[їієґ]/g, ch => ({'ї':'i','і':'i','є':'e','ґ':'g'}[ch] || ch))
+        .replace(/[^\w]+/g,'');
+    }
 
-        if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          track.scrollBy({ left: stepWidth, behavior: 'smooth' });
-        } else if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          track.scrollBy({ left: -stepWidth, behavior: 'smooth' });
+    function mapColumns(headerRow){
+      const map = {};
+      headerRow.forEach((h,idx)=>{
+        const n = normalizeHeader(h);
+        if(/^(date|data|дата)$/.test(n)) map.date = idx;
+        if(/^(amount|sum|suma|zibrano|зiбрано|зiбраноуahn|сума|total)$/.test(n)) map.amount = idx;
+        if(/^(donors|participants|uchasnyky|учасники|благодiйники)$/.test(n)) map.donors = idx;
+        if(/^(items|books|odinici|одиниць|книг)$/.test(n)) map.items = idx;
+        if(/^(orphanages|zaklady|заклади|дитячихбудинкiв)$/.test(n)) map.orphanages = idx;
+        if(/^(target|meta|цiль|goal)$/.test(n)) map.target = idx;
+      });
+      return map;
+    }
+
+    function buildSeriesFromCSV(rows){
+      if(!rows.length) return null;
+      const header = rows[0];
+      const map = mapColumns(header);
+      const body = rows.slice(1).filter(r => r.some(v => v && v.length));
+      const byDay = new Map();
+      let last = { amount: 0, donors: null, items: null, orphanages: null, target: null, date: null };
+
+      body.forEach(r=>{
+        const rawDate = map.date != null ? r[map.date] : null;
+        const d = rawDate ? new Date(rawDate) : null;
+        if(!d || isNaN(+d)) return;
+        const key = d.toISOString().slice(0,10);
+        const amount = map.amount != null ? Number(String(r[map.amount]).replace(/[^\d.-]/g,'')) : NaN;
+        if(!isNaN(amount)){
+          // keep the LAST value of day
+          byDay.set(key, { date:key, label: new Date(key).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'}), amount });
+          last.amount = amount; last.date = key;
         }
+        if(map.donors != null){ const v = Number(String(r[map.donors]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.donors = v; }
+        if(map.items  != null){ const v = Number(String(r[map.items]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.items = v; }
+        if(map.orphanages != null){ const v = Number(String(r[map.orphanages]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.orphanages = v; }
+        if(map.target != null){ const v = Number(String(r[map.target]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.target = v; }
+      });
+
+      const series = Array.from(byDay.values()).sort((a,b)=> a.date.localeCompare(b.date));
+      return { series, last };
+    }
+
+    /* ---------- CHART RENDERER (bug-fixed, responsive, animated) ---------- */
+    let currentSeries = [];      // [{date,label,amount}]
+    let currentStats  = {...fallbackStats};
+
+    function renderChart(){
+      const svg = $('#growthChart'); if(!svg || !currentSeries.length) return;
+      const wrap = $('#chartWrap');
+      const tip  = $('#chartTip');
+      const live = $('#chartLive');
+      const periodLabel = $('#periodLabel');
+
+      // Resize logic (compute size by real layout box, keep viewBox drawing in same scale)
+      const W = 720, H = 340;
+      const pad = { l: 52, r: 22, t: 18, b: 42 };
+      const pw = W - pad.l - pad.r;
+      const ph = H - pad.t - pad.b;
+
+      // derive range
+      const targetAmount = currentStats.targetAmount || fallbackStats.targetAmount;
+      const maxY = Math.max(targetAmount, ...currentSeries.map(s => s.amount));
+      const minY = 0;
+
+      const y = val => pad.t + (1 - ((val - minY)/(maxY - minY || 1))) * ph;
+      const x = i   => pad.l + (currentSeries.length === 1 ? pw/2 : (i * (pw / (currentSeries.length - 1))));
+
+      // Smooth path (Catmull–Rom to Bezier)
+      function catmullRom2bezier(points){
+        const d = [];
+        for(let i=0; i<points.length-1; i++){
+          const p0 = points[i-1] || points[i];
+          const p1 = points[i];
+          const p2 = points[i+1];
+          const p3 = points[i+2] || p2;
+          const cp1x = p1[0] + (p2[0]-p0[0]) / 6;
+          const cp1y = p1[1] + (p2[1]-p0[1]) / 6;
+          const cp2x = p2[0] - (p3[0]-p1[0]) / 6;
+          const cp2y = p2[1] - (p3[1]-p1[1]) / 6;
+          d.push(`C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`);
+        }
+        return d.join(' ');
+      }
+
+      // Build points
+      const pts = currentSeries.map((s,i)=> [x(i), y(s.amount)]);
+      const pathLine = `M ${pts[0][0]} ${pts[0][1]} ` + catmullRom2bezier(pts);
+      const pathArea = `M ${pad.l} ${pad.t+ph} L ${pts[0][0]} ${pts[0][1]} ${catmullRom2bezier(pts)} L ${pad.l+pw} ${pad.t+ph} Z`;
+
+      // Clear
+      while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+      // Gradients/filters/clip already in <defs> of SVG (keep those)
+      // BUT viewBox children removed, so we must re-add base <defs> node from template
+      // Easiest: keep defs by cloning from a prepared template. Instead, we keep them in DOM (they are in the same svg). So DON'T remove defs:
+      // -> Fix: clone defs before clearing, then re-append.
+    }
+  </script>
+
+  <script>
+    // Keep <defs> on clear: we render by wiping g container instead of whole svg.
+    function ensureLayers(){
+      const svg = document.getElementById('growthChart');
+      if(!svg) return {};
+      let defs = svg.querySelector('defs');
+      if(!defs){
+        defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+        svg.appendChild(defs);
+      }
+      let gGrid = svg.querySelector('g.grid'); if(!gGrid){ gGrid = document.createElementNS('http://www.w3.org/2000/svg','g'); gGrid.setAttribute('class','grid'); svg.appendChild(gGrid); } else { gGrid.innerHTML=''; }
+      let gMain = svg.querySelector('g.main'); if(!gMain){ gMain = document.createElementNS('http://www.w3.org/2000/svg','g'); gMain.setAttribute('class','main'); svg.appendChild(gMain); } else { gMain.innerHTML=''; }
+      let gAxis = svg.querySelector('g.axis'); if(!gAxis){ gAxis = document.createElementNS('http://www.w3.org/2000/svg','g'); gAxis.setAttribute('class','axis'); svg.appendChild(gAxis); } else { gAxis.innerHTML=''; }
+      let gHit  = svg.querySelector('g.hit');  if(!gHit){  gHit  = document.createElementNS('http://www.w3.org/2000/svg','g'); gHit.setAttribute('class','hit'); svg.appendChild(gHit); } else { gHit.innerHTML=''; }
+      return { svg, defs, gGrid, gMain, gAxis, gHit };
+    }
+
+    function drawChart(){
+      const { svg, gGrid, gMain, gAxis, gHit } = ensureLayers();
+      if(!svg || !currentSeries.length) return;
+
+      const W = 720, H = 340;
+      const pad = { l: 52, r: 22, t: 18, b: 42 };
+      const pw = W - pad.l - pad.r;
+      const ph = H - pad.t - pad.b;
+
+      const targetAmount = currentStats.targetAmount || fallbackStats.targetAmount;
+      const maxY = Math.max(targetAmount, ...currentSeries.map(s => s.amount));
+      const minY = 0;
+
+      const y = val => pad.t + (1 - ((val - minY)/(maxY - minY || 1))) * ph;
+      const x = i   => pad.l + (currentSeries.length === 1 ? pw/2 : (i * (pw / (currentSeries.length - 1))));
+
+      // Points
+      const pts = currentSeries.map((s,i)=> [x(i), y(s.amount)]);
+
+      // Smooth path (Catmull–Rom -> Bezier)
+      function catmullRom2bezier(points){
+        if(points.length < 2) return '';
+        const d = [];
+        for(let i=0; i<points.length-1; i++){
+          const p0 = points[i-1] || points[i];
+          const p1 = points[i];
+          const p2 = points[i+1];
+          const p3 = points[i+2] || p2;
+          const cp1x = p1[0] + (p2[0]-p0[0]) / 6;
+          const cp1y = p1[1] + (p2[1]-p0[1]) / 6;
+          const cp2x = p2[0] - (p3[0]-p1[0]) / 6;
+          const cp2y = p2[1] - (p3[1]-p1[1]) / 6;
+          d.push(`C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`);
+        }
+        return d.join(' ');
+      }
+      const pathLine = `M ${pts[0][0]} ${pts[0][1]} ${catmullRom2bezier(pts)}`;
+      const pathArea = `M ${pad.l} ${pad.t+ph} L ${pts[0][0]} ${pts[0][1]} ${catmullRom2bezier(pts)} L ${pad.l+pw} ${pad.t+ph} Z`;
+
+      // ---- Grid Y & labels
+      const stepsY = 4;
+      for(let i=0;i<=stepsY;i++){
+        const val = (maxY/stepsY)*i;
+        const yy = y(val);
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', pad.l); line.setAttribute('x2', pad.l+pw);
+        line.setAttribute('y1', yy); line.setAttribute('y2', yy);
+        line.setAttribute('class','grid-line'); gGrid.appendChild(line);
+
+        const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+        label.setAttribute('x', pad.l - 8); label.setAttribute('y', yy + 4);
+        label.setAttribute('text-anchor','end'); label.setAttribute('class','axis-label');
+        label.textContent = formatter.format(Math.round(val));
+        gAxis.appendChild(label);
+      }
+
+      // ---- Target line
+      const targetY = y(targetAmount);
+      const tLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+      tLine.setAttribute('x1', pad.l); tLine.setAttribute('x2', pad.l+pw);
+      tLine.setAttribute('y1', targetY); tLine.setAttribute('y2', targetY);
+      tLine.setAttribute('class','target-line'); gGrid.appendChild(tLine);
+
+      const tText = document.createElementNS('http://www.w3.org/2000/svg','text');
+      tText.setAttribute('x', pad.l+pw-4); tText.setAttribute('y', targetY - 6);
+      tText.setAttribute('text-anchor','end'); tText.setAttribute('class','axis-label');
+      tText.textContent = `Ціль: ${formatter.format(targetAmount)} ₴`; gAxis.appendChild(tText);
+
+      // ---- Area
+      const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      area.setAttribute('d', pathArea);
+      area.setAttribute('class','area-fill');
+      area.setAttribute('clip-path','url(#revealClip)');
+      gMain.appendChild(area);
+
+      // ---- Line
+      const line = document.createElementNS('http://www.w3.org/2000/svg','path');
+      line.setAttribute('d', pathLine);
+      line.setAttribute('class','line-stroke');
+      gMain.appendChild(line);
+
+      // ---- Points + X labels (thinned)
+      const gPts = document.createElementNS('http://www.w3.org/2000/svg','g');
+      gPts.setAttribute('class','points');
+      currentSeries.forEach((s,i)=>{
+        const [px,py] = pts[i];
+        const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx', px); c.setAttribute('cy', py); c.setAttribute('r', 0);
+        c.setAttribute('class','point'); gPts.appendChild(c);
+
+        if(i === 0 || i === currentSeries.length-1 || i % Math.ceil(currentSeries.length/8) === 0){
+          const tx = document.createElementNS('http://www.w3.org/2000/svg','text');
+          tx.setAttribute('x', px); tx.setAttribute('y', pad.t + ph + 18);
+          tx.setAttribute('text-anchor','middle'); tx.setAttribute('class','axis-label');
+          tx.textContent = s.label; gAxis.appendChild(tx);
+        }
+      });
+      gMain.appendChild(gPts);
+
+      // ---- Crosshair
+      const cross = document.createElementNS('http://www.w3.org/2000/svg','line');
+      cross.setAttribute('class','crosshair');
+      cross.setAttribute('x1', pad.l); cross.setAttribute('x2', pad.l);
+      cross.setAttribute('y1', pad.t); cross.setAttribute('y2', pad.t+ph);
+      cross.style.display = 'none';
+      gMain.appendChild(cross);
+
+      // ---- Hit area
+      const hit = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      hit.setAttribute('x', 0); hit.setAttribute('y', 0);
+      hit.setAttribute('width', W); hit.setAttribute('height', H);
+      hit.setAttribute('fill','transparent'); gHit.appendChild(hit);
+
+      // ---- Labels: period
+      const periodLabel = document.getElementById('periodLabel');
+      if(periodLabel && currentSeries.length){
+        const s = new Date(currentSeries[0].date).toLocaleDateString('uk-UA');
+        const e = new Date(currentSeries[currentSeries.length-1].date).toLocaleDateString('uk-UA');
+        periodLabel.textContent = `${s} — ${e}`;
+      }
+
+      // ---- Accessible Live region
+      const live = document.getElementById('chartLive');
+      if(live){
+        const last = currentSeries[currentSeries.length-1];
+        const prev = currentSeries.length>1 ? currentSeries[currentSeries.length-2] : null;
+        const delta = prev ? last.amount - prev.amount : 0;
+        live.textContent = `Станом на ${last.label}: ${formatter.format(last.amount)} гривень${prev ? ` (за день +${formatter.format(delta)})` : ''}`;
+      }
+
+      // ---- Animations: stroke draw + area reveal + points pop
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealRect = document.getElementById('revealRect');
+      const totalLen = typeof line.getTotalLength === 'function' ? line.getTotalLength() : 0;
+      const lineDuration = reduce ? 0 : 1200;
+      const revealDuration = reduce ? 0 : 1000;
+      const pointsDuration = reduce ? 0 : 600;
+
+      if(totalLen){
+        line.style.strokeDasharray = `${totalLen} ${totalLen}`;
+        line.style.strokeDashoffset = totalLen;
+      }
+      if(revealRect){ revealRect.setAttribute('width', reduce ? (pad.l+pw+1) : '0'); }
+
+      const t0 = performance.now();
+      function animate(now){
+        const tL = clamp((now - t0) / lineDuration, 0, 1);
+        const easeOutQuad = (x)=> 1 - (1 - x)*(1 - x);
+        if(totalLen) line.style.strokeDashoffset = totalLen * (1 - easeOutQuad(tL));
+
+        const tR = clamp((now - t0) / revealDuration, 0, 1);
+        if(revealRect){
+          revealRect.setAttribute('width', (pad.l + pw * tR + 1));
+        }
+
+        const ptsNodes = gPts.querySelectorAll('circle.point');
+        ptsNodes.forEach((c, i)=>{
+          const delay = (i / Math.max(1, ptsNodes.length-1)) * (pointsDuration * .6);
+          const p = clamp((now - t0 - delay) / pointsDuration, 0, 1);
+          const eased = p<0.5 ? 2*p*p : -1 + (4 - 2*p)*p;
+          const r = 3.8 * eased;
+          c.setAttribute('r', r);
+        });
+
+        if(tL < 1 || tR < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+
+      // ---- Interaction: tooltip + keyboard + crosshair
+      const tip = document.getElementById('chartTip');
+      function nearestIndex(clientX){
+        const box = svg.getBoundingClientRect();
+        const relX = clamp(clientX - box.left, 0, box.width);
+        const ratio = clamp((relX - (pad.l/box.width)*box.width) / ((pw/box.width)*box.width), 0, 1);
+        const idx = Math.round(ratio * (currentSeries.length - 1));
+        return clamp(idx, 0, currentSeries.length-1);
+      }
+      function showTipForIndex(i, clientX){
+        const s = currentSeries[i];
+        const prev = i>0 ? currentSeries[i-1].amount : 0;
+        const delta = s.amount - prev;
+        tip.style.display = 'block';
+        tip.setAttribute('aria-hidden','false');
+        tip.innerHTML = `<strong>${s.label}</strong> — ${formatter.format(s.amount)} ₴${i>0 ? ` <span style="opacity:.9;">(＋${formatter.format(delta)})</span>` : ''}`;
+        const box = svg.getBoundingClientRect();
+        const cx = clientX != null ? clientX - box.left : (pts[i][0] / 720) * box.width;
+        const tx = clamp(cx + 12, 8, box.width - (tip.offsetWidth||160) - 8);
+        tip.style.transform = `translate(${tx}px, 8px)`;
+
+        // crosshair
+        const cross = gMain.querySelector('line.crosshair');
+        if(cross){
+          cross.style.display = 'block';
+          cross.setAttribute('x1', pts[i][0]); cross.setAttribute('x2', pts[i][0]);
+        }
+      }
+
+      function hideTip(){
+        tip.style.display = 'none'; tip.setAttribute('aria-hidden','true');
+        const cross = gMain.querySelector('line.crosshair');
+        if(cross) cross.style.display = 'none';
+      }
+
+      // pointer
+      gHit.addEventListener('mousemove', (e)=>{ const idx = nearestIndex(e.clientX); showTipForIndex(idx, e.clientX); });
+      gHit.addEventListener('mouseleave', hideTip);
+      gHit.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; const idx = nearestIndex(t.clientX); showTipForIndex(idx, t.clientX); }, {passive:true});
+      gHit.addEventListener('touchmove',  (e)=>{ const t=e.touches[0]; const idx = nearestIndex(t.clientX); showTipForIndex(idx, t.clientX); }, {passive:true});
+      gHit.addEventListener('touchend', hideTip);
+
+      // keyboard (left/right arrows)
+      gHit.setAttribute('tabindex','0');
+      let kIndex = currentSeries.length-1;
+      gHit.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft'){ kIndex = clamp(kIndex-1, 0, currentSeries.length-1); showTipForIndex(kIndex); e.preventDefault(); }
+        if(e.key === 'ArrowRight'){ kIndex = clamp(kIndex+1, 0, currentSeries.length-1); showTipForIndex(kIndex); e.preventDefault(); }
       });
     }
 
-    /* Вертикальну прокрутку колесом миші переводимо в горизонтальну */
-    function lockVerticalScrollInSteps(){
-      const track = document.getElementById('stepsTrack');
-      if (!track) return;
-      track.addEventListener('wheel', e => {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-        track.scrollBy({ left: e.deltaY, behavior: 'auto' });
-        e.preventDefault();
-      }, { passive: false });
+    function refreshStatsFromSeries(){
+      // If CSV did not provide donors/items/orphanages, keep previous values
+      animateCount('totalAmount', currentStats.totalAmount, 900);
+      animateCount('donorsCount', currentStats.donorsCount ?? 0, 700);
+      animateCount('orphanagesCount', currentStats.orphanagesCount ?? 0, 700);
+      animateCount('itemsCount', currentStats.itemsCount ?? 0, 700);
+
+      const coverage = Math.min(100, Math.round((currentStats.totalAmount / (currentStats.targetAmount||fallbackStats.targetAmount)) * 100));
+      animateProgress(coverage, 900);
     }
 
-    /* Кнопка "Гортай →" — прокручує рівно на 1 картку, з поверненням на початок в кінці */
-    function initStepsButton() {
-      const btn = document.getElementById('scrollNext');
-      const track = document.getElementById('stepsTrack');
-      if (!btn || !track) return;
+    /* ---------- INIT & DATA FLOW ---------- */
+    function initStaticSeries(){
+      try{
+        const raw = document.getElementById('series-data').textContent.trim();
+        const series = JSON.parse(raw);
+        currentSeries = series;
+        currentStats.totalAmount = series[series.length-1]?.amount ?? fallbackStats.totalAmount;
+      }catch(e){
+        console.warn('Fallback JSON series missing/invalid', e);
+        currentSeries = [];
+        currentStats.totalAmount = fallbackStats.totalAmount;
+      }
+      // target from section data attribute (optional)
+      const sec = document.getElementById('insights');
+      if(sec && sec.dataset.target) currentStats.targetAmount = Number(sec.dataset.target) || fallbackStats.targetAmount;
+      currentStats.donorsCount = fallbackStats.donorsCount;
+      currentStats.itemsCount = fallbackStats.itemsCount;
+      currentStats.orphanagesCount = fallbackStats.orphanagesCount;
+    }
 
-      btn.addEventListener('click', () => {
-        const firstCard = track.querySelector('.step');
-        if (!firstCard) return;
+    function handleCSVFile(file){
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const rows = parseCSV(reader.result);
+          const res = buildSeriesFromCSV(rows);
+          if(!res || !res.series.length) throw new Error('CSV не містить придатних даних');
+          currentSeries = res.series;
+          // last stats
+          if(res.last.amount != null) currentStats.totalAmount = res.last.amount;
+          if(res.last.donors != null) currentStats.donorsCount = res.last.donors;
+          if(res.last.items != null) currentStats.itemsCount = res.last.items;
+          if(res.last.orphanages != null) currentStats.orphanagesCount = res.last.orphanages;
+          if(res.last.target != null) currentStats.targetAmount = res.last.target;
 
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap || 16);
-        const stepWidth = firstCard.getBoundingClientRect().width + gap;
-
-        const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-        if (nearEnd) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: stepWidth, behavior: 'smooth' });
+          // Update UI
+          refreshStatsFromSeries();
+          drawChart();
+        }catch(err){
+          alert('Помилка читання CSV: ' + err.message);
         }
-      });
+      };
+      reader.readAsText(file, 'utf-8');
     }
 
-    /* ===== MINI NAV JS: активний пункт ===== */
-    function initMiniNav() {
+    /* ---------- UI INIT ---------- */
+    function initMiniNav(){
       const links = [...document.querySelectorAll('.mini-nav a[data-nav]')];
-      if (!links.length) return;
-
-      function setActive(id) {
-        links.forEach(a => {
+      if(!links.length) return;
+      function setActive(id){
+        links.forEach(a=>{
           const match = a.getAttribute('href') === `#${id}`;
           a.classList.toggle('active', match);
           a.setAttribute('aria-selected', match ? 'true' : 'false');
         });
       }
-
-      // Клік — плавний скрол до секції
-      links.forEach(a => {
-        a.addEventListener('click', (e) => {
+      links.forEach(a=>{
+        a.addEventListener('click', (e)=>{
           e.preventDefault();
           const id = a.getAttribute('href').slice(1);
           const target = document.getElementById(id);
-          if (!target) return;
+          if(!target) return;
           const y = target.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 980 ? 84 : 10);
-          window.scrollTo({ top: y, behavior: 'smooth' });
+          window.scrollTo({ top:y, behavior:'smooth' });
           setActive(id);
         });
       });
-
-      // Виділення активного пункту за видимістю секції
       const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(en => { if (en.isIntersecting) setActive(en.target.id); });
-      }, { rootMargin: '-45% 0px -45% 0px', threshold: [0, .2, .5, .8, 1] });
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{ if(en.isIntersecting) setActive(en.target.id); });
+      }, { rootMargin:'-45% 0px -45% 0px', threshold:[0,.2,.5,.8,1] });
       sections.forEach(sec => io.observe(sec));
     }
 
-    /* ===== FAQ: плавне закриття ===== */
-    function initFaqAnimation() {
+    function initSteps(){
+      const track = document.getElementById('stepsTrack'); if(!track) return;
+      track.addEventListener('keydown', (e)=>{
+        const firstCard = track.querySelector('.step'); if(!firstCard) return;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 16);
+        const stepWidth = firstCard.getBoundingClientRect().width + gap;
+        if(e.key === 'ArrowRight'){ e.preventDefault(); track.scrollBy({ left: stepWidth, behavior:'smooth' }); }
+        else if(e.key === 'ArrowLeft'){ e.preventDefault(); track.scrollBy({ left: -stepWidth, behavior:'smooth' }); }
+      });
+      track.addEventListener('wheel', e=>{
+        if(Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        track.scrollBy({ left: e.deltaY, behavior:'auto' }); e.preventDefault();
+      }, { passive:false });
+      const btn = document.getElementById('scrollNext');
+      if(btn){
+        btn.addEventListener('click', ()=>{
+          const firstCard = track.querySelector('.step'); if(!firstCard) return;
+          const styles = getComputedStyle(track);
+          const gap = parseFloat(styles.columnGap || styles.gap || 16);
+          const stepWidth = firstCard.getBoundingClientRect().width + gap;
+          const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+          if(nearEnd){ track.scrollTo({ left:0, behavior:'smooth' }); }
+          else{ track.scrollBy({ left: stepWidth, behavior:'smooth' }); }
+        });
+      }
+    }
+
+    function initFAQ(){
       const faqItems = document.querySelectorAll('.faq-item');
-      faqItems.forEach(item => {
-        const summary = item.querySelector('summary');
-        if (!summary) return;
-        summary.addEventListener('click', (e) => {
-          if (item.hasAttribute('open')) {
+      faqItems.forEach(item=>{
+        const summary = item.querySelector('summary'); if(!summary) return;
+        summary.addEventListener('click', (e)=>{
+          if(item.hasAttribute('open')){
             e.preventDefault();
             item.classList.add('closing');
-            item.addEventListener('animationend', () => {
-              item.removeAttribute('open');
-              item.classList.remove('closing');
-            }, { once: true });
+            item.addEventListener('animationend', ()=>{
+              item.removeAttribute('open'); item.classList.remove('closing');
+            }, { once:true });
           }
         });
       });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      // Лічильники/прогрес
-      animateCount('totalAmount', data.totalAmount, 900);
-      animateCount('donorsCount', data.donorsCount, 700);
-      animateCount('orphanagesCount', data.orphanagesCount, 700);
-      animateCount('itemsCount', data.itemsCount, 700);
-      animateProgress(Math.min(100, Math.round((data.totalAmount / data.targetAmount) * 100)), 900);
+    // Responsive chart: redraw on resize (debounced)
+    let resizeTO;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTO);
+      resizeTO = setTimeout(()=> drawChart(), 120);
+    });
 
-      // Пролистування кроків
-      initStepsKeyboardNav();
-      lockVerticalScrollInSteps();
-      initStepsButton();
+    // INIT
+    window.addEventListener('DOMContentLoaded', ()=>{
+      // Load fallback series & stats
+      initStaticSeries();
 
-      // Навігація
-      initMiniNav();
+      // Counters + progress
+      refreshStatsFromSeries();
 
-      // FAQ
-      initFaqAnimation();
+      // Chart
+      drawChart();
+
+      // CSV upload (елемент вилучено; залишаємо перевірку на існування)
+      const csvInput = document.getElementById('csvInput');
+      if(csvInput){
+        csvInput.addEventListener('change', (e)=>{
+          const f = e.target.files?.[0];
+          if(f) handleCSVFile(f);
+        });
+      }
+
+      // Mini nav, steps, FAQ
+      initMiniNav(); initSteps(); initFAQ();
     });
   </script>
 </body>
 </html>
+
