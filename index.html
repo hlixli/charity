@@ -122,7 +122,7 @@
     .container{ max-width:1100px; margin:0 auto; padding:0 14px 68px; }
 
     .dashboard-title{ font-size:1.95rem; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; text-align:center; color:var(--accent); margin:6px 0 8px; text-shadow:1px 1px 4px rgba(0,0,0,0.3); }
-    .dashboard-kicker{ text-align:center; font-size:.74рем; color:rgba(255,255,255,.85); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; }
+    .dashboard-kicker{ text-align:center; font-size:.74rem; color:rgba(255,255,255,.85); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; }
 
     .stats{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
     .card{
@@ -358,7 +358,7 @@
               </div>
             </div>
           </div>
-          <div id="overFlowText" aria-live="полite"></div>
+          <div id="overFlowText" aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -422,6 +422,8 @@
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 class="steps-title">Покрокова інструкція</h3>
+          <!-- КНОПКА ГОРТАЙ -->
+          <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо">Гортай →</button>
         </div>
 
         <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
@@ -441,7 +443,8 @@
             <p class="step-text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
           </article>
           <article class="step" aria-label="Крок 4">
-            <div class="step-бadge" aria-hidden="true">4</div>
+            <!-- ВАЖНО: тут была опечатка step-бadge → исправлено на step-badge -->
+            <div class="step-badge" aria-hidden="true">4</div>
             <h4 class="step-title">Вибери картку для виплати</h4>
             <p class="step-text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
           </article>
@@ -485,7 +488,7 @@
   <script>
     /* ---------- CONFIG / FALLBACK DATA ---------- */
     const formatter = new Intl.NumberFormat('uk-UA');
-    const fallbackStats = { totalAmount: 33115, donorsCount: 25, orphanagesCount: 6, itemsCount: 116, targetAmount: 50000 };
+    const fallbackStats = { totalAmount: 33115, donorsCount: 24, orphanagesCount: 6, itemsCount: 114, targetAmount: 50000 };
 
     /* ---------- SMALL UTILITIES ---------- */
     const $ = sel => document.querySelector(sel);
@@ -739,20 +742,20 @@
       ctx.stroke();
       ctx.restore();
 
-      /* ---------- Підписи Y (левее и прозрачнее) ---------- */
+      /* ---------- Підписи Y ---------- */
       const rootStyles = getComputedStyle(document.documentElement);
       const scale = parseFloat(rootStyles.getPropertyValue('--chart-font-scale')) || 1;
       const scaleY = parseFloat(rootStyles.getPropertyValue('--chart-font-scale-y')) || scale;
       const scaleX = parseFloat(rootStyles.getPropertyValue('--chart-font-scale-x')) || scale;
 
       ctx.save();
-      ctx.fillStyle = 'rgba(255,255,255,0.72)'; /* было 0.96 → мягче */
+      ctx.fillStyle = 'rgba(255,255,255,0.72)';
       ctx.font = `700 ${Math.max(10, 12 * scaleY)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
       for(let val = niceMin; val <= niceMax + 0.5*step; val += step){
         const yy = y(val);
-        ctx.fillText(formatter.format(Math.max(0, Math.round(val))), pad.l + 2, yy); /* было pad.l + 6 → чуть левее */
+        ctx.fillText(formatter.format(Math.max(0, Math.round(val))), pad.l + 2, yy);
       }
       ctx.restore();
 
@@ -791,7 +794,7 @@
       ctx.stroke();
       ctx.restore();
 
-      /* ---------- Лінія цілі + підпис (опущено чуть ниже) ---------- */
+      /* ---------- Лінія цілі + підпис ---------- */
       if(targetAmount >= niceMin && targetAmount <= niceMax){
         const ty = y(targetAmount);
         ctx.save();
@@ -805,8 +808,8 @@
 
         ctx.fillStyle = 'rgba(255,255,255,0.96)';
         ctx.textAlign = 'right';
-        ctx.textBaseline = 'top'; /* было bottom → теперь под линией */
-        const labelY = Math.min(pad.t + ph - 10, ty + 10); /* чуть ниже линии, но не упирается в низ */
+        ctx.textBaseline = 'top';
+        const labelY = Math.min(pad.t + ph - 10, ty + 10);
         ctx.font = `700 ${Math.max(10, 12 * scaleY)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
         ctx.fillText(`Ціль: ${formatter.format(targetAmount)} ₴`, pad.l+pw-6, labelY);
         ctx.restore();
@@ -934,6 +937,46 @@
       });
     }
 
+    /* ---------- NEW: Scroll button for steps ---------- */
+    function setupStepsScrollButton(){
+      const btn = document.getElementById('scrollSteps');
+      const track = document.getElementById('stepsTrack');
+      if(!btn || !track) return;
+
+      const updateVisibility = () => {
+        const overflow = track.scrollWidth - track.clientWidth > 6;
+        btn.style.display = overflow ? 'inline-flex' : 'none';
+      };
+
+      btn.addEventListener('click', ()=>{
+        const step = Math.max(track.clientWidth * 0.9, 320);
+        const maxLeft = track.scrollWidth - track.clientWidth;
+        const next = Math.min(track.scrollLeft + step, maxLeft);
+        track.scrollTo({ left: next, behavior: 'smooth' });
+
+        // якщо дійшли до кінця — повертаємось на початок для циклу
+        if(next >= maxLeft - 2){
+          setTimeout(()=> track.scrollTo({ left: 0, behavior: 'smooth' }), 600);
+        }
+      });
+
+      // Підтримка клавіатури на самій доріжці
+      track.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){
+          btn.click(); e.preventDefault();
+        }
+        if(e.key === 'ArrowLeft'){
+          const step = Math.max(track.clientWidth * 0.9, 320);
+          track.scrollBy({ left: -step, behavior: 'smooth' });
+          e.preventDefault();
+        }
+      });
+
+      window.addEventListener('resize', updateVisibility);
+      // Початковий стан
+      updateVisibility();
+    }
+
     /* ---------- INIT & DATA FLOW ---------- */
     function initStaticSeries(){
       try{
@@ -1027,6 +1070,9 @@
     window.addEventListener('DOMContentLoaded', ()=>{
       initStaticSeries();
       refreshStatsFromSeries();
+
+      // steps scroll button init
+      setupStepsScrollButton();
 
       if(initCanvas()){
         attachResizers();
