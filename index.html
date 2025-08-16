@@ -382,7 +382,6 @@
 
         <script id="series-data" type="application/json">
           [
-            {"date":"2025-07-30","label":"07.07","amount":10000},
             {"date":"2025-07-30","label":"26.07","amount":15000},
             {"date":"2025-07-30","label":"30.07","amount":16603},
             {"date":"2025-07-31","label":"31.07","amount":17525},
@@ -393,7 +392,8 @@
             {"date":"2025-08-10","label":"10.08","amount":22352},
             {"date":"2025-08-11","label":"11.08","amount":23387},
             {"date":"2025-08-12","label":"12.08","amount":26334},
-            {"date":"2025-08-15","label":"15.08","amount":32155}
+            {"date":"2025-08-15","label":"15.08","amount":32155}, 
+            {"date":"2025-08-15","label":"16.08","amount":33115}
           ]
         </script>
       </article>
@@ -485,7 +485,7 @@
   <script>
     /* ---------- CONFIG / FALLBACK DATA ---------- */
     const formatter = new Intl.NumberFormat('uk-UA');
-    const fallbackStats = { totalAmount: 32155, donorsCount: 24, orphanagesCount: 6, itemsCount: 114, targetAmount: 50000 };
+    const fallbackStats = { totalAmount: 33115, donorsCount: 25, orphanagesCount: 6, itemsCount: 116, targetAmount: 50000 };
 
     /* ---------- SMALL UTILITIES ---------- */
     const $ = sel => document.querySelector(sel);
