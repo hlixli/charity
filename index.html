@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" data-lang="uk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -101,6 +101,7 @@
       border:1px solid var(--glass-border); border-radius:999px; padding:6px;
       backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
       height:var(--mini-nav-h); display:inline-flex; align-items:center; white-space:nowrap;
+      gap:8px;
     }
     .mini-nav ul{ list-style:none; display:flex; gap:6px; padding:0; margin:0; align-items:center; justify-content:center; }
     .mini-nav a{
@@ -112,6 +113,12 @@
     .mini-nav a:hover{ transform: translateY(-1px); }
     .mini-nav a:focus-visible{ box-shadow:0 0 0 3px var(--focus); }
     .mini-nav .active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); }
+
+    /* Lang switch */
+    .lang-switch{ display:inline-flex; gap:4px; align-items:center; background:rgba(255,255,255,.08); border:1px solid var(--glass-border); border-radius:999px; padding:4px; }
+    .lang-btn{ appearance:none; border:none; background:transparent; color:#fff; font-weight:900; font-size:.9rem; padding:6px 10px; border-radius:999px; cursor:pointer; letter-spacing:.04em; }
+    .lang-btn[aria-pressed="true"]{ background:rgba(255,255,255,.22); color:#111; }
+
     @media (min-width:980px){
       body{ padding-bottom:0; }
       .mini-nav{ top:12px; bottom:auto; height:48px; }
@@ -290,70 +297,74 @@
   <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-inner">
-      <div class="hero-eyebrow" aria-hidden="true">Благодійна ініціатива</div>
-      <h1>Подаруйте книги дітям за «єКнига»</h1>
-      <p class="hero-subtitle">Це <strong>не ваші особисті кошти</strong> — держава надає 908 грн. Ми допомагаємо прозоро спрямувати їх на книжки для дитячих будинків.</p>
+      <div class="hero-eyebrow" aria-hidden="true" data-i18n="hero_eyebrow">Благодійна ініціатива</div>
+      <h1 data-i18n="hero_title">Подаруйте книги дітям за «єКнига»</h1>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">Це <strong>не ваші особисті кошти</strong> — держава надає 908 грн. Ми допомагаємо прозоро спрямувати їх на книжки для дитячих будинків.</p>
     </div>
   </header>
 
   <!-- MINI NAV -->
-  <nav class="mini-nav" aria-label="Швидка навігація сайтом">
-    <ul role="tablist" aria-label="Навігація сторінкою">
-      <li><a href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
-      <li><a href="#guide" data-nav role="tab" aria-controls="guide" aria-selected="false">Інструкція</a></li>
-      <li><a href="#faq" data-nav role="tab" aria-controls="faq" aria-selected="false">FAQ</a></li>
+  <nav class="mini-nav" aria-label="Швидка навігація сайтом" data-i18n-aria-label="mini_nav_label">
+    <ul role="tablist" aria-label="Навігація сторінкою" data-i18n-aria-label="mini_nav_tabs_label">
+      <li><a href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active" data-i18n="nav_stats">Статистика</a></li>
+      <li><a href="#guide" data-nav role="tab" aria-controls="guide" aria-selected="false" data-i18n="nav_guide">Інструкція</a></li>
+      <li><a href="#faq" data-nav role="tab" aria-controls="faq" aria-selected="false" data-i18n="nav_faq">FAQ</a></li>
     </ul>
+    <div class="lang-switch" role="group" aria-label="Language switcher">
+      <button class="lang-btn" data-set-lang="uk" aria-pressed="true">UA</button>
+      <button class="lang-btn" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
   </nav>
 
   <div class="container">
     <!-- Статистика -->
     <section id="stats">
-      <div class="dashboard-title">Статистика ініціативи</div>
+      <div class="dashboard-title" data-i18n="dashboard_title">Статистика ініціативи</div>
       <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
 
-      <div class="stats" aria-label="Ключова статистика ініціативи">
-        <div class="card" aria-label="Зібрано гривень">
-          <h3>Зібрано (₴)</h3>
+      <div class="stats" aria-label="Ключова статистика ініціативи" data-i18n-aria-label="stats_aria">
+        <div class="card" aria-label="Зібрано гривень" data-i18n-aria-label="card_total_aria">
+          <h3 data-i18n="card_total_title">Зібрано (₴)</h3>
           <div class="value" id="totalAmount">0</div>
-          <div class="stat-footnote">Завдяки благодійникам</div>
+          <div class="stat-footnote" data-i18n="card_total_foot">Завдяки благодійникам</div>
         </div>
 
-        <div class="card card--participants" aria-label="Кількість благодійників">
-          <h3>Учасників</h3>
+        <div class="card card--participants" aria-label="Кількість благодійників" data-i18n-aria-label="card_donors_aria">
+          <h3 data-i18n="card_donors_title">Учасників</h3>
           <div class="value" id="donorsCount">0</div>
-          <div class="stat-footnote">Людей, які долучилися</div>
+          <div class="stat-footnote" data-i18n="card_donors_foot">Людей, які долучилися</div>
         </div>
 
-        <div class="card" aria-label="Дитячі будинки">
-          <h3>Дитячих будинків</h3>
+        <div class="card" aria-label="Дитячі будинки" data-i18n-aria-label="card_orphanages_aria">
+          <h3 data-i18n="card_orphanages_title">Дитячих будинків</h3>
           <div class="value" id="orphanagesCount">0</div>
-          <div class="stat-footnote">Заклади, які підтримали</div>
+          <div class="stat-footnote" data-i18n="card_orphanages_foot">Заклади, які підтримали</div>
         </div>
 
-        <div class="card" aria-label="Одиниці книг / матеріалів">
-          <h3>Одиниць книг/матеріалів</h3>
+        <div class="card" aria-label="Одиниці книг / матеріалів" data-i18n-aria-label="card_items_aria">
+          <h3 data-i18n="card_items_title">Одиниць книг/матеріалів</h3>
           <div class="value" id="itemsCount">0</div>
-          <div class="stat-footnote">Передано</div>
+          <div class="stat-footnote" data-i18n="card_items_foot">Передано</div>
         </div>
       </div>
 
       <!-- До цілі -->
       <div class="goal-section">
-        <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
+        <div class="goal-card" aria-label="Прогрес до цілі збору коштів" data-i18n-aria-label="goal_card_aria">
           <div class="goal-header">
-            <h3>До цілі (₴)</h3>
+            <h3 data-i18n="goal_title">До цілі (₴)</h3>
             <div class="last-updated" id="goalUpdated"></div>
           </div>
           <div class="goal-amounts">
-            <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
+            <div class="large-number" aria-label="Залишилось до цілі" id="remaining" data-i18n-aria-label="remaining_aria">0</div>
             <div style="flex:1; min-width:220px;">
               <div class="progress-container">
                 <div class="progress-bar-wrapper" aria-hidden="true">
                   <div class="progress-fill" id="progressFill">0%</div>
                 </div>
                 <div class="goal-meta" aria-live="polite">
-                  <div id="percentText">0% зібрано</div>
-                  <div id="toGoalText">Залишилось 0 ₴</div>
+                  <div id="percentText">0%</div>
+                  <div id="toGoalText"></div>
                 </div>
               </div>
             </div>
@@ -364,13 +375,13 @@
     </section>
 
     <!-- Інфографіка -->
-    <section id="insights" class="info-block" aria-label="Інфографіка ініціативи" data-target="50000">
-      <h2>Інфографіка</h2>
+    <section id="insights" class="info-block" aria-label="Інфографіка ініціативи" data-i18n-aria-label="insights_aria" data-target="50000">
+      <h2 data-i18n="insights_title">Інфографіка</h2>
 
-      <article class="chart-card" aria-label="Графік зростання зібраної суми за днями">
+      <article class="chart-card" aria-label="Графік зростання зібраної суми за днями" data-i18n-aria-label="chart_article_aria">
         <div class="chart-toolbar">
           <div class="left">
-            <div class="chip">Період: <b id="periodLabel">—</b></div>
+            <div class="chip"><span data-i18n="period_prefix">Період:</span> <b id="periodLabel">—</b></div>
           </div>
         </div>
 
@@ -391,7 +402,7 @@
             {"date":"2025-08-10","label":"10.08","amount":22352},
             {"date":"2025-08-11","label":"11.08","amount":23387},
             {"date":"2025-08-12","label":"12.08","amount":26334},
-            {"date":"2025-08-15","label":"15.08","amount":32155}, 
+            {"date":"2025-08-15","label":"15.08","amount":32155},
             {"date":"2025-08-15","label":"16.08","amount":33115},
             {"date":"2025-08-09","label":"19.08","amount":34016}
           ]
@@ -401,93 +412,302 @@
 
     <!-- Контакт -->
     <div class="contact">
-      <p>Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
-      <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
+      <p data-i18n="contact_text">Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
+      <a href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram" data-i18n="contact_btn" data-i18n-aria-label="contact_btn_aria">Зв'язатися в Telegram</a>
     </div>
 
     <!-- Інформація + Інструкція -->
-    <section id="guide" class="info-block" aria-label="Інформація про ініціативу та інструкцію">
-      <h2>Про ініціативу</h2>
-      <p>Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.</p>
+    <section id="guide" class="info-block" aria-label="Інформація про ініціативу та інструкцію" data-i18n-aria-label="guide_aria">
+      <h2 data-i18n="about_title">Про ініціативу</h2>
+      <p data-i18n="about_p1">Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.</p>
 
       <div>
-        <p><strong>Як це працює?</strong></p>
+        <p><strong data-i18n="how_title">Як це працює?</strong></p>
         <ul>
-          <li>Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.</li>
-          <li>Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.</li>
-          <li>Ми публічно звітуємо про кожну передачу книжок.</li>
+          <li data-i18n="how_li1">Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.</li>
+          <li data-i18n="how_li2">Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.</li>
+          <li data-i18n="how_li3">Ми публічно звітуємо про кожну передачу книжок.</li>
         </ul>
       </div>
 
-      <div class="steps" aria-label="Покрокова інструкція">
+      <div class="steps" aria-label="Покрокова інструкція" data-i18n-aria-label="steps_aria">
         <div class="steps-header">
-          <h3 class="steps-title">Покрокова інструкція</h3>
+          <h3 class="steps-title" data-i18n="steps_title">Покрокова інструкція</h3>
           <!-- КНОПКА ГОРТАЙ -->
-          <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо">Гортай →</button>
+          <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо" data-i18n="scroll_btn" data-i18n-aria-label="scroll_btn_aria">Гортай →</button>
         </div>
 
-        <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
-          <article class="step" aria-label="Крок 1">
+        <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія" data-i18n-aria-label="steps_track_aria">
+          <article class="step" aria-label="Крок 1" data-i18n-aria-label="step1_aria">
             <div class="step-badge" aria-hidden="true">1</div>
-            <h4 class="step-title">Відкрий застосунок Дія</h4>
-            <p class="step-text">Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.</p>
+            <h4 class="step-title" data-i18n="step1_title">Відкрий застосунок Дія</h4>
+            <p class="step-text" data-i18n="step1_text">Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.</p>
           </article>
-          <article class="step" aria-label="Крок 2">
+          <article class="step" aria-label="Крок 2" data-i18n-aria-label="step2_aria">
             <div class="step-badge" aria-hidden="true">2</div>
-            <h4 class="step-title">Обери послугу «єКнига»</h4>
-            <p class="step-text">Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.</p>
+            <h4 class="step-title" data-i18n="step2_title">Обери послугу «єКнига»</h4>
+            <p class="step-text" data-i18n="step2_text">Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.</p>
           </article>
-          <article class="step" aria-label="Крок 3">
+          <article class="step" aria-label="Крок 3" data-i18n-aria-label="step3_aria">
             <div class="step-badge" aria-hidden="true">3</div>
-            <h4 class="step-title">Ознайомся з умовами</h4>
-            <p class="step-text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
+            <h4 class="step-title" data-i18n="step3_title">Ознайомся з умовами</h4>
+            <p class="step-text" data-i18n="step3_text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
           </article>
-          <article class="step" aria-label="Крок 4">
-            <!-- ВАЖНО: тут была опечатка step-бadge → исправлено на step-badge -->
+          <article class="step" aria-label="Крок 4" data-i18n-aria-label="step4_aria">
+            <!-- ВАЖНО: тут була опечатка step-badge → виправлено -->
             <div class="step-badge" aria-hidden="true">4</div>
-            <h4 class="step-title">Вибери картку для виплати</h4>
-            <p class="step-text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
+            <h4 class="step-title" data-i18n="step4_title">Вибери картку для виплати</h4>
+            <p class="step-text" data-i18n="step4_text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
           </article>
-          <article class="step" aria-label="Крок 5">
+          <article class="step" aria-label="Крок 5" data-i18n-aria-label="step5_aria">
             <div class="step-badge" aria-hidden="true">5</div>
-            <h4 class="step-title">Підтверди заяву</h4>
-            <p class="step-text">Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.</p>
+            <h4 class="step-title" data-i18n="step5_title">Підтверди заяву</h4>
+            <p class="step-text" data-i18n="step5_text">Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.</p>
           </article>
-          <article class="step" aria-label="Крок 6">
+          <article class="step" aria-label="Крок 6" data-i18n-aria-label="step6_aria">
             <div class="step-badge" aria-hidden="true">6</div>
-            <h4 class="step-title">Оплата книжок</h4>
-            <p class="step-text">Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.</p>
+            <h4 class="step-title" data-i18n="step6_title">Оплата книжок</h4>
+            <p class="step-text" data-i18n="step6_text">Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.</p>
           </article>
         </div>
       </div>
 
       <div>
-        <p><strong>Відеоінструкція</strong> — усе просто та швидко:</p>
-        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8Py" title="Відеоінструкція: як оформити картку єКнига" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        <p><strong data-i18n="video_title">Відеоінструкція</strong> <span data-i18n="video_sub">— усе просто та швидко:</span></p>
+        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки" data-i18n-aria-label="video_aria">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8Py" title="Відеоінструкція: як оформити картку єКнига" data-i18n-title="video_iframe_title" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
 
-      <p>Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
+      <p data-i18n="after_video">Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
     </section>
 
     <!-- Звітування -->
     <section id="reports" class="report">
-      <div class="dashboard-title">Звітування</div>
+      <div class="dashboard-title" data-i18n="reports_title">Звітування</div>
       <div class="report-frame">
         <iframe
           src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l%26id%3D100091519694547&show_text=true"
           loading="lazy"
-          title="Facebook звіт">
+          title="Facebook звіт"
+          data-i18n-title="fb_iframe_title">
         </iframe>
       </div>
-      <div class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
+      <div class="report-fallback" data-i18n="report_fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="info-block faq-section" aria-label="Поширені питання" data-i18n-aria-label="faq_aria">
+      <h2 data-i18n="faq_title">Поширені питання</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary data-i18n="faq_q1">Чи це мої власні кошти?</summary>
+          <p data-i18n="faq_a1">Ні. Це кошти державної програми «єКнига», які можна витратити лише на книги. Ми лише допомагаємо спрямувати їх на дитячі будинки.</p>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q2">Скільки часу надходять гроші?</summary>
+          <p data-i18n="faq_a2">Зазвичай до 3 днів після подання заявки у «Дії». Після надходження ти отримаєш посилання на оплату замовлення.</p>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q3">Як ви звітуєте?</summary>
+          <p data-i18n="faq_a3">Ми публікуємо підтвердження передачі книжок у розділі «Звітування» та в соцмережах. Звіти відкриті для всіх.</p>
+        </details>
+      </div>
     </section>
   </div>
 
   <script>
+    /* ---------- i18n: Text resources ---------- */
+    const i18n = {
+      uk: {
+        meta_title: 'Благодійна ініціатива з закупівлі книг',
+        meta_desc: 'Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків',
+        hero_eyebrow: 'Благодійна ініціатива',
+        hero_title: 'Подаруйте книги дітям за «єКнига»',
+        hero_subtitle: 'Це <strong>не ваші особисті кошти</strong> — держава надає 908 грн. Ми допомагаємо прозоро спрямувати їх на книжки для дитячих будинків.',
+        mini_nav_label: 'Швидка навігація сайтом',
+        mini_nav_tabs_label: 'Навігація сторінкою',
+        nav_stats: 'Статистика',
+        nav_guide: 'Інструкція',
+        nav_faq: 'FAQ',
+        dashboard_title: 'Статистика ініціативи',
+        stats_aria: 'Ключова статистика ініціативи',
+        card_total_aria: 'Зібрано гривень',
+        card_total_title: 'Зібрано (₴)',
+        card_total_foot: 'Завдяки благодійникам',
+        card_donors_aria: 'Кількість благодійників',
+        card_donors_title: 'Учасників',
+        card_donors_foot: 'Людей, які долучилися',
+        card_orphanages_aria: 'Дитячі будинки',
+        card_orphanages_title: 'Дитячих будинків',
+        card_orphanages_foot: 'Заклади, які підтримали',
+        card_items_aria: 'Одиниці книг / матеріалів',
+        card_items_title: 'Одиниць книг/матеріалів',
+        card_items_foot: 'Передано',
+        goal_card_aria: 'Прогрес до цілі збору коштів',
+        goal_title: 'До цілі (₴)',
+        remaining_aria: 'Залишилось до цілі',
+        updated_prefix: 'Оновлено',
+        progress_collected_suffix: 'зібрано',
+        to_goal_prefix: 'Залишилось',
+        overflow_label: 'Ціль перевиконано',
+        overflow_text_prefix: 'Перевиконано на',
+        insights_aria: 'Інфографіка ініціативи',
+        insights_title: 'Інфографіка',
+        chart_article_aria: 'Графік зростання зібраної суми за днями',
+        period_prefix: 'Період:',
+        chart_goal_label: 'Ціль',
+        chart_as_of: 'Станом на',
+        chart_daily_plus: 'за день',
+        currency_name: 'гривень',
+        contact_text: 'Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.',
+        contact_btn: 'Зв\'язатися в Telegram',
+        contact_btn_aria: 'Зв\'язатися в Telegram',
+        guide_aria: 'Інформація про ініціативу та інструкцію',
+        about_title: 'Про ініціативу',
+        about_p1: 'Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.',
+        how_title: 'Як це працює?',
+        how_li1: 'Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.',
+        how_li2: 'Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.',
+        how_li3: 'Ми публічно звітуємо про кожну передачу книжок.',
+        steps_aria: 'Покрокова інструкція',
+        steps_title: 'Покрокова інструкція',
+        scroll_btn: 'Гортай →',
+        scroll_btn_aria: 'Гортай кроки вправо',
+        steps_track_aria: 'Кроки оформлення в застосунку Дія',
+        step1_aria: 'Крок 1',
+        step1_title: 'Відкрий застосунок Дія',
+        step1_text: 'Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.',
+        step2_aria: 'Крок 2',
+        step2_title: 'Обери послугу «єКнига»',
+        step2_text: 'Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.',
+        step3_aria: 'Крок 3',
+        step3_title: 'Ознайомся з умовами',
+        step3_text: 'Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.',
+        step4_aria: 'Крок 4',
+        step4_title: 'Вибери картку для виплати',
+        step4_text: 'Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.',
+        step5_aria: 'Крок 5',
+        step5_title: 'Підтверди заяву',
+        step5_text: 'Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.',
+        step6_aria: 'Крок 6',
+        step6_title: 'Оплата книжок',
+        step6_text: 'Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.',
+        video_title: 'Відеоінструкція',
+        video_sub: '— усе просто та швидко:',
+        video_aria: 'Відео інструкція оформлення картки',
+        video_iframe_title: 'Відеоінструкція: як оформити картку єКнига',
+        after_video: 'Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong>',
+        reports_title: 'Звітування',
+        fb_iframe_title: 'Facebook звіт',
+        report_fallback: 'Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.',
+        faq_aria: 'Поширені питання',
+        faq_title: 'Поширені питання',
+        faq_q1: 'Чи це мої власні кошти?',
+        faq_a1: 'Ні. Це кошти державної програми «єКнига», які можна витратити лише на книги. Ми лише допомагаємо спрямувати їх на дитячі будинки.',
+        faq_q2: 'Скільки часу надходять гроші?',
+        faq_a2: 'Зазвичай до 3 днів після подання заявки у «Дії». Після надходження ти отримаєш посилання на оплату замовлення.',
+        faq_q3: 'Як ви звітуєте?',
+        faq_a3: 'Ми публікуємо підтвердження передачі книжок у розділі «Звітування» та в соцмережах. Звіти відкриті для всіх.'
+      },
+      en: {
+        meta_title: 'Charity initiative: buy books for kids',
+        meta_desc: '“yeKnyha” initiative: direct the state-provided 908 UAH to books for children in orphanages',
+        hero_eyebrow: 'Charity Initiative',
+        hero_title: 'Gift books to kids with “yeKnyha”',
+        hero_subtitle: 'These are <strong>not your personal funds</strong> — the state provides 908 UAH. We help transparently direct them to books for orphanages.',
+        mini_nav_label: 'Quick site navigation',
+        mini_nav_tabs_label: 'Page navigation',
+        nav_stats: 'Stats',
+        nav_guide: 'How-to',
+        nav_faq: 'FAQ',
+        dashboard_title: 'Initiative Stats',
+        stats_aria: 'Key stats of the initiative',
+        card_total_aria: 'Total raised in UAH',
+        card_total_title: 'Raised (₴)',
+        card_total_foot: 'Thanks to donors',
+        card_donors_aria: 'Number of donors',
+        card_donors_title: 'Participants',
+        card_donors_foot: 'People who joined',
+        card_orphanages_aria: 'Orphanages',
+        card_orphanages_title: 'Orphanages',
+        card_orphanages_foot: 'Institutions supported',
+        card_items_aria: 'Units of books/materials',
+        card_items_title: 'Units of books/materials',
+        card_items_foot: 'Delivered',
+        goal_card_aria: 'Progress towards goal',
+        goal_title: 'To goal (₴)',
+        remaining_aria: 'Remaining to goal',
+        updated_prefix: 'Updated',
+        progress_collected_suffix: 'collected',
+        to_goal_prefix: 'Remaining',
+        overflow_label: 'Goal exceeded',
+        overflow_text_prefix: 'Exceeded by',
+        insights_aria: 'Initiative infographics',
+        insights_title: 'Infographics',
+        chart_article_aria: 'Daily growth of total raised',
+        period_prefix: 'Period:',
+        chart_goal_label: 'Goal',
+        chart_as_of: 'As of',
+        chart_daily_plus: 'daily',
+        currency_name: 'UAH',
+        contact_text: 'Eligible for <strong>yeKnyha (908 UAH)</strong> and want to fund books for orphanages? Join in — with <strong>no personal cost</strong>.',
+        contact_btn: 'Contact on Telegram',
+        contact_btn_aria: 'Contact on Telegram',
+        guide_aria: 'About and instructions',
+        about_title: 'About the initiative',
+        about_p1: 'We unite donors for children from orphanages and family-type homes. If you are <strong>18+</strong> and eligible for <strong>“yeKnyha”</strong>, you can direct <strong>908 UAH</strong> to books for kids — fast and transparent.',
+        how_title: 'How it works',
+        how_li1: 'The state provides 908 UAH via “yeKnyha” — it can only be spent on books.',
+        how_li2: 'Once funds arrive, you pay for a pre‑prepared order of books for a specific institution.',
+        how_li3: 'We publish transparent reports for every delivery.',
+        steps_aria: 'Step-by-step guide',
+        steps_title: 'Step-by-step guide',
+        scroll_btn: 'Scroll →',
+        scroll_btn_aria: 'Scroll steps right',
+        steps_track_aria: 'Steps in the Diia app',
+        step1_aria: 'Step 1',
+        step1_title: 'Open the Diia app',
+        step1_text: 'Go to the <strong>“Services”</strong> section on the Home screen.',
+        step2_aria: 'Step 2',
+        step2_title: 'Choose “yeKnyha” service',
+        step2_text: 'Find the <strong>“yeKnyha”</strong> card in Services and open it.',
+        step3_aria: 'Step 3',
+        step3_title: 'Review the terms',
+        step3_text: 'Tap <strong>“Start”</strong> and follow the short tips.',
+        step4_aria: 'Step 4',
+        step4_title: 'Select a payout card',
+        step4_text: 'Create or choose a card to receive the <strong>yeKnyha</strong> funds.',
+        step5_aria: 'Step 5',
+        step5_title: 'Submit your application',
+        step5_text: 'Check your data and tap <strong>“Send”</strong>. Funds arrive within <strong>up to 3 days</strong>.',
+        step6_aria: 'Step 6',
+        step6_title: 'Pay for the books',
+        step6_text: 'Once funds arrive, I\'ll send a link to pay for the prepared order.',
+        video_title: 'Video guide',
+        video_sub: '— quick and simple:',
+        video_aria: 'Video guide for card setup',
+        video_iframe_title: 'Video guide: how to get the yeKnyha card',
+        after_video: 'After submitting the application, the card appears instantly, and the funds arrive within <strong>up to 3 days</strong>. <br><strong>Once funds arrive — I\'ll send a link to pay for the books.</strong>',
+        reports_title: 'Reports',
+        fb_iframe_title: 'Facebook report',
+        report_fallback: 'If the post didn\'t load — open it on Facebook or refresh the page.',
+        faq_aria: 'Frequently asked questions',
+        faq_title: 'Frequently asked questions',
+        faq_q1: 'Are these my personal funds?',
+        faq_a1: 'No. These are state “yeKnyha” funds which can only be spent on books. We just help direct them to orphanages.',
+        faq_q2: 'How long do the funds arrive?',
+        faq_a2: 'Usually up to 3 days after submitting the application in Diia. You\'ll receive a payment link once they arrive.',
+        faq_q3: 'How do you report?',
+        faq_a3: 'We publish confirmations of every book delivery in the “Reports” section and on social media. Reports are open to everyone.'
+      }
+    };
+
     /* ---------- CONFIG / FALLBACK DATA ---------- */
-    const formatter = new Intl.NumberFormat('uk-UA');
+    let currentLang = 'uk';
+    let currentLocale = 'uk-UA';
+    let numFmt = new Intl.NumberFormat(currentLocale);
+
     const fallbackStats = { totalAmount: 34016, donorsCount: 25, orphanagesCount: 7, itemsCount: 124, targetAmount: 50000 };
 
     /* ---------- SMALL UTILITIES ---------- */
@@ -495,16 +715,64 @@
     const $$ = sel => Array.from(document.querySelectorAll(sel));
     const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
+    function t(key){
+      return (i18n[currentLang] && i18n[currentLang][key]) || (i18n.uk && i18n.uk[key]) || key;
+    }
+
+    function applyI18n(){
+      // Static text nodes (innerHTML)
+      $$('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(key) el.innerHTML = t(key);
+      });
+      // Attributes
+      $$('[data-i18n-aria-label]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-aria-label');
+        if(key) el.setAttribute('aria-label', t(key));
+      });
+      $$('[data-i18n-title]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-title');
+        if(key) el.setAttribute('title', t(key));
+      });
+      // Document meta
+      document.title = t('meta_title');
+      const md = document.querySelector('meta[name="description"]');
+      if(md) md.setAttribute('content', t('meta_desc'));
+      // Update HTML lang
+      document.documentElement.setAttribute('lang', currentLang === 'en' ? 'en' : 'uk');
+      document.documentElement.setAttribute('data-lang', currentLang);
+    }
+
+    function setLang(lang){
+      currentLang = (lang === 'en') ? 'en' : 'uk';
+      currentLocale = currentLang === 'en' ? 'en-US' : 'uk-UA';
+      numFmt = new Intl.NumberFormat(currentLocale);
+      applyI18n();
+      // Re-render dynamic bits
+      refreshStatsFromSeries();
+      if(canvas && ctx){ resizeCanvas(); drawCanvasChart(1); }
+      // Toggle buttons state
+      $$('.lang-btn').forEach(btn=> btn.setAttribute('aria-pressed', String(btn.dataset.setLang === currentLang)) );
+      // Persist
+      try{ localStorage.setItem('site-lang', currentLang); }catch(e){}
+    }
+
+    function initLang(){
+      const stored = (()=>{ try{ return localStorage.getItem('site-lang'); }catch(e){ return null; } })();
+      const guessed = navigator.language && navigator.language.startsWith('en') ? 'en' : 'uk';
+      setLang(stored || guessed);
+    }
+
     function animateCount(id, endValue, duration=800){
       const el = document.getElementById(id); if(!el) return;
       const startV = 0; const start = performance.now();
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const dur = reduce ? 0 : duration;
       function step(now){
-        const t = clamp((now - start) / dur, 0, 1);
-        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
-        el.textContent = formatter.format(Math.floor(startV + eased * (endValue - startV)));
-        if(t < 1) requestAnimationFrame(step);
+        const ttt = clamp((now - start) / dur, 0, 1);
+        const eased = ttt < 0.5 ? 2*ttt*ttt : -1 + (4 - 2*ttt)*ttt;
+        el.textContent = numFmt.format(Math.floor(startV + eased * (endValue - startV)));
+        if(ttt < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
     }
@@ -522,11 +790,11 @@
       const start = performance.now();
 
       function tick(now){
-        const t = clamp((now - start)/dur, 0, 1);
-        const currentPercent = Math.floor(t * percent);
+        const tt = clamp((now - start)/dur, 0, 1);
+        const currentPercent = Math.floor(tt * percent);
         if(fill){ fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
-        if(percentText){ percentText.textContent = `${currentPercent}% зібрано`; }
-        if(t < 1) requestAnimationFrame(tick);
+        if(percentText){ percentText.textContent = `${currentPercent}% ${t('progress_collected_suffix')}`; }
+        if(tt < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
 
@@ -535,17 +803,18 @@
       const over = currentStats.totalAmount - target;
 
       if(currentStats.totalAmount >= target){
-        toGoalText.textContent = `Ціль перевиконано`;
+        toGoalText.textContent = t('overflow_label');
         overFlowText.className = 'overgoaled';
-        overFlowText.textContent = `Перевиконано на ${formatter.format(over)} ₴`;
-        remainingEl.textContent = formatter.format(0);
+        overFlowText.textContent = `${t('overflow_text_prefix')} ${numFmt.format(over)} ₴`;
+        remainingEl.textContent = numFmt.format(0);
       }else{
-        toGoalText.textContent = `Залишилось ${formatter.format(remaining)} ₴`;
-        remainingEl.textContent = formatter.format(remaining);
+        toGoalText.textContent = `${t('to_goal_prefix')} ${numFmt.format(remaining)} ₴`;
+        remainingEl.textContent = numFmt.format(remaining);
       }
       if(goalUpdated){
         const d = new Date();
-        goalUpdated.textContent = `Оновлено: ${d.toLocaleString('uk-UA', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' })}`;
+        const prefix = t('updated_prefix');
+        goalUpdated.textContent = `${prefix}: ${d.toLocaleString(currentLocale, { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' })}`;
       }
     }
 
@@ -612,7 +881,7 @@
         const key = d.toISOString().slice(0,10);
         const amount = map.amount != null ? Number(String(r[map.amount]).replace(/[^\d.-]/g,'')) : NaN;
         if(!isNaN(amount)){
-          byDay.set(key, { date:key, label: new Date(key).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'}), amount });
+          byDay.set(key, { date:key, label: new Date(key).toLocaleDateString(currentLocale,{day:'2-digit',month:'2-digit'}), amount });
           last.amount = amount; last.date = key;
         }
         if(map.donors != null){ const v = Number(String(r[map.donors]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.donors = v; }
@@ -755,7 +1024,7 @@
       ctx.textBaseline = 'middle';
       for(let val = niceMin; val <= niceMax + 0.5*step; val += step){
         const yy = y(val);
-        ctx.fillText(formatter.format(Math.max(0, Math.round(val))), pad.l + 2, yy);
+        ctx.fillText(numFmt.format(Math.max(0, Math.round(val))), pad.l + 2, yy);
       }
       ctx.restore();
 
@@ -811,7 +1080,7 @@
         ctx.textBaseline = 'top';
         const labelY = Math.min(pad.t + ph - 10, ty + 10);
         ctx.font = `700 ${Math.max(10, 12 * scaleY)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
-        ctx.fillText(`Ціль: ${formatter.format(targetAmount)} ₴`, pad.l+pw-6, labelY);
+        ctx.fillText(`${t('chart_goal_label')}: ${numFmt.format(targetAmount)} ₴`, pad.l+pw-6, labelY);
         ctx.restore();
       }
 
@@ -858,7 +1127,8 @@
         if(tip){
           tip.style.display = 'block';
           tip.setAttribute('aria-hidden','false');
-          tip.innerHTML = `<strong>${s.label}</strong> — ${formatter.format(s.amount)} ₴${delta!=null ? ` <span style="opacity:.9;">(＋${formatter.format(delta)})</span>` : ''}`;
+          const deltaStr = (delta!=null) ? ` <span style="opacity:.9;">(+${numFmt.format(delta)})</span>` : '';
+          tip.innerHTML = `<strong>${s.label}</strong> — ${numFmt.format(s.amount)} ₴${deltaStr}`;
 
           const wrapRect = wrap.getBoundingClientRect();
           const tipBoxWidth = tip.getBoundingClientRect().width || 160;
@@ -877,13 +1147,16 @@
         const last = currentSeries[currentSeries.length-1];
         const prev = currentSeries.length>1 ? currentSeries[currentSeries.length-2] : null;
         const delta = prev ? last.amount - prev.amount : 0;
-        live.textContent = `Станом на ${last.label}: ${formatter.format(last.amount)} гривень${prev ? ` (за день +${formatter.format(delta)})` : ''}`;
+        const asOf = t('chart_as_of');
+        const daily = t('chart_daily_plus');
+        const currencyName = t('currency_name');
+        live.textContent = `${asOf} ${last.label}: ${numFmt.format(last.amount)} ${currencyName}${prev ? ` (${daily} +${numFmt.format(delta)})` : ''}`;
       }
 
       const periodLabel = $('#periodLabel');
       if(periodLabel && currentSeries.length){
-        const s = new Date(currentSeries[0].date).toLocaleDateString('uk-UA');
-        const e = new Date(currentSeries[currentSeries.length-1].date).toLocaleDateString('uk-UA');
+        const s = new Date(currentSeries[0].date).toLocaleDateString(currentLocale);
+        const e = new Date(currentSeries[currentSeries.length-1].date).toLocaleDateString(currentLocale);
         periodLabel.textContent = `${s} — ${e}`;
       }
     }
@@ -894,9 +1167,9 @@
       const t0 = performance.now();
       const dur = 1000;
       function tick(now){
-        const t = clamp((now - t0)/dur, 0, 1);
-        drawCanvasChart(t);
-        if(t < 1) requestAnimationFrame(tick);
+        const ttt = clamp((now - t0)/dur, 0, 1);
+        drawCanvasChart(ttt);
+        if(ttt < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
@@ -934,6 +1207,11 @@
         if(highlightIndex == null) highlightIndex = currentSeries.length-1;
         if(e.key === 'ArrowLeft'){ highlightIndex = clamp(highlightIndex-1, 0, currentSeries.length-1); drawCanvasChart(1); e.preventDefault(); }
         if(e.key === 'ArrowRight'){ highlightIndex = clamp(highlightIndex+1, 0, currentSeries.length-1); drawCanvasChart(1); e.preventDefault(); }
+      });
+
+      // Lang buttons
+      $$('.lang-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=> setLang(btn.dataset.setLang));
       });
     }
 
@@ -1068,7 +1346,9 @@
     }
 
     window.addEventListener('DOMContentLoaded', ()=>{
+      initLang();
       initStaticSeries();
+      applyI18n();
       refreshStatsFromSeries();
 
       // steps scroll button init
