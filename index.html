@@ -413,8 +413,8 @@
             {"date":"2025-08-11","label":"11.08","amount":23387},
             {"date":"2025-08-12","label":"12.08","amount":26334},
             {"date":"2025-08-15","label":"15.08","amount":32155}, 
-            {"date":"2025-08-15","label":"16.08","amount":33115},
-            {"date":"2025-08-09","label":"19.08","amount":34016}
+            {"date":"2025-08-09","label":"19.08","amount":34016},
+            {"date":"2025-08-15","label":"31.10","amount":36142}
           ]
         </script>
       </article>
@@ -660,7 +660,7 @@
     let dateLocale   = locale === 'en' ? 'en-GB' : 'uk-UA';
     let formatter    = new Intl.NumberFormat(numberLocale);
 
-    const fallbackStats = { totalAmount: 34016, donorsCount: 25, orphanagesCount: 7, itemsCount: 124, targetAmount: 50000 };
+    const fallbackStats = { totalAmount: 36142, donorsCount: 26, orphanagesCount: 7, itemsCount: 146, targetAmount: 50000 };
 
     /* ---------- SMALL UTILITIES ---------- */
     const $ = sel => document.querySelector(sel);
