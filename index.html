@@ -174,7 +174,7 @@
     .steps-header{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .steps-title{ margin:0; font-size:clamp(1.2rem,2vw,1.4rem); font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; }
     .steps-button{ font-size:.9rem; color:rgba(20,20,20,0.95); background:linear-gradient(135deg,#CCF2FF,#FFF380); padding:10px 14px; border-radius:10px; border:1px solid var(--glass-border); display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-weight:800; box-shadow:none; }
-    .steps-button:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+    .steps-button:focus-visible{ outline:3px solid var(--focus); }
 
     .steps-track{
       display:grid; grid-auto-flow:column; grid-auto-columns:minmax(340px,1fr);
@@ -401,9 +401,10 @@
           <div id="chartLive" class="sr-only" aria-live="polite"></div>
         </div>
 
+        <!-- FIXED: даты синхронизированы с лейблами и уникальны -->
         <script id="series-data" type="application/json">
           [
-            {"date":"2025-07-30","label":"26.07","amount":15000},
+            {"date":"2025-07-26","label":"26.07","amount":15000},
             {"date":"2025-07-30","label":"30.07","amount":16603},
             {"date":"2025-07-31","label":"31.07","amount":17525},
             {"date":"2025-08-01","label":"01.08","amount":18535},
@@ -411,9 +412,9 @@
             {"date":"2025-08-05","label":"05.08","amount":20452},
             {"date":"2025-08-10","label":"10.08","amount":22352},
             {"date":"2025-08-12","label":"12.08","amount":26334},
-            {"date":"2025-08-15","label":"15.08","amount":32155}, 
-            {"date":"2025-08-09","label":"19.08","amount":34016},
-            {"date":"2025-08-15","label":"31.10","amount":36142}
+            {"date":"2025-08-15","label":"15.08","amount":32155},
+            {"date":"2025-08-19","label":"19.08","amount":34016},
+            {"date":"2025-10-31","label":"31.10","amount":36142}
           ]
         </script>
       </article>
