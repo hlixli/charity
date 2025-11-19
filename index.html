@@ -3,1407 +3,976 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Благодійна ініціатива з закупівлі книг</title>
-  <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
-  <meta name="theme-color" content="#7423F0" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- Шрифт для стабільних цифр на графіку -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>БФ «Світогляд» — єКнига та зимова 1000 на книги й пластик для ЗСУ</title>
+  <meta name="description" content="БО «БФ Світогляд» та Крафторіум: спрямовуємо єКнига (908 грн) на книжки для дітей та зимову 1000 від держави на пластик для друку виробів для ЗСУ. Усі платежі — через рахунки фонду." />
+  <meta name="theme-color" content="#020617" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg-gradient: linear-gradient(135deg, #5B2EFF 0%, #7423F0 100%);
+      /* Базові кольори */
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 40%, #020617 80%);
       --bg-blur: 32px;
       --accent: #FFF380;
       --accent-light: #CCF2FF;
       --radius: 16px;
-      --shadow: 0 12px 36px -4px rgba(0,0,0,0.35);
-      --transition: .35s cubic-bezier(.4,.2,.2,1);
+      --shadow: 0 12px 36px -4px rgba(0,0,0,0.45);
+      --transition: .3s cubic-bezier(.4,0,.2,1);
       --text: #FFFFFF;
-      --glass-bg: rgba(255,255,255,0.08);
-      --glass-bg-hover: rgba(255,255,255,0.14);
-      --glass-border: rgba(255,255,255,0.16);
+      --glass-bg: rgba(15, 23, 42, 0.6);
+      --glass-bg-hover: rgba(30, 41, 59, 0.7);
+      --glass-border: rgba(255,255,255,0.12);
       --focus: #FFF380;
       --step-radius: 20px;
-      --safe-bottom: env(safe-area-inset-bottom);
-      --mini-nav-h: 54px;
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --mini-nav-h: 56px;
 
-      /* ---- Налаштування нового Canvas-графіка ---- */
-      --chart-ar: 720 / 540;         /* вищий графік на мобільних */
-      --chart-y-steps: 4;
-      --chart-font-scale: .84;       /* зменшені підписи */
-      --chart-font-scale-y: var(--chart-font-scale);
-      --chart-font-scale-x: calc(var(--chart-font-scale) * .9);
-      --chart-min-h: 320px;
+      /* Графік */
+      --chart-ar: 720 / 480;
+      --chart-min-h: 300px;
     }
 
-    *{ box-sizing: border-box; }
-    html,body{ height:100%; }
+    *, *::before, *::after { box-sizing: border-box; }
+    
+    html { 
+      scroll-behavior: smooth; 
+      height: 100%;
+    }
 
-    html, body { overflow-x: hidden; }
-    @supports (overflow: clip) { html, body { overflow-x: clip; } }
-    img, video, iframe { max-width: 100%; height: auto; }
-
-    html { scroll-behavior: smooth; }
-    body{
-      margin:0;
-      font-family:'Montserrat',system-ui,-apple-system,sans-serif;
-      color:var(--text);
+    body {
+      margin: 0;
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      color: var(--text);
       -webkit-font-smoothing: antialiased;
-      line-height:1.5;
-      min-height:100vh;
-      background:#5B2EFF;
-      isolation:isolate;
-      padding-bottom: calc(var(--mini-nav-h) + max(8px, var(--safe-bottom)));
+      line-height: 1.5;
+      min-height: 100vh;
+      background: #020617;
+      padding-bottom: calc(var(--mini-nav-h) + 20px);
+      overflow-x: hidden;
     }
-    body::before{
-      content:"";
-      position:fixed; inset:-60px; z-index:-1; pointer-events:none;
-      background:var(--bg-gradient); filter: blur(var(--bg-blur));
-    }
-    @supports not ((filter: blur(1px))) { body::before{ inset:0; filter:none; } }
 
-    a{ color:inherit; text-decoration:none; word-break:break-word; }
+    /* Фон */
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -1;
+      background: var(--bg-gradient);
+    }
+    
+    /* Декоративні плями */
+    .glow-spot {
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      filter: blur(80px); opacity: 0.25; pointer-events: none; z-index: -1;
+    }
+    .glow-spot.blue { background: #38BDF8; top: -100px; left: -100px; }
+    .glow-spot.green { background: #22C55E; bottom: 10%; right: -100px; }
 
-    /* ===== HERO ===== */
-    .hero{ position:relative; padding:clamp(32px,7vw,64px) 16px clamp(22px,5vw,40px); text-align:center; }
-    .hero-inner{
-      max-width:900px; margin:0 auto;
-      background: color-mix(in oklab, white 6%, transparent);
-      border:1px solid var(--glass-border); border-radius:28px;
-      padding:clamp(24px,7vw,44px) clamp(20px,6vw,48px);
-      backdrop-filter:saturate(130%) blur(10px); box-shadow:var(--shadow);
+    a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: 0.8; }
+    img, iframe { max-width: 100%; height: auto; display: block; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: clamp(40px, 8vw, 80px) 16px 40px;
+      text-align: center;
     }
-    .hero-eyebrow{
-      display:inline-flex; gap:8px; align-items:center; padding:6px 10px;
-      border-radius:999px; border:1px solid var(--glass-border);
-      background:var(--glass-bg); font-size:.84rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.92);
+    .hero-inner {
+      max-width: 960px; margin: 0 auto;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--glass-border); border-radius: 28px;
+      padding: clamp(24px, 6vw, 48px);
+      backdrop-filter: blur(20px); 
+      box-shadow: var(--shadow);
     }
-    .hero h1{
-      margin:12px 0 10px; font-size:clamp(1.7rem,5.2vw,2.8rem);
-      font-weight:800; letter-spacing:.6px; line-height:1.15;
-      background: linear-gradient(92deg, #FFFFFF, var(--accent));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; padding: 6px 12px;
+      border-radius: 99px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); 
+      font-size: .75rem; font-weight: 800; letter-spacing: .1em; 
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      margin: 10px 0 16px; font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
       text-wrap: balance;
     }
-    .hero-subtitle{ margin:6px auto 0; max-width:48ch; font-size:clamp(1rem,3vw,1.16rem); color:rgba(255,255,255,.94); text-wrap: balance; }
-    .hero::after,.hero::before{
-      content:""; position:absolute; inset:auto; width:420px; height:420px; filter:blur(60px); z-index:-1; opacity:.35; pointer-events:none; border-radius:50%;
+    .hero-subtitle {
+      margin: 0 auto 24px; max-width: 60ch; 
+      font-size: clamp(1rem, 2.5vw, 1.2rem); 
+      color: #cbd5e1; text-wrap: balance;
     }
-    .hero::before{ background: radial-gradient(circle at 30% 30%, #CCF2FF, transparent 60%); left:-120px; top:-80px; }
-    .hero::after{ background: radial-gradient(circle at 70% 70%, #FFF380, transparent 60%); right:-120px; bottom:-80px; }
-
-    /* ===== MINI NAV ===== */
-    .mini-nav{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:max(10px, var(--safe-bottom)); z-index:50;
-      background:rgba(255,255,255,0.10);
-      border:1px solid var(--glass-border); border-radius:999px; padding:6px;
-      backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
-      height:var(--mini-nav-h); display:inline-flex; align-items:center; white-space:nowrap;
+    .hero-badge-row {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     }
-    .mini-nav ul{ list-style:none; display:flex; gap:6px; padding:0; margin:0; align-items:center; justify-content:center; }
-    .mini-nav a{
-      position:relative; display:inline-flex; align-items:center; justify-content:center;
-      height:40px; padding:0 14px; border-radius:12px; border:1px solid var(--glass-border);
-      background:rgba(255,255,255,0.06); font-weight:800; font-size:.95rem; color:rgba(255,255,255,.95);
-      letter-spacing:.2px; outline:none; transition: transform .18s ease, background .2s ease, border-color .2s ease;
-    }
-    .mini-nav a:hover{ transform: translateY(-1px); }
-    .mini-nav a:focus-visible{ box-shadow:0 0 0 3px var(--focus); }
-    .mini-nav .active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); }
-    @media (min-width:980px){
-      body{ padding-bottom:0; }
-      .mini-nav{ top:12px; bottom:auto; height:48px; }
-      .mini-nav a{ height:36px; }
+    .hero-badge {
+      padding: 6px 12px; border-radius: 8px; 
+      background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.1);
+      font-size: .8rem; font-weight: 600; color: #94a3b8;
     }
 
-    /* ===== LANG SWITCH ===== */
-    .lang-switch{
-      position:fixed; right:12px; top:12px; z-index:60;
-      display:flex; gap:6px; align-items:center;
-      background:rgba(255,255,255,0.10); border:1px solid var(--glass-border); border-radius:999px; padding:4px;
-      backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
+    /* MINI NAV */
+    .mini-nav {
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: max(16px, var(--safe-bottom)); z-index: 100;
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid var(--glass-border); border-radius: 99px;
+      padding: 4px; backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      display: flex; gap: 4px;
     }
-    .lang-switch button{
-      appearance:none; border:none; cursor:pointer;
-      padding:8px 12px; border-radius:999px; font-weight:900; font-size:.92rem; letter-spacing:.04em;
-      background:rgba(255,255,255,0.06); color:#fff; border:1px solid var(--glass-border); transition: transform .15s ease, background .2s ease;
+    .mini-nav a {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px; padding: 0 18px; border-radius: 22px;
+      font-weight: 700; font-size: .9rem; color: #94a3b8;
+      transition: all .25s ease;
+      white-space: nowrap;
     }
-    .lang-switch button.active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); color:#FFF380; }
-    .lang-switch button:focus-visible{ outline:3px solid var(--focus); }
-
-    /* ===== BASE LAYOUT ===== */
-    .container{ max-width:1100px; margin:0 auto; padding:0 14px 68px; }
-
-    .dashboard-title{ font-size:1.95rem; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; text-align:center; color:var(--accent); margin:6px 0 8px; text-shadow:1px 1px 4px rgba(0,0,0,0.3); }
-    .dashboard-kicker{ text-align:center; font-size:.74rem; color:rgba(255,255,255,.85); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; }
-
-    .stats{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
-    .card{
-      background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius);
-      padding:20px 18px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:10px;
-      min-height:150px; transition: transform var(--transition), background var(--transition), box-shadow var(--transition); box-shadow:var(--shadow);
+    .mini-nav a.active {
+      background: #1e293b; color: #fff; border: 1px solid rgba(255,255,255,0.1);
     }
-    .card:hover{ transform:translateY(-4px); background:var(--glass-bg-hover); }
-    .card h3{ font-size:1.18rem; font-weight:700; margin:0; color:var(--accent); letter-spacing:.5px; text-transform:uppercase; line-height:1.2; }
-    .card .value{ font-size:clamp(2rem,4vw,2.6rem); font-weight:800; color:var(--accent-light); line-height:1.1; display:block; }
-    .stat-footnote{ font-size:.78rem; color:rgba(255,255,255,0.82); }
-    .card--participants h3{ font-size:1.32rem; }
-
-    .goal-section{ margin-top:8px; display:flex; flex-wrap:wrap; gap:16px; }
-    .goal-card{ flex:1 1 100%; background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius); padding:22px 18px; display:flex; flex-direction:column; gap:14px; box-shadow:var(--shadow); }
-    .goal-header{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; }
-    .goal-header h3{ margin:0; font-size:1.12rem; font-weight:800; text-transform:uppercase; color:var(--accent); flex:1; letter-spacing:.5px; }
-    .goal-amounts{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:center; }
-    .large-number{ font-size:clamp(2rem,5.6vw,2.6rem); font-weight:800; color:#fff; background:rgba(255,255,255,0.08); padding:12px 18px; border-radius:12px; min-width:160px; text-align:center; position:relative; border:1px solid var(--glass-border); }
-    .progress-container{ margin-top:2px; }
-    .progress-bar-wrapper{ position:relative; height:22px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; border:1px solid var(--glass-border); }
-    .progress-fill{ height:100%; width:0; background: linear-gradient(90deg, #CCF2FF 0%, #FFF380 100%); border-radius:999px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:.78rem; font-weight:800; color:#1A1A1A; will-change: width; transition: width .6s ease; }
-    .goal-meta{ display:flex; justify-content:space-between; font-size:.9rem; margin-top:6px; flex-wrap:wrap; gap:6px; color:#fff; }
-    .overgoaled{ background:rgba(160,255,184,0.15); border-radius:8px; padding:8px 12px; font-size:.9rem; font-weight:700; color:#A0FFB8; display:inline-block; margin-top:6px; align-self:start; border:1px solid rgba(160,255,184,0.35); }
-    .last-updated{ font-size:.7rem; color:rgba(255,255,255,0.72); }
-
-    .info-block{ background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius); padding:24px 18px; margin:28px 0; display:flex; flex-direction:column; gap:18px; box-shadow:var(--shadow); }
-    .info-block h2{ font-size:clamp(1.4rem,2.2vw,1.7rem); font-weight:800; margin:0; color:var(--accent); text-transform:uppercase; letter-spacing:1px; text-shadow:1px 1px 2px rgba(0,0,0,0.25); }
-    .info-block p,.info-block li{ font-size:1rem; color:#fff; }
-    .info-block strong{ color:#FFEB99; font-weight:800; }
-    .info-block ul{ list-style:disc inside; margin:6px 0 0; }
-
-    .steps{ display:grid; gap:14px; }
-    .steps-header{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-    .steps-title{ margin:0; font-size:clamp(1.2rem,2vw,1.4rem); font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; }
-    .steps-button{ font-size:.9rem; color:rgba(20,20,20,0.95); background:linear-gradient(135deg,#CCF2FF,#FFF380); padding:10px 14px; border-radius:10px; border:1px solid var(--glass-border); display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-weight:800; box-shadow:none; }
-    .steps-button:focus-visible{ outline:3px solid var(--focus); }
-
-    .steps-track{
-      display:grid; grid-auto-flow:column; grid-auto-columns:minmax(340px,1fr);
-      gap:16px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-inline:contain;
-      scroll-snap-type:x mandatory; padding:6px 2px 10px; scrollbar-width:thin; -webkit-overflow-scrolling:touch;
-    }
-    .steps-track::-webkit-scrollbar{ height:8px; }
-    .steps-track::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.25); border-radius:999px; }
-
-    .step{
-      scroll-snap-align:start; background:var(--glass-bg); border:1px solid var(--glass-border);
-      border-radius:var(--step-radius); padding:24px; display:grid; grid-template-columns:auto 1fr; grid-template-areas:"badge title" "badge text";
-      column-gap:16px; row-gap:10px; min-height:260px; backdrop-filter:saturate(120%) blur(8px);
-    }
-    .step-badge{ grid-area:badge; width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#CCF2FF,#FFF380); color:#1A1A1A; display:grid; place-items:center; font-weight:900; font-size:1.15rem; }
-    .step-title{ grid-area:title; margin:0; font-weight:800; font-size:1.16rem; color:var(--accent-light); letter-spacing:.3px; align-self:center; }
-    .step-text{ grid-area:text; margin:0; font-size:1.06rem; color:#fff; }
-
-    .video-wrapper{ position:relative; width:100%; padding-top:56.25%; border-radius:12px; overflow:hidden; box-shadow:0 12px 36px rgba(0,0,0,0.35); background:#1f1f35; border:1px solid var(--glass-border); }
-    .video-wrapper iframe{ position:absolute; inset:0; width:100%; height:100%; border:none; }
-
-    .report{ margin-top:40px; display:flex; flex-direction:column; gap:14px; }
-    .report .dashboard-title{ margin-bottom:8px; }
-    .report-frame{ position:relative; width:100%; max-width:580px; border-radius:14px; overflow:hidden; box-shadow:var(--shadow); background:var(--glass-bg); margin-inline:auto; border:1px solid var(--glass-border); }
-    .report-frame iframe{ width:100%; height:100%; aspect-ratio:500/825; border:none; }
-    .report-fallback{ font-size:.9rem; background:rgba(255,255,255,0.06); padding:12px 16px; border-radius:10px; display:inline-block; margin-top:6px; border:1px solid var(--glass-border); }
-
-    .contact{ text-align:center; margin:30px 0 10px; padding:0 10px; }
-    .contact p{ margin-bottom:12px; font-size:1rem; line-height:1.4; }
-    .contact-button{
-      display:inline-block; padding:14px 30px; background:#FFFFFF; color:#7423F0; font-weight:800; border-radius:50px; text-decoration:none;
-      box-shadow:0 12px 32px -4px rgba(0,0,0,0.3); transition: transform var(--transition), filter .3s, box-shadow var(--transition);
-    }
-    .contact-button:hover{ transform:translateY(-2px); filter:brightness(1.05); }
-    .contact-button:focus-visible{ outline:3px solid var(--focus); }
-
-    /* ===== FAQ ===== */
-    .faq-section h2{ text-align:center; color:var(--accent); margin-top:0; }
-    .faq-list{ display:flex; flex-direction:column; gap:10px; }
-    .faq-item{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px; transition:max-height .3s ease-in-out; }
-    .faq-item[open] summary{ color:var(--accent); }
-    .faq-item summary{ font-weight:800; cursor:pointer; list-style-position:inside; outline:none; }
-    .faq-item summary:focus-visible{ outline:3px solid var(--focus); border-radius:8px; outline-offset:3px; }
-    .faq-item p{ margin:12px 0 0 0; padding-left:10px; border-left:2px solid var(--accent); font-size:.95rem; color:rgba(255,255,255,0.9); line-height:1.6; }
-    .faq-item.closing{ animation: closing-animation .3s ease-out; }
-    @keyframes closing-animation{ from{ opacity:1; max-height:300px; } to{ opacity:0; max-height:48px; } }
-    summary::marker{ content:'＋ '; color:var(--accent); font-size:1.2em; }
-    details[open] summary::marker{ content:'− '; }
-
-    /* ===== ІНФОГРАФІКА — НОВИЙ CANVAS-ГРАФІК ===== */
-    .chart-card{
-      background:transparent !important;
-      border:none !important;
-      box-shadow:none !important;
-      padding:0 !important;
-      font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
-    }
-    .chart-card h3{ margin:0; font-size:1.02rem; font-weight:800; letter-spacing:.3px; color:var(--accent); text-transform:uppercase; text-align:center; }
-
-    .chart-toolbar{
-      display:flex; gap:8px; justify-content:space-between; align-items:center; flex-wrap:wrap;
-      margin-bottom:6px;
-    }
-    .chip{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
-      border:1px solid var(--glass-border); background:rgba(255,255,255,0.06); font-weight:700; font-size:.85rem; color:#fff;
-      font-variant-numeric: tabular-nums lining-nums;
-    }
-    .chip b{ color:var(--accent); }
-
-    .chart-wrap{
-      width:100%;
-      position:relative;
-      aspect-ratio: var(--chart-ar);
-      min-height: var(--chart-min-h);
-      isolation:isolate;
-      user-select:none;
-      -webkit-tap-highlight-color:transparent;
-    }
-    .chart-wrap canvas{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      display:block;
-      touch-action: pan-y;
-    }
-    .chart-tip{
-      position:absolute; top:8px; left:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--glass-border);
-      background:rgba(255,255,255,0.12); backdrop-filter:saturate(140%) blur(8px); box-shadow:var(--shadow);
-      font-size:calc(.86rem * var(--chart-font-scale));
-      pointer-events:none; display:none; white-space:nowrap;
-      font-variant-numeric: tabular-nums lining-nums;
-      font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
-    }
-    .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-
-    @media (min-width:520px){
-      :root{
-        --chart-ar: 720 / 420;
-        --chart-y-steps: 5;
-        --chart-font-scale: .9;
-        --chart-font-scale-y: var(--chart-font-scale);
-        --chart-font-scale-x: calc(var(--chart-font-scale) * .9);
-        --chart-min-h: 280px;
-      }
-      .chip{ font-size:0.82rem; }
-      .chart-tip{ font-size:calc(0.82rem * var(--chart-font-scale)); }
+    .mini-nav a:hover { color: #fff; }
+    @media (min-width: 768px) {
+      .mini-nav { top: 20px; bottom: auto; }
     }
 
-    @media (max-width:980px){
-      .stats{ grid-template-columns:repeat(2,  1fr); }
-      .report{ align-items:center; }
+    /* LANG SWITCH */
+    .lang-switch {
+      position: absolute; top: 20px; right: 20px; z-index: 10;
+      display: flex; gap: 4px; background: rgba(0,0,0,0.3);
+      padding: 4px; border-radius: 99px; border: 1px solid var(--glass-border);
     }
-    @media (max-width:520px){
-      .hero-inner{ padding:22px 18px; }
-      .stats{ grid-template-columns:repeat(2, 1fr); }
-      .card{ min-height:170px; padding:22px 16px; }
-      .card h3{ font-size:1.22rem; }
-      .card--participants h3{ font-size:1.38rem; }
+    .lang-switch button {
+      background: transparent; border: none; color: #94a3b8;
+      padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: .85rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .lang-switch button.active { background: #334155; color: #fff; }
+    .lang-switch button:hover:not(.active) { color: #cbd5e1; }
+
+    /* CONTAINER & LAYOUT */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; position: relative; }
+
+    /* TABS */
+    .initiatives-switch {
+      margin: 0 auto 32px; max-width: 640px;
+      background: #0f172a; border-radius: 99px;
+      border: 1px solid var(--glass-border);
+      padding: 6px; display: flex; position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .initiative-tab {
+      flex: 1; position: relative; z-index: 2;
+      background: transparent; border: none; padding: 10px;
+      border-radius: 99px; cursor: pointer;
+      color: #64748b; transition: color .3s;
+      display: flex; flex-direction: column; align-items: center;
+      font-family: inherit;
+    }
+    .initiative-tab strong { display: block; font-size: .95rem; font-weight: 700; margin-bottom: 2px; }
+    .initiative-tab span { font-size: .75rem; font-weight: 500; opacity: 0.8; }
+    .initiative-tab[aria-selected="true"] { color: #0f172a; }
+
+    .initiative-pill {
+      position: absolute; inset: 6px; width: calc(50% - 6px);
+      border-radius: 99px; z-index: 1;
+      background: linear-gradient(135deg, #38BDF8, #818cf8);
+      transition: transform .3s cubic-bezier(.4,0,.2,1), background .3s;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+    .initiative-pill.plastic {
+      transform: translateX(100%);
+      background: linear-gradient(135deg, #22c55e, #14b8a6);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior:auto; }
-      .card, .contact-button, .progress-fill{ transition:none !important; }
+    .initiative-group { display: none; animation: fadeIn .4s ease; }
+    .initiative-group.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* STATS CARDS */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px; margin-bottom: 16px;
+    }
+    .card {
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 24px; text-align: center;
+      display: flex; flex-direction: column; justify-content: center;
+      min-height: 140px; position: relative; overflow: hidden;
+    }
+    .card h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin: 0 0 8px; }
+    .card .value { font-size: 2.2rem; font-weight: 800; color: #f1f5f9; line-height: 1; }
+    .card .note { font-size: .8rem; color: #64748b; margin-top: 6px; }
+
+    /* GOAL SECTION */
+    .goal-card {
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 24px;
+      display: grid; gap: 16px; margin-bottom: 32px;
+    }
+    .goal-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+    .goal-title { font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+    .goal-updated { font-size: .75rem; color: #64748b; }
+    
+    .goal-visual { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+    .goal-amount { 
+      font-size: 2.4rem; font-weight: 800; padding: 10px 20px; 
+      background: rgba(0,0,0,0.3); border-radius: 12px; 
+      border: 1px solid var(--glass-border); color: #fff;
+    }
+    .progress-wrap { flex: 1; min-width: 200px; }
+    .progress-bar {
+      height: 24px; background: rgba(0,0,0,0.4); border-radius: 12px;
+      overflow: hidden; position: relative; border: 1px solid var(--glass-border);
+    }
+    .progress-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, #38BDF8, #FACC15);
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 8px; font-size: .75rem; font-weight: 800; color: #020617;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .goal-text { display: flex; justify-content: space-between; font-size: .9rem; margin-top: 6px; color: #cbd5e1; }
+
+    /* INFO BLOCK */
+    .section-block {
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: clamp(20px, 5vw, 32px);
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 1.5rem; font-weight: 800; margin: 0 0 16px;
+      color: var(--accent); text-transform: uppercase;
+    }
+    .content-split { display: grid; gap: 32px; }
+    @media (min-width: 800px) { .content-split { grid-template-columns: 1fr 1fr; } }
+    
+    .text-content p { margin-bottom: 16px; color: #e2e8f0; }
+    .text-content ul { padding-left: 20px; color: #e2e8f0; }
+    .text-content li { margin-bottom: 8px; }
+    .text-content strong { color: #fff; }
+
+    /* STEPS HORIZONTAL SCROLL */
+    .steps-container { overflow: hidden; position: relative; }
+    .steps-track {
+      display: flex; gap: 16px; overflow-x: auto; 
+      padding-bottom: 16px; scroll-snap-type: x mandatory;
+      scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    .step-card {
+      flex: 0 0 300px; scroll-snap-align: start;
+      background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .step-num {
+      width: 40px; height: 40px; background: var(--accent); color: #000;
+      border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 1.1rem;
+    }
+    .step-card h4 { margin: 0; font-size: 1.1rem; color: #fff; }
+    .step-card p { margin: 0; font-size: .95rem; color: #cbd5e1; }
+
+    /* BUTTONS */
+    .action-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; background: linear-gradient(135deg, #22c55e, #10b981);
+      color: #fff; font-weight: 700; border-radius: 99px;
+      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+      transition: transform .2s, filter .2s; text-align: center;
+    }
+    .action-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .center-btn-wrap { display: flex; justify-content: center; margin-top: 20px; }
+
+    /* CHART */
+    .chart-wrap {
+      position: relative; width: 100%; 
+      aspect-ratio: var(--chart-ar); min-height: var(--chart-min-h);
+      margin-top: 20px;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+    .chart-tooltip {
+      position: absolute; top: 0; left: 0;
+      background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border);
+      padding: 8px 12px; border-radius: 8px; font-size: .85rem;
+      pointer-events: none; white-space: nowrap; z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4); opacity: 0; transition: opacity .1s;
+    }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 8px;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-summary {
+      padding: 16px 8px; cursor: pointer; font-weight: 700; list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+      color: #e2e8f0;
+    }
+    .faq-summary::-webkit-details-marker { display: none; }
+    .faq-summary::after { content: "+"; font-size: 1.2rem; color: var(--accent); }
+    .faq-item[open] .faq-summary::after { content: "−"; }
+    .faq-content { padding: 0 16px 16px; color: #cbd5e1; line-height: 1.6; }
+
+    /* VIDEO */
+    .video-frame {
+      border-radius: 12px; overflow: hidden; 
+      box-shadow: var(--shadow); border: 1px solid var(--glass-border);
+      aspect-ratio: 16/9;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .card { padding: 16px; min-height: 120px; }
+      .card .value { font-size: 1.6rem; }
+      .goal-visual { justify-content: center; }
     }
   </style>
 </head>
 <body>
+  <div class="glow-spot blue"></div>
+  <div class="glow-spot green"></div>
+
   <!-- LANG SWITCH -->
-  <div class="lang-switch" aria-label="Language">
-    <button type="button" id="btnLangUk" lang="uk" aria-pressed="true" class="active">UA</button>
-    <button type="button" id="btnLangEn" lang="en" aria-pressed="false">EN</button>
+  <div class="lang-switch">
+    <button type="button" id="btnLangUk" class="active">UA</button>
+    <button type="button" id="btnLangEn">EN</button>
   </div>
 
-  <!-- HERO -->
-  <header class="hero" id="top">
-    <div class="hero-inner">
-      <div id="heroEyebrow" class="hero-eyebrow" aria-hidden="true">Благодійна ініціатива</div>
-      <h1 id="heroTitle">Подаруйте книги дітям за «єКнига»</h1>
-      <p id="heroSubtitle" class="hero-subtitle">Це <strong>не ваші особисті кошти</strong> — держава надає 908 грн. Ми допомагаємо прозоро спрямувати їх на книжки для дитячих будинків.</p>
-    </div>
-  </header>
-
   <!-- MINI NAV -->
-  <nav class="mini-nav" aria-label="Швидка навігація сайтом">
-    <ul role="tablist" aria-label="Навігація сторінкою">
-      <li><a id="navStats" href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
-      <li><a id="navGuide" href="#guide" data-nav role="tab" aria-controls="guide" aria-selected="false">Інструкція</a></li>
-      <li><a id="navFAQ"   href="#faq"   data-nav role="tab" aria-controls="faq"   aria-selected="false">FAQ</a></li>
-    </ul>
+  <nav class="mini-nav">
+    <a href="#" data-target-section="stats" id="navStats" class="active">Статистика</a>
+    <a href="#" data-target-section="guide" id="navGuide">Інструкції</a>
+    <a href="#" data-target-section="faq"   id="navFAQ">FAQ</a>
   </nav>
 
   <div class="container">
-    <!-- Статистика -->
-    <section id="stats" aria-label="Ключова статистика ініціативи">
-      <div id="statsTitle" class="dashboard-title">Статистика ініціативи</div>
-      <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
-
-      <div class="stats" aria-label="Ключова статистика ініціативи">
-        <div class="card" aria-label="Зібрано гривень">
-          <h3 id="totalTitle">Зібрано (₴)</h3>
-          <div class="value" id="totalAmount">0</div>
-          <div id="totalFoot" class="stat-footnote">Завдяки благодійникам</div>
-        </div>
-
-        <div class="card card--participants" aria-label="Кількість благодійників">
-          <h3 id="donorsTitle">Учасників</h3>
-          <div class="value" id="donorsCount">0</div>
-          <div id="donorsFoot" class="stat-footnote">Людей, які долучилися</div>
-        </div>
-
-        <div class="card" aria-label="Дитячі будинки">
-          <h3 id="orphTitle">Дитячих будинків</h3>
-          <div class="value" id="orphanagesCount">0</div>
-          <div id="orphFoot" class="stat-footnote">Заклади, які підтримали</div>
-        </div>
-
-        <div class="card" aria-label="Одиниці книг / матеріалів">
-          <h3 id="itemsTitle">Одиниць книг/матеріалів</h3>
-          <div class="value" id="itemsCount">0</div>
-          <div id="itemsFoot" class="stat-footnote">Передано</div>
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow" data-i18n="heroEyebrow">Благодійні ініціативи</div>
+        <h1 data-i18n="heroTitle">єКнига та зимова 1000 — на книги дітям і пластик для ЗСУ</h1>
+        <p class="hero-subtitle" data-i18n="heroSubtitle">
+          Держава надає кошти, а ми допомагаємо спрямувати їх на добрі справи.
+        </p>
+        <div class="hero-badge-row">
+          <div class="hero-badge" data-i18n="badgeBooks">єКнига → Книги</div>
+          <div class="hero-badge" data-i18n="badgePlastic">Зимова 1000 → Пластик ЗСУ</div>
         </div>
       </div>
+    </header>
 
-      <!-- До цілі -->
-      <div class="goal-section">
-        <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
-          <div class="goal-header">
-            <h3 id="goalTitle">До цілі (₴)</h3>
-            <div class="last-updated" id="goalUpdated"></div>
+    <!-- TABS -->
+    <div class="initiatives-switch" role="tablist">
+      <div class="initiative-pill" id="initiativePill"></div>
+      <button class="initiative-tab" id="tabEbook" aria-selected="true">
+        <strong data-i18n="tabEbook">єКнига</strong>
+        <span data-i18n="tabEbookSub">908 грн дітям</span>
+      </button>
+      <button class="initiative-tab" id="tabPlastic" aria-selected="false">
+        <strong data-i18n="tabPlastic">Зимова 1000</strong>
+        <span data-i18n="tabPlasticSub">Пластик для ЗСУ</span>
+      </button>
+    </div>
+
+    <!-- ==== SECTIONS WRAPPER ==== -->
+    
+    <!-- 1. єКНИГА -->
+    <div id="groupEbook" class="initiative-group active">
+      <!-- STATS -->
+      <section id="stats-ebook" class="section-block">
+        <h2 class="section-title" data-i18n="statsTitle">Статистика єКнига</h2>
+        <div class="stats-grid">
+          <div class="card">
+            <h3 data-i18n="totalTitle">Зібрано (₴)</h3>
+            <div class="value" id="statTotal">0</div>
+            <div class="note" data-i18n="totalFoot">Завдяки вам</div>
           </div>
-          <div class="goal-amounts">
-            <div class="large-number" aria-label="Залишилось до цілі" id="remaining">0</div>
-            <div style="flex:1; min-width:220px;">
-              <div class="progress-container">
-                <div class="progress-bar-wrapper" aria-hidden="true">
-                  <div class="progress-fill" id="progressFill">0%</div>
-                </div>
-                <div class="goal-meta" aria-live="polite">
-                  <div id="percentText">0% зібрано</div>
-                  <div id="toGoalText">Залишилось 0 ₴</div>
-                </div>
+          <div class="card">
+            <h3 data-i18n="donorsTitle">Учасників</h3>
+            <div class="value" id="statDonors">0</div>
+            <div class="note" data-i18n="donorsFoot">Осіб долучилось</div>
+          </div>
+          <div class="card">
+            <h3 data-i18n="itemsTitle">Книг/Матеріалів</h3>
+            <div class="value" id="statItems">0</div>
+            <div class="note" data-i18n="itemsFoot">Передано</div>
+          </div>
+        </div>
+
+        <!-- Goal -->
+        <div class="goal-card">
+          <div class="goal-header">
+            <div class="goal-title" data-i18n="goalTitle">Ціль збору</div>
+            <div class="goal-updated" id="goalUpdated">Оновлено: сьогодні</div>
+          </div>
+          <div class="goal-visual">
+            <div class="goal-amount" id="goalRemains">0</div>
+            <div class="progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width:0%">0%</div>
+              </div>
+              <div class="goal-text">
+                <span id="progressText">0% зібрано</span>
+                <span id="targetText">Ціль: 50,000 ₴</span>
               </div>
             </div>
           </div>
-          <div id="overFlowText" aria-live="polite"></div>
         </div>
-      </div>
-    </section>
 
-    <!-- Інфографіка -->
-    <section id="insights" class="info-block" aria-label="Інфографіка ініціативи" data-target="50000">
-      <h2 id="infographicsTitle">Інфографіка</h2>
+        <!-- Chart -->
+        <div class="chart-section">
+          <h3 style="color:#94a3b8; text-transform:uppercase; font-size:0.9rem; margin-bottom:10px;" data-i18n="chartTitle">Динаміка зборів</h3>
+          <div class="chart-wrap" id="chartWrap">
+            <canvas id="growthCanvas"></canvas>
+            <div id="chartTooltip" class="chart-tooltip"></div>
+          </div>
+        </div>
+      </section>
 
-      <article class="chart-card" aria-label="Графік зростання зібраної суми за днями">
-        <div class="chart-toolbar">
-          <div class="left">
-            <div class="chip"><span id="periodWord">Період:</span> <b id="periodLabel">—</b></div>
+      <!-- INFO & GUIDE -->
+      <section id="guide-ebook" class="section-block">
+        <div class="content-split">
+          <div class="text-content">
+            <h2 class="section-title" data-i18n="aboutTitle">Про ініціативу</h2>
+            <p data-i18n="aboutText">
+              Якщо вам виповнилося 18 років, ви можете використати 908 грн від держави (програма єКнига) 
+              для закупівлі книжок у дитячі будинки.
+            </p>
+            <p><strong data-i18n="howItWorks">Як це працює:</strong></p>
+            <ul>
+              <li data-i18n="howStep1">Оформлюєте картку єКнига в Дії.</li>
+              <li data-i18n="howStep2">Отримуєте реквізити фонду (monobank) для оплати книг.</li>
+              <li data-i18n="howStep3">Фонд закуповує книги та звітує про передачу.</li>
+            </ul>
+            <div class="center-btn-wrap">
+              <a href="https://t.me/iamhlixli" target="_blank" class="action-btn" data-i18n="btnContact">Написати в Telegram</a>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="color:#fff; margin-bottom:12px;" data-i18n="videoTitle">Відеоінструкція</h3>
+            <div class="video-frame">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/5qc9-pEs_t4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
 
-        <div class="chart-wrap" id="chartWrap">
-          <canvas id="growthCanvas" role="img" aria-label="Графік зростання суми від дати до дати" tabindex="0"></canvas>
-          <div class="chart-tip" id="chartTip" role="tooltip" aria-hidden="true"></div>
-          <div id="chartLive" class="sr-only" aria-live="polite"></div>
+        <!-- Steps Slider -->
+        <div style="margin-top: 32px;">
+          <h3 style="color:#fff; margin-bottom:16px;" data-i18n="stepsTitle">Покроково</h3>
+          <div class="steps-container">
+            <div class="steps-track">
+              <!-- Steps -->
+              <div class="step-card">
+                <div class="step-num">1</div>
+                <h4 data-i18n="step1T">Застосунок Дія</h4>
+                <p data-i18n="step1D">Зайдіть у розділ "Сервіси" та оберіть "єКнига".</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">2</div>
+                <h4 data-i18n="step2T">Оформлення</h4>
+                <p data-i18n="step2D">Відкрийте картку. Кошти надійдуть протягом 3 днів.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">3</div>
+                <h4 data-i18n="step3T">Оплата</h4>
+                <p data-i18n="step3D">Зв'яжіться з нами, ми надамо посилання для оплати книг через фонд.</p>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- FIXED: даты синхронизированы с лейблами и уникальны -->
-        <script id="series-data" type="application/json">
-          [
-            {"date":"2025-07-26","label":"26.07","amount":15000},
-            {"date":"2025-07-30","label":"30.07","amount":16603},
-            {"date":"2025-07-31","label":"31.07","amount":17525},
-            {"date":"2025-08-01","label":"01.08","amount":18535},
-            {"date":"2025-08-02","label":"02.08","amount":19485},
-            {"date":"2025-08-05","label":"05.08","amount":20452},
-            {"date":"2025-08-10","label":"10.08","amount":22352},
-            {"date":"2025-08-12","label":"12.08","amount":26334},
-            {"date":"2025-08-15","label":"15.08","amount":32155},
-            {"date":"2025-08-19","label":"19.08","amount":34016},
-            {"date":"2025-10-31","label":"31.10","amount":36142}
-          ]
-        </script>
-      </article>
-    </section>
-
-    <!-- Контакт -->
-    <div class="contact">
-      <p id="contactText">Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
-      <a id="contactBtn" href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
+      </section>
+      
+      <!-- FAQ EBOOK -->
+      <section id="faq-ebook" class="section-block">
+        <h2 class="section-title">FAQ (єКнига)</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-summary" data-i18n="faqQ1">Чому оплата через Фонд?</summary>
+            <div class="faq-content" data-i18n="faqA1">Це гарантує прозорість. Ми офіційно закуповуємо літературу та надаємо всі чеки.</div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-summary" data-i18n="faqQ2">Чи отримаю я звіт?</summary>
+            <div class="faq-content" data-i18n="faqA2">Так, ми публікуємо фотозвіти вручення книг у наших соцмережах.</div>
+          </details>
+        </div>
+      </section>
     </div>
 
-    <!-- Інформація + Інструкція -->
-    <section id="guide" class="info-block" aria-label="Інформація про ініціативу та інструкцію">
-      <h2 id="aboutTitle">Про ініціативу</h2>
-      <p id="aboutP1">Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.</p>
+    <!-- 2. ПЛАСТИК (ЗИМОВА 1000) -->
+    <div id="groupPlastic" class="initiative-group">
+      
+      <section id="stats-plastic" class="section-block">
+         <div class="content-split">
+           <div class="text-content">
+             <h2 class="section-title" data-i18n="plasticTitle">Пластик для ЗСУ</h2>
+             <p data-i18n="plasticDesc">
+               Використайте "Зимову 1000" для допомоги фронту. Разом з <strong>Крафторіум</strong> ми перетворюємо ці кошти на пластик для 3D-друку скидів, хвостовиків та запчастин.
+             </p>
+             <div class="center-btn-wrap" style="justify-content: flex-start;">
+               <a href="https://t.me/iamhlixli" target="_blank" class="action-btn" data-i18n="btnPlastic">Передати 1000 на пластик</a>
+             </div>
+           </div>
+           <div class="card" style="justify-content: center; background: rgba(34, 197, 94, 0.1); border-color: rgba(34,197,94,0.3);">
+             <h3 style="color: #4ade80;">Вже закуплено</h3>
+             <div class="value" style="color: #4ade80;">120+ кг</div>
+             <div class="note">Пластику для друку</div>
+           </div>
+         </div>
+      </section>
 
-      <div>
-        <p><strong id="howTitle">Як це працює?</strong></p>
-        <ul>
-          <li id="how1">Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.</li>
-          <li id="how2">Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.</li>
-          <li id="how3">Ми публічно звітуємо про кожну передачу книжок.</li>
-        </ul>
-      </div>
-
-      <div class="steps" aria-label="Покрокова інструкція">
-        <div class="steps-header">
-          <h3 id="stepsTitle" class="steps-title">Покрокова інструкція</h3>
-          <!-- КНОПКА ГОРТАЙ -->
-          <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо">Гортай →</button>
+      <section id="guide-plastic" class="section-block">
+        <h2 class="section-title" data-i18n="stepsTitle">Як це працює</h2>
+        <div class="steps-container">
+          <div class="steps-track">
+            <div class="step-card" style="border-color: rgba(34,197,94,0.3);">
+              <div class="step-num" style="background: #22c55e; color: #fff;">1</div>
+              <h4 data-i18n="pStep1T">Перевірте кошти</h4>
+              <p data-i18n="pStep1D">Переконайтеся, що "Зимова 1000" нарахована на картку.</p>
+            </div>
+            <div class="step-card" style="border-color: rgba(34,197,94,0.3);">
+              <div class="step-num" style="background: #22c55e; color: #fff;">2</div>
+              <h4 data-i18n="pStep2T">Напишіть нам</h4>
+              <p data-i18n="pStep2D">Ми дамо реквізити банки/картки фонду для переказу.</p>
+            </div>
+            <div class="step-card" style="border-color: rgba(34,197,94,0.3);">
+              <div class="step-num" style="background: #22c55e; color: #fff;">3</div>
+              <h4 data-i18n="pStep3T">Друк та звіт</h4>
+              <p data-i18n="pStep3D">Закуповуємо пластик, друкуємо вироби і передаємо військовим.</p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
-          <article class="step" aria-label="Крок 1">
-            <div class="step-badge" aria-hidden="true">1</div>
-            <h4 id="step1Title" class="step-title">Відкрий застосунок Дія</h4>
-            <p id="step1Text" class="step-text">Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.</p>
-          </article>
-          <article class="step" aria-label="Крок 2">
-            <div class="step-badge" aria-hidden="true">2</div>
-            <h4 id="step2Title" class="step-title">Обери послугу «єКнига»</h4>
-            <p id="step2Text" class="step-text">Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.</p>
-          </article>
-          <article class="step" aria-label="Крок 3">
-            <div class="step-badge" aria-hidden="true">3</div>
-            <h4 id="step3Title" class="step-title">Ознайомся з умовами</h4>
-            <p id="step3Text" class="step-text">Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.</p>
-          </article>
-          <article class="step" aria-label="Крок 4">
-            <div class="step-badge" aria-hidden="true">4</div>
-            <h4 id="step4Title" class="step-title">Вибери картку для виплати</h4>
-            <p id="step4Text" class="step-text">Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.</p>
-          </article>
-          <article class="step" aria-label="Крок 5">
-            <div class="step-badge" aria-hidden="true">5</div>
-            <h4 id="step5Title" class="step-title">Підтверди заяву</h4>
-            <p id="step5Text" class="step-text">Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.</p>
-          </article>
-          <article class="step" aria-label="Крок 6">
-            <div class="step-badge" aria-hidden="true">6</div>
-            <h4 id="step6Title" class="step-title">Оплата книжок</h4>
-            <p id="step6Text" class="step-text">Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.</p>
-          </article>
+      <section id="faq-plastic" class="section-block">
+        <h2 class="section-title">FAQ (Пластик)</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+             <summary class="faq-summary">Куди йдуть вироби?</summary>
+             <div class="faq-content">На гарячі напрямки за запитами конкретних бригад.</div>
+          </details>
         </div>
-      </div>
+      </section>
+    </div>
 
-      <div>
-        <p id="videoLead"><strong>Відеоінструкція</strong> — усе просто та швидко:</p>
-        <div class="video-wrapper" aria-label="Відео інструкція оформлення картки">
-          <iframe id="videoFrame" width="560" height="315" src="https://www.youtube.com/embed/5qc9-pEs_t4?si=xKck3W6izyjK8Py" title="Відеоінструкція: як оформити картку єКнига" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
-        </div>
+    <!-- REPORT IFRAME -->
+    <section class="section-block" style="text-align:center;">
+      <h2 class="section-title" data-i18n="reportsTitle">Останні звіти</h2>
+      <div style="max-width:500px; margin:0 auto; overflow:hidden; border-radius:12px;">
+         <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l%26id%3D100091519694547&show_text=false&width=500" width="500" height="600" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
       </div>
-
-      <p id="postVideoText">Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
     </section>
 
-    <!-- Звітування -->
-    <section id="reports" class="report">
-      <div id="reportsTitle" class="dashboard-title">Звітування</div>
-      <div class="report-frame">
-        <iframe
-          id="fbReport"
-          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l%26id%3D100091519694547&show_text=true"
-          loading="lazy"
-          title="Facebook звіт">
-        </iframe>
-      </div>
-      <div id="reportFallback" class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
-    </section>
   </div>
 
   <script>
-    /* =============================
-       i18n: переклади UA / EN
-       ============================= */
-    const i18n = {
+    // --- DATA & CONFIG ---
+    const CHART_DATA = [
+      { date: "2025-07-26", amount: 15000 },
+      { date: "2025-08-01", amount: 18535 },
+      { date: "2025-08-10", amount: 22352 },
+      { date: "2025-08-15", amount: 32155 },
+      { date: "2025-08-19", amount: 34016 },
+      { date: "2025-10-31", amount: 36142 }
+    ];
+
+    const STATS = {
+      total: 36142,
+      donors: 26,
+      items: 146,
+      target: 50000
+    };
+
+    const I18N = {
       uk: {
-        metaTitle: 'Благодійна ініціатива з закупівлі книг',
-        metaDesc: 'Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків',
-        heroEyebrow: 'Благодійна ініціатива',
-        heroTitle: 'Подаруйте книги дітям за «єКнига»',
-        heroSubtitle: 'Це <strong>не ваші особисті кошти</strong> — держава надає 908 грн. Ми допомагаємо прозоро спрямувати їх на книжки для дитячих будинків.',
-        navStats: 'Статистика',
-        navGuide: 'Інструкція',
-        navFAQ: 'FAQ',
-        statsTitle: 'Статистика ініціативи',
-        totalTitle: 'Зібрано (₴)',
-        totalFoot: 'Завдяки благодійникам',
-        donorsTitle: 'Учасників',
-        donorsFoot: 'Людей, які долучилися',
-        orphTitle: 'Дитячих будинків',
-        orphFoot: 'Заклади, які підтримали',
-        itemsTitle: 'Одиниць книг/матеріалів',
-        itemsFoot: 'Передано',
-        goalTitle: 'До цілі (₴)',
-        updatedPrefix: 'Оновлено:',
-        collectedWord: 'зібрано',
-        remainingPrefix: 'Залишилось',
-        goalExceeded: 'Ціль перевиконано',
-        exceededBy: 'Перевиконано на',
-        periodWord: 'Період:',
-        infographicsTitle: 'Інфографіка',
-        contactText: 'Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.',
-        contactBtn: 'Зв\'язатися в Telegram',
-        aboutTitle: 'Про ініціативу',
-        aboutP1: 'Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.',
-        howTitle: 'Як це працює?',
-        how1: 'Держава надає 908 грн у межах програми «єКнига» — витратити можна лише на книги.',
-        how2: 'Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.',
-        how3: 'Ми публічно звітуємо про кожну передачу книжок.',
-        stepsTitle: 'Покрокова інструкція',
-        stepsScroll: 'Гортай →',
-        stepsTrackAria: 'Кроки оформлення в застосунку Дія',
-        step1Title: 'Відкрий застосунок Дія',
-        step1Text: 'Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.',
-        step2Title: 'Обери послугу «єКнига»',
-        step2Text: 'Знайди картку <strong>«єКнига»</strong> у списку сервісів і відкрий її.',
-        step3Title: 'Ознайомся з умовами',
-        step3Text: 'Натисни <strong>«Розпочати»</strong> та пройди короткі підказки.',
-        step4Title: 'Вибери картку для виплати',
-        step4Text: 'Створи або обери картку, на яку зарахують кошти <strong>єКнига</strong>.',
-        step5Title: 'Підтверди заяву',
-        step5Text: 'Перевір дані та натисни <strong>«Надіслати»</strong>. Кошти надходять протягом <strong>до 3 днів</strong>.',
-        step6Title: 'Оплата книжок',
-        step6Text: 'Як тільки кошти надійдуть — я надішлю посилання для оплати підготовленого замовлення.',
-        videoLead: '<strong>Відеоінструкція</strong> — усе просто та швидко:',
-        videoTitle: 'Відеоінструкція: як оформити картку єКнига',
-        postVideoText: 'Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong>',
-        reportsTitle: 'Звітування',
-        reportFallback: 'Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.',
-        fbTitle: 'Facebook звіт',
-        chartLivePrefix: 'Станом на',
-        chartDelta: 'за день',
-        ariaStats: 'Ключова статистика ініціативи',
-        ariaToGoal: 'Прогрес до цілі збору коштів',
-        ariaContactBtn: 'Зв\'язатися в Telegram',
-        ariaVideo: 'Відео інструкція оформлення картки',
-        ariaChart: 'Графік зростання суми від дати до дати'
+        heroEyebrow: "Благодійні ініціативи",
+        heroTitle: "єКнига та зимова 1000 — на книги дітям і пластик для ЗСУ",
+        heroSubtitle: "Держава надає кошти, а ми допомагаємо спрямувати їх на добрі справи через БФ «Світогляд».",
+        badgeBooks: "єКнига → Книги",
+        badgePlastic: "Зимова 1000 → Пластик ЗСУ",
+        tabEbook: "єКнига", tabEbookSub: "908 грн дітям",
+        tabPlastic: "Зимова 1000", tabPlasticSub: "Пластик для ЗСУ",
+        statsTitle: "Статистика єКнига",
+        totalTitle: "Зібрано (₴)", totalFoot: "Завдяки вам",
+        donorsTitle: "Учасників", donorsFoot: "Осіб долучилось",
+        itemsTitle: "Книг/Матеріалів", itemsFoot: "Передано",
+        goalTitle: "Ціль збору", chartTitle: "Динаміка зборів",
+        aboutTitle: "Про ініціативу",
+        aboutText: "Якщо вам виповнилося 18 років, ви можете використати 908 грн від держави для закупівлі книжок у дитбудинки.",
+        howItWorks: "Як це працює:",
+        howStep1: "Оформлюєте картку єКнига в Дії.",
+        howStep2: "Отримуєте реквізити фонду (monobank).",
+        howStep3: "Фонд купує книги та звітує.",
+        btnContact: "Написати в Telegram",
+        videoTitle: "Відеоінструкція",
+        stepsTitle: "Покроково",
+        step1T: "Застосунок Дія", step1D: "Зайдіть у розділ 'Сервіси' та оберіть 'єКнига'.",
+        step2T: "Оформлення", step2D: "Відкрийте картку. Кошти надійдуть до 3 днів.",
+        step3T: "Оплата", step3D: "Ми надамо посилання для оплати книг через фонд.",
+        reportsTitle: "Останні звіти",
+        plasticTitle: "Пластик для ЗСУ",
+        plasticDesc: "Використайте 'Зимову 1000' для допомоги фронту. Перетворюємо кошти на пластик для 3D-друку.",
+        btnPlastic: "Передати 1000 на пластик",
+        pStep1T: "Перевірте кошти", pStep1D: "Переконайтесь, що 1000 грн на картці.",
+        pStep2T: "Напишіть нам", pStep2D: "Отримайте реквізити БФ.",
+        pStep3T: "Друк та звіт", pStep3D: "Ми друкуємо вироби та звітуємо.",
+        faqQ1: "Чому через Фонд?", faqA1: "Це гарантує прозорість та офіційну звітність.",
+        faqQ2: "Де побачити звіт?", faqA2: "У наших соцмережах та на цій сторінці."
       },
       en: {
-        metaTitle: 'Charity initiative for buying books',
-        metaDesc: '“eBook (єКнига)” initiative: direct your state-provided ₴908 to books for children in orphanages',
-        heroEyebrow: 'Charitable initiative',
-        heroTitle: 'Give books to kids via “eBook (єКнига)”',
-        heroSubtitle: 'These are <strong>not your personal funds</strong> — the state provides ₴908. We help transparently direct them to books for orphanages.',
-        navStats: 'Stats',
-        navGuide: 'How-to',
-        navFAQ: 'FAQ',
-        statsTitle: 'Initiative stats',
-        totalTitle: 'Raised (₴)',
-        totalFoot: 'Thanks to donors',
-        donorsTitle: 'Participants',
-        donorsFoot: 'People who joined',
-        orphTitle: 'Orphanages',
-        orphFoot: 'Institutions we supported',
-        itemsTitle: 'Books/materials units',
-        itemsFoot: 'Delivered',
-        goalTitle: 'Progress to goal (₴)',
-        updatedPrefix: 'Updated:',
-        collectedWord: 'collected',
-        remainingPrefix: 'Remaining',
-        goalExceeded: 'Goal exceeded',
-        exceededBy: 'Exceeded by',
-        periodWord: 'Period:',
-        infographicsTitle: 'Infographics',
-        contactText: 'Eligible for <strong>eBook (єКнига, ₴908)</strong> and want to send it to books for orphanages? Join — with <strong>zero</strong> personal cost.',
-        contactBtn: 'Contact via Telegram',
-        aboutTitle: 'About the initiative',
-        aboutP1: 'We unite donors for children in orphanages and family-type homes. If you are <strong>18+</strong> and eligible for <strong>eBook (єКнига)</strong>, you can direct <strong>₴908</strong> to kids’ books — fast and transparent.',
-        howTitle: 'How it works',
-        how1: 'The state provides ₴908 under the “eBook (єКнига)” program — it can be spent on books only.',
-        how2: 'Once funds arrive, you pay for a prepared book order for a specific institution.',
-        how3: 'We publish transparent reports for every delivery.',
-        stepsTitle: 'Step-by-step',
-        stepsScroll: 'Scroll →',
-        stepsTrackAria: 'Steps in the Diia app',
-        step1Title: 'Open the Diia app',
-        step1Text: 'Go to <strong>“Services”</strong> on the home screen.',
-        step2Title: 'Choose “eBook (єКнига)”',
-        step2Text: 'Find the <strong>“eBook”</strong> card in Services and open it.',
-        step3Title: 'Review the terms',
-        step3Text: 'Tap <strong>“Start”</strong> and follow short prompts.',
-        step4Title: 'Pick a payout card',
-        step4Text: 'Create or select the card that will receive your <strong>eBook</strong> funds.',
-        step5Title: 'Confirm the application',
-        step5Text: 'Check details and tap <strong>“Submit”</strong>. Funds usually arrive within <strong>up to 3 days</strong>.',
-        step6Title: 'Pay for the books',
-        step6Text: 'As soon as the funds arrive, I’ll send you a payment link for the prepared order.',
-        videoLead: '<strong>Video guide</strong> — quick and easy:',
-        videoTitle: 'Video: how to get the eBook card',
-        postVideoText: 'After submitting, the card appears instantly, and funds arrive within <strong>up to 3 days</strong>.<br><strong>Once they arrive, I’ll send a link to pay for the books.</strong>',
-        reportsTitle: 'Reports',
-        reportFallback: 'If the post didn’t load, open it on Facebook or refresh the page.',
-        fbTitle: 'Facebook report',
-        chartLivePrefix: 'As of',
-        chartDelta: 'day',
-        ariaStats: 'Key statistics of the initiative',
-        ariaToGoal: 'Progress toward the fundraising goal',
-        ariaContactBtn: 'Contact via Telegram',
-        ariaVideo: 'Video instruction for card setup',
-        ariaChart: 'Growth chart of the total amount'
+        heroEyebrow: "Charity Initiatives",
+        heroTitle: "eBook & Winter 1000 — for Kids' Books and Plastic for AFU",
+        heroSubtitle: "The state provides funds, we help direct them to good causes via 'Svitoglad' Charity Foundation.",
+        badgeBooks: "eBook → Books",
+        badgePlastic: "Winter 1000 → Plastic AFU",
+        tabEbook: "eBook", tabEbookSub: "908 UAH for kids",
+        tabPlastic: "Winter 1000", tabPlasticSub: "Plastic for AFU",
+        statsTitle: "eBook Statistics",
+        totalTitle: "Raised (₴)", totalFoot: "Thanks to you",
+        donorsTitle: "Donors", donorsFoot: "People joined",
+        itemsTitle: "Books/Items", itemsFoot: "Delivered",
+        goalTitle: "Goal Progress", chartTitle: "Fundraising Growth",
+        aboutTitle: "About Initiative",
+        aboutText: "If you are 18+, you can use state 'eBook' funds (908 UAH) to buy books for orphanages.",
+        howItWorks: "How it works:",
+        howStep1: "Get the eBook card in Diia app.",
+        howStep2: "Get Foundation details (monobank).",
+        howStep3: "We buy books and report back.",
+        btnContact: "Contact via Telegram",
+        videoTitle: "Video Guide",
+        stepsTitle: "Step by Step",
+        step1T: "Diia App", step1D: "Go to 'Services' and select 'eBook'.",
+        step2T: "Setup", step2D: "Open the card. Funds arrive in 3 days.",
+        step3T: "Payment", step3D: "We send you a link to pay via the Foundation.",
+        reportsTitle: "Recent Reports",
+        plasticTitle: "Plastic for AFU",
+        plasticDesc: "Use 'Winter 1000' to help the front. We turn funds into plastic for 3D printing.",
+        btnPlastic: "Donate 1000 for plastic",
+        pStep1T: "Check Funds", pStep1D: "Ensure you have the 1000 UAH.",
+        pStep2T: "Write to us", pStep2D: "Get Foundation details.",
+        pStep3T: "Print & Report", pStep3D: "We print gear and report.",
+        faqQ1: "Why via Foundation?", faqA1: "Ensures transparency and official receipts.",
+        faqQ2: "Where is the report?", faqA2: "On our social media and this page."
       }
     };
 
-    /* ---------- Locale detection & persistence ---------- */
-    const urlLang = new URLSearchParams(location.search).get('lang');
-    const savedLang = localStorage.getItem('site:locale');
-    const browserDefault = (navigator.language || 'uk').toLowerCase().startsWith('uk') ? 'uk' : 'en';
-    let locale = (urlLang && ['uk','en'].includes(urlLang)) ? urlLang : (savedLang || browserDefault);
-
-    function setLangButtons(){
-      const ukBtn = document.getElementById('btnLangUk');
-      const enBtn = document.getElementById('btnLangEn');
-      if(!ukBtn || !enBtn) return;
-      ukBtn.classList.toggle('active', locale==='uk');
-      enBtn.classList.toggle('active', locale==='en');
-      ukBtn.setAttribute('aria-pressed', String(locale==='uk'));
-      enBtn.setAttribute('aria-pressed', String(locale==='en'));
-    }
-
-    /* ---------- CONFIG / FALLBACK DATA ---------- */
-    let numberLocale = locale === 'en' ? 'en-US' : 'uk-UA';
-    let dateLocale   = locale === 'en' ? 'en-GB' : 'uk-UA';
-    let formatter    = new Intl.NumberFormat(numberLocale);
-
-    const fallbackStats = { totalAmount: 36142, donorsCount: 26, orphanagesCount: 7, itemsCount: 146, targetAmount: 50000 };
-
-    /* ---------- SMALL UTILITIES ---------- */
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
-    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-
-    function animateCount(id, endValue, duration=800){
-      const el = document.getElementById(id); if(!el) return;
-      const startV = 0; const start = performance.now();
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const dur = reduce ? 0 : duration;
-      function step(now){
-        const t = clamp((now - start) / dur, 0, 1);
-        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
-        el.textContent = formatter.format(Math.floor(startV + eased * (endValue - startV)));
-        if(t < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    function animateProgress(percent, duration=900){
-      const fill = $('#progressFill');
-      const percentText = $('#percentText');
-      const toGoalText = $('#toGoalText');
-      const remainingEl = $('#remaining');
-      const overFlowText = $('#overFlowText');
-      const goalUpdated = $('#goalUpdated');
-
-      const tr = i18n[locale];
-
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const dur = reduce ? 0 : duration;
-      const start = performance.now();
-
-      function tick(now){
-        const t = clamp((now - start)/dur, 0, 1);
-        const currentPercent = Math.floor(t * percent);
-        if(fill){ fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
-        if(percentText){ percentText.textContent = `${currentPercent}% ${tr.collectedWord}`; }
-        if(t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-
-      const target = Number(($('[data-target]')?.dataset.target) || fallbackStats.targetAmount) || fallbackStats.targetAmount;
-      const remaining = Math.max(0, target - currentStats.totalAmount);
-      const over = currentStats.totalAmount - target;
-
-      if(currentStats.totalAmount >= target){
-        toGoalText.textContent = tr.goalExceeded;
-        overFlowText.className = 'overgoaled';
-        overFlowText.textContent = `${tr.exceededBy} ${formatter.format(over)} ₴`;
-        remainingEl.textContent = formatter.format(0);
-      }else{
-        toGoalText.textContent = `${tr.remainingPrefix} ${formatter.format(remaining)} ₴`;
-        remainingEl.textContent = formatter.format(remaining);
-      }
-      if(goalUpdated){
-        const d = new Date();
-        goalUpdated.textContent = `${tr.updatedPrefix} ${d.toLocaleString(dateLocale, { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' })}`;
-      }
-    }
-
-    /* ---------- CSV helpers ---------- */
-    function parseCSV(text){
-      const firstLine = text.split(/\r?\n/).find(Boolean) || '';
-      const delim = (firstLine.match(/;/g)?.length || 0) > (firstLine.match(/,/g)?.length || 0) ? ';' : ',';
-      const rows = [];
-      let i = 0, field = '', inQuotes = false, row = [];
-      while(i < text.length){
-        const c = text[i];
-        if(c === '"'){
-          if(inQuotes && text[i+1] === '"'){ field += '"'; i += 2; continue; }
-          inQuotes = !inQuotes; i++; continue;
-        }
-        if(!inQuotes && (c === delim || c === '\n' || c === '\r')){
-          row.push(field.trim()); field = '';
-          if(c === delim){ i++; continue; }
-          if(c === '\r' && text[i+1] === '\n') i++;
-          i++;
-          if(row.length && row.some(v => v !== '')) rows.push(row);
-          row = [];
-          continue;
-        }
-        field += c; i++;
-      }
-      if(field.length || row.length){ row.push(field.trim()); if(row.some(v => v !== '')) rows.push(row); }
-      return rows;
-    }
-
-    function normalizeHeader(h){
-      const s = h.toLowerCase().trim();
-      return s
-        .replace(/[їієґ]/g, ch => ({'ї':'i','і':'i','є':'e','ґ':'g'}[ch] || ch))
-        .replace(/[^\w]+/g,'');
-    }
-
-    function mapColumns(headerRow){
-      const map = {};
-      headerRow.forEach((h,idx)=>{
-        const n = normalizeHeader(h);
-        if(/^(date|data|дата)$/.test(n)) map.date = idx;
-        if(/^(amount|sum|suma|zibrano|зiбрано|зiбраноуahn|сума|total)$/.test(n)) map.amount = idx;
-        if(/^(donors|participants|uchasnyky|учасники|благодiйники)$/.test(n)) map.donors = idx;
-        if(/^(items|books|odinici|одиниць|книг)$/.test(n)) map.items = idx;
-        if(/^(orphanages|zaklady|заклади|дитячихбудинкiв)$/.test(n)) map.orphanages = idx;
-        if(/^(target|meta|цiль|goal)$/.test(n)) map.target = idx;
-      });
-      return map;
-    }
-
-    function buildSeriesFromCSV(rows){
-      if(!rows.length) return null;
-      const header = rows[0];
-      const map = mapColumns(header);
-      const body = rows.slice(1).filter(r => r.some(v => v && v.length));
-      const byDay = new Map();
-      let last = { amount: 0, donors: null, items: null, orphanages: null, target: null, date: null };
-
-      body.forEach(r=>{
-        const rawDate = map.date != null ? r[map.date] : null;
-        const d = rawDate ? new Date(rawDate) : null;
-        if(!d || isNaN(+d)) return;
-        const key = d.toISOString().slice(0,10);
-        const amount = map.amount != null ? Number(String(r[map.amount]).replace(/[^\d.-]/g,'')) : NaN;
-        if(!isNaN(amount)){
-          byDay.set(key, { date:key, amount });
-          last.amount = amount; last.date = key;
-        }
-        if(map.donors != null){ const v = Number(String(r[map.donors]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.donors = v; }
-        if(map.items  != null){ const v = Number(String(r[map.items]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.items = v; }
-        if(map.orphanages != null){ const v = Number(String(r[map.orphanages]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.orphanages = v; }
-        if(map.target != null){ const v = Number(String(r[map.target]).replace(/[^\d.-]/g,'')); if(!isNaN(v)) last.target = v; }
-      });
-
-      const series = Array.from(byDay.values()).sort((a,b)=> a.date.localeCompare(b.date));
-      return { series, last };
-    }
-
-    /* =========================
-       НОВИЙ CANVAS-ГРАФІК
-       ========================= */
-    let currentSeries = [];
-    let currentStats  = {...fallbackStats};
-    let highlightIndex = null;
-    let canvas, ctx, wrap, dpr = Math.max(1, window.devicePixelRatio || 1);
-
-    function niceNumber(range, round){
-      const exponent = Math.floor(Math.log10(Math.max(1, range)));
-      const fraction = range / Math.pow(10, exponent);
-      let niceFraction;
-      if(round){
-        if(fraction < 1.5) niceFraction = 1;
-        else if(fraction < 3) niceFraction = 2;
-        else if(fraction < 7) niceFraction = 5;
-        else niceFraction = 10;
-      }else{
-        if(fraction <= 1) niceFraction = 1;
-        else if(fraction <= 2) niceFraction = 2;
-        else if(fraction <= 5) niceFraction = 5;
-        else niceFraction = 10;
-      }
-      return niceFraction * Math.pow(10, exponent);
-    }
-    function niceScale(min, max, maxTicks=5){
-      const range = niceNumber(max - min, false);
-      const step = niceNumber(range / Math.max(1, (maxTicks-1)), true);
-      const niceMin = Math.floor(min / step) * step;
-      const niceMax = Math.ceil(max / step) * step;
-      return { niceMin, niceMax, step };
-    }
-
-    function initCanvas(){
-      wrap = document.getElementById('chartWrap');
-      canvas = document.getElementById('growthCanvas');
-      if(!wrap || !canvas) return false;
-      ctx = canvas.getContext('2d');
-      resizeCanvas();
-      return true;
-    }
-
-    function resizeCanvas(){
-      const rect = wrap.getBoundingClientRect();
-      const cssW = Math.max(10, rect.width);
-      const cssH = Math.max(10, rect.height);
-      dpr = Math.max(1, window.devicePixelRatio || 1);
-
-      canvas.width  = Math.round(cssW * dpr);
-      canvas.height = Math.round(cssH * dpr);
-      canvas.style.width  = cssW + 'px';
-      canvas.style.height = cssH + 'px';
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-    }
-
-    function drawSmoothLine(points){
-      if(points.length < 2) return;
-      ctx.beginPath();
-      ctx.moveTo(points[0][0], points[0][1]);
-      for(let i=0; i<points.length-1; i++){
-        const p0 = points[i-1] || points[i];
-        const p1 = points[i];
-        const p2 = points[i+1];
-        const p3 = points[i+2] || p2;
-        const cp1x = p1[0] + (p2[0]-p0[0]) / 6;
-        const cp1y = p1[1] + (p2[1]-p0[1]) / 6;
-        const cp2x = p2[0] - (p3[0]-p1[0]) / 6;
-        const cp2y = p2[1] - (p3[1]-p1[1]) / 6;
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2[0], p2[1]);
-      }
-    }
-
-    function fmtDM(dateStr){
-      const d = new Date(dateStr);
-      return d.toLocaleDateString(dateLocale, { day:'2-digit', month:'2-digit' });
-    }
-
-    function drawCanvasChart(animT = 1){
-      if(!ctx || !currentSeries.length) return;
-
-      const isNarrow = wrap.clientWidth < 520;
-      const isTiny   = wrap.clientWidth < 380;
-      const pad = isTiny
-        ? { l: 14, r: 18, t: 10, b: 46 }
-        : isNarrow
-          ? { l: 16, r: 20, t: 12, b: 48 }
-          : { l: 48, r: 24, t: 16, b: 52 };
-
-      const W = canvas.clientWidth;
-      const H = canvas.clientHeight;
-      const pw = W - pad.l - pad.r;
-      const ph = H - pad.t - pad.b;
-
-      ctx.clearRect(0, 0, W, H);
-
-      const targetAmount = currentStats.targetAmount || fallbackStats.targetAmount;
-      const maxData = Math.max(...currentSeries.map(s => s.amount));
-      const maxForScale = Math.max(targetAmount, maxData);
-      const stepsYcss = Number(getComputedStyle(document.documentElement).getPropertyValue('--chart-y-steps')) || 5;
-      const { niceMin, niceMax, step } = niceScale(0, maxForScale, stepsYcss+1);
-
-      const y = v => pad.t + (1 - ((v - niceMin)/(niceMax - niceMin || 1))) * ph;
-      const x = i => pad.l + (currentSeries.length === 1 ? pw/2 : (i * (pw / (currentSeries.length - 1))));
-
-      const pts = currentSeries.map((s,i)=> [x(i), y(s.amount)]);
-
-      /* ---------- Сітка ---------- */
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for(let val = niceMin; val <= niceMax + 0.5*step; val += step){
-        const yy = y(val);
-        ctx.moveTo(pad.l, yy);
-        ctx.lineTo(pad.l+pw, yy);
-      }
-      ctx.stroke();
-      ctx.restore();
-
-      /* ---------- Підписи Y ---------- */
-      const rootStyles = getComputedStyle(document.documentElement);
-      const scale = parseFloat(rootStyles.getPropertyValue('--chart-font-scale')) || 1;
-      const scaleY = parseFloat(rootStyles.getPropertyValue('--chart-font-scale-y')) || scale;
-      const scaleX = parseFloat(rootStyles.getPropertyValue('--chart-font-scale-x')) || scale;
-
-      ctx.save();
-      ctx.fillStyle = 'rgba(255,255,255,0.72)';
-      ctx.font = `700 ${Math.max(10, 12 * scaleY)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      for(let val = niceMin; val <= niceMax + 0.5*step; val += step){
-        const yy = y(val);
-        ctx.fillText(formatter.format(Math.max(0, Math.round(val))), pad.l + 2, yy);
-      }
-      ctx.restore();
-
-      /* ---------- Область під кривою ---------- */
-      const revealCount = Math.max(2, Math.round((pts.length) * animT));
-      const visiblePts = pts.slice(0, revealCount);
-
-      const gradFill = ctx.createLinearGradient(0, pad.t, 0, pad.t + ph);
-      gradFill.addColorStop(0, 'rgba(255,243,128,0.36)');
-      gradFill.addColorStop(1, 'rgba(255,243,128,0)');
-
-      if(visiblePts.length >= 2){
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(pad.l, y(niceMin));
-        drawSmoothLine(visiblePts);
-        ctx.lineTo(pad.l + (visiblePts[visiblePts.length-1][0] - pad.l), y(niceMin));
-        ctx.closePath();
-        ctx.fillStyle = gradFill;
-        ctx.fill();
-        ctx.restore();
-      }
-
-      /* ---------- Лінія ---------- */
-      const gradStroke = ctx.createLinearGradient(pad.l, 0, pad.l+pw, 0);
-      gradStroke.addColorStop(0, '#CCF2FF');
-      gradStroke.addColorStop(1, '#FFF380');
-
-      ctx.save();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = gradStroke;
-      ctx.shadowColor = 'rgba(0,0,0,0.2)';
-      ctx.shadowBlur = 3;
-      ctx.beginPath();
-      drawSmoothLine(visiblePts);
-      ctx.stroke();
-      ctx.restore();
-
-      /* ---------- Лінія цілі + підпис ---------- */
-      if(targetAmount >= niceMin && targetAmount <= niceMax){
-        const ty = y(targetAmount);
-        ctx.save();
-        ctx.setLineDash([6,6]);
-        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-        ctx.beginPath();
-        ctx.moveTo(pad.l, ty);
-        ctx.lineTo(pad.l+pw, ty);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = 'rgba(255,255,255,0.96)';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'top';
-        const labelY = Math.min(pad.t + ph - 10, ty + 10);
-        ctx.font = `700 ${Math.max(10, 12 * scaleY)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
-        const goalText = locale==='en' ? 'Goal' : 'Ціль';
-        ctx.fillText(`${goalText}: ${formatter.format(targetAmount)} ₴`, pad.l+pw-6, labelY);
-        ctx.restore();
-      }
-
-      /* ---------- Підписи X (дати) ---------- */
-      const desiredLabels = clamp(Math.round(wrap.clientWidth / 90), 4, 12);
-      const labelEvery = Math.max(1, Math.ceil(currentSeries.length / desiredLabels));
-      ctx.save();
-      ctx.fillStyle = 'rgba(255,255,255,0.96)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.font = `700 ${Math.max(9, 12 * scaleX)}px Inter, Montserrat, system-ui, -apple-system, sans-serif`;
-      for(let i=0;i<currentSeries.length;i++){
-        if(i===0 || i===currentSeries.length-1 || i % labelEvery === 0){
-          ctx.fillText(fmtDM(currentSeries[i].date), x(i), pad.t + ph + 18);
-        }
-      }
-      ctx.restore();
-
-      /* ---------- Ховер/кросхейр ---------- */
-      const tip = $('#chartTip');
-      if(highlightIndex != null){
-        const hx = x(highlightIndex);
-        const hy = y(currentSeries[highlightIndex].amount);
-
-        ctx.save();
-        ctx.strokeStyle = 'rgba(255,255,255,0.20)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(hx, pad.t);
-        ctx.lineTo(hx, pad.t + ph);
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.save();
-        ctx.fillStyle = '#FFF380';
-        ctx.beginPath();
-        ctx.arc(hx, hy, isNarrow ? 5.2 : 4.2, 0, Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-
-        const s = currentSeries[highlightIndex];
-        const prev = highlightIndex>0 ? currentSeries[highlightIndex-1].amount : null;
-        const delta = prev!=null ? s.amount - prev : null;
-        if(tip){
-          tip.style.display = 'block';
-          tip.setAttribute('aria-hidden','false');
-          tip.innerHTML = `<strong>${fmtDM(s.date)}</strong> — ${formatter.format(s.amount)} ₴${delta!=null ? ` <span style="opacity:.9;">(＋${formatter.format(delta)})</span>` : ''}`;
-
-          const wrapRect = wrap.getBoundingClientRect();
-          const tipBoxWidth = tip.getBoundingClientRect().width || 160;
-          const insideX = clamp(hx + 12, 8, wrapRect.width - tipBoxWidth - 8);
-          tip.style.transform = `translate(${insideX}px, 8px)`;
-        }
-      }else{
-        if(tip){
-          tip.style.display = 'none';
-          tip.setAttribute('aria-hidden','true');
-        }
-      }
-
-      const live = $('#chartLive');
-      if(live && currentSeries.length){
-        const tr = i18n[locale];
-        const last = currentSeries[currentSeries.length-1];
-        const prev = currentSeries.length>1 ? currentSeries[currentSeries.length-2] : null;
-        const delta = prev ? last.amount - prev.amount : 0;
-        const prefix = tr.chartLivePrefix;
-        const deltaWord = tr.chartDelta;
-        live.textContent = `${prefix} ${fmtDM(last.date)}: ${formatter.format(last.amount)} ₴${prev ? ` (${deltaWord} +${formatter.format(delta)})` : ''}`;
-      }
-
-      const periodLabel = $('#periodLabel');
-      if(periodLabel && currentSeries.length){
-        const s = new Date(currentSeries[0].date).toLocaleDateString(dateLocale);
-        const e = new Date(currentSeries[currentSeries.length-1].date).toLocaleDateString(dateLocale);
-        periodLabel.textContent = `${s} — ${e}`;
-      }
-    }
-
-    function animateChart(){
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduce){ drawCanvasChart(1); return; }
-      const t0 = performance.now();
-      const dur = 1000;
-      function tick(now){
-        const t = clamp((now - t0)/dur, 0, 1);
-        drawCanvasChart(t);
-        if(t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-
-    function nearestIndexFromClient(clientX){
-      const rect = wrap.getBoundingClientRect();
-      const xRel = clamp(clientX - rect.left, 0, rect.width);
-      const count = currentSeries.length;
-      if(count <= 1) return 0;
-      const idx = Math.round((xRel / rect.width) * (count - 1));
-      return clamp(idx, 0, count-1);
-    }
-
-    function attachInteractions(){
-      if(!canvas) return;
-      const onMove = (e)=>{
-        const p = e.touches ? e.touches[0] : e;
-        if(!p) return;
-        highlightIndex = nearestIndexFromClient(p.clientX);
-        drawCanvasChart(1);
-      };
-      const onLeave = ()=>{
-        highlightIndex = null;
-        drawCanvasChart(1);
-      };
-      canvas.addEventListener('mousemove', onMove, {passive:true});
-      canvas.addEventListener('mouseleave', onLeave, {passive:true});
-      canvas.addEventListener('touchstart', onMove, {passive:true});
-      canvas.addEventListener('touchmove', onMove, {passive:true});
-      canvas.addEventListener('touchend', onLeave, {passive:true});
-      canvas.addEventListener('touchcancel', onLeave, {passive:true});
-
-      canvas.addEventListener('keydown', (e)=>{
-        if(!currentSeries.length) return;
-        if(highlightIndex == null) highlightIndex = currentSeries.length-1;
-        if(e.key === 'ArrowLeft'){ highlightIndex = clamp(highlightIndex-1, 0, currentSeries.length-1); drawCanvasChart(1); e.preventDefault(); }
-        if(e.key === 'ArrowRight'){ highlightIndex = clamp(highlightIndex+1, 0, currentSeries.length-1); drawCanvasChart(1); e.preventDefault(); }
-      });
-    }
-
-    /* ---------- NEW: Scroll button for steps ---------- */
-    function setupStepsScrollButton(){
-      const btn = document.getElementById('scrollSteps');
-      const track = document.getElementById('stepsTrack');
-      if(!btn || !track) return;
-
-      const updateVisibility = () => {
-        const overflow = track.scrollWidth - track.clientWidth > 6;
-        btn.style.display = overflow ? 'inline-flex' : 'none';
-      };
-
-      btn.addEventListener('click', ()=>{
-        const step = Math.max(track.clientWidth * 0.9, 320);
-        const maxLeft = track.scrollWidth - track.clientWidth;
-        const next = Math.min(track.scrollLeft + step, maxLeft);
-        track.scrollTo({ left: next, behavior: 'smooth' });
-
-        if(next >= maxLeft - 2){
-          setTimeout(()=> track.scrollTo({ left: 0, behavior: 'smooth' }), 600);
-        }
-      });
-
-      track.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){
-          btn.click(); e.preventDefault();
-        }
-        if(e.key === 'ArrowLeft'){
-          const step = Math.max(track.clientWidth * 0.9, 320);
-          track.scrollBy({ left: -step, behavior: 'smooth' });
-          e.preventDefault();
-        }
-      });
-
-      window.addEventListener('resize', updateVisibility);
-      updateVisibility();
-    }
-
-    /* ---------- INIT & DATA FLOW ---------- */
-    function initStaticSeries(){
-      try{
-        const raw = document.getElementById('series-data').textContent.trim();
-        const rawSeries = JSON.parse(raw);
-        // Беремо лише date + amount, лейбли генеруємо під поточну локаль
-        const map = new Map();
-        rawSeries.forEach(s=>{
-          if(!s.date || isNaN(+new Date(s.date))) return;
-          map.set(s.date, { date: s.date, amount: Number(s.amount)||0 });
-        });
-        currentSeries = Array.from(map.values()).sort((a,b)=> a.date.localeCompare(b.date));
-        currentStats.totalAmount = currentSeries[currentSeries.length-1]?.amount ?? fallbackStats.totalAmount;
-      }catch(e){
-        console.warn('Fallback JSON series missing/invalid', e);
-        currentSeries = [];
-        currentStats.totalAmount = fallbackStats.totalAmount;
-      }
-      const sec = document.getElementById('insights');
-      if(sec && sec.dataset.target) currentStats.targetAmount = Number(sec.dataset.target) || fallbackStats.targetAmount;
-      currentStats.donorsCount = fallbackStats.donorsCount;
-      currentStats.itemsCount = fallbackStats.itemsCount;
-      currentStats.orphanagesCount = fallbackStats.orphanagesCount;
-    }
-
-    function handleCSVFile(file){
-      const reader = new FileReader();
-      reader.onload = () => {
-        try{
-          const rows = parseCSV(reader.result);
-          const res = buildSeriesFromCSV(rows);
-          if(!res || !res.series.length) throw new Error('CSV не містить придатних даних');
-          currentSeries = res.series;
-          if(res.last.amount != null) currentStats.totalAmount = res.last.amount;
-          if(res.last.donors != null) currentStats.donorsCount = res.last.donors;
-          if(res.last.items != null) currentStats.itemsCount = res.last.items;
-          if(res.last.orphanages != null) currentStats.orphanagesCount = res.last.orphanages;
-          if(res.last.target != null) currentStats.targetAmount = res.last.target;
-
-          refreshStatsFromSeries();
-          resizeCanvas();
-          animateChart();
-        }catch(err){
-          alert('Помилка читання CSV: ' + err.message);
-        }
-      };
-      reader.readAsText(file, 'utf-8');
-    }
-
-    function refreshStatsFromSeries(){
-      animateCount('totalAmount', currentStats.totalAmount, 900);
-      animateCount('donorsCount', currentStats.donorsCount ?? 0, 700);
-      animateCount('orphanagesCount', currentStats.orphanagesCount ?? 0, 700);
-      animateCount('itemsCount', currentStats.itemsCount ?? 0, 700);
-
-      const coverage = Math.min(100, Math.round((currentStats.totalAmount / (currentStats.targetAmount||fallbackStats.targetAmount)) * 100));
-      animateProgress(coverage, 900);
-    }
-
-    function lazyRenderChart(){
-      if(!('IntersectionObserver' in window) || !wrap){
-        animateChart(); return;
-      }
-      let drawn = false;
-      const obs = new IntersectionObserver((entries)=>{
-        const en = entries[0];
-        if(en && en.isIntersecting && !drawn){
-          drawn = true;
-          animateChart();
-          obs.disconnect();
-        }
-      }, { root: null, rootMargin: '0px 0px -20% 0px', threshold: 0.15 });
-      obs.observe(wrap);
-    }
-
-    let resizeTO;
-    function attachResizers(){
-      window.addEventListener('resize', ()=>{
-        clearTimeout(resizeTO);
-        resizeTO = setTimeout(()=>{
-          resizeCanvas();
-          drawCanvasChart(1);
-        }, 120);
-      });
-      if('ResizeObserver' in window){
-        const ro = new ResizeObserver(()=>{
-          clearTimeout(resizeTO);
-          resizeTO = setTimeout(()=>{
-            resizeCanvas();
-            drawCanvasChart(1);
-          }, 80);
-        });
-        ro.observe(wrap);
-      }
-    }
-
-    /* ---------- i18n: apply texts ---------- */
-    function applyI18n(){
-      const tr = i18n[locale];
-      // <html lang>
-      document.documentElement.lang = locale;
-      // Meta
-      document.title = tr.metaTitle;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if(metaDesc) metaDesc.setAttribute('content', tr.metaDesc);
-
-      // Hero
-      $('#heroEyebrow').textContent = tr.heroEyebrow;
-      $('#heroTitle').textContent   = tr.heroTitle;
-      $('#heroSubtitle').innerHTML  = tr.heroSubtitle;
-
-      // Mini nav
-      $('#navStats').textContent = tr.navStats;
-      $('#navGuide').textContent = tr.navGuide;
-      $('#navFAQ').textContent   = tr.navFAQ;
-
-      // Stats titles/footnotes + aria
-      $('#statsTitle').textContent = tr.statsTitle;
-      const statsSection = document.getElementById('stats');
-      if(statsSection) statsSection.setAttribute('aria-label', tr.ariaStats);
-
-      $('#totalTitle').textContent = tr.totalTitle;
-      $('#totalFoot').textContent  = tr.totalFoot;
-      $('#donorsTitle').textContent= tr.donorsTitle;
-      $('#donorsFoot').textContent = tr.donorsFoot;
-      $('#orphTitle').textContent  = tr.orphTitle;
-      $('#orphFoot').textContent   = tr.orphFoot;
-      $('#itemsTitle').textContent = tr.itemsTitle;
-      $('#itemsFoot').textContent  = tr.itemsFoot;
-
-      // Goal
-      $('#goalTitle').textContent = tr.goalTitle;
-      const goalCard = document.querySelector('.goal-card');
-      if(goalCard) goalCard.setAttribute('aria-label', tr.ariaToGoal);
-
-      // Infographics
-      $('#infographicsTitle').textContent = tr.infographicsTitle;
-      $('#periodWord').textContent = tr.periodWord;
-      const canvasEl = $('#growthCanvas');
-      if(canvasEl) canvasEl.setAttribute('aria-label', tr.ariaChart);
-
-      // Contact
-      $('#contactText').innerHTML = tr.contactText;
-      const btn = $('#contactBtn');
-      if(btn){
-        btn.textContent = tr.contactBtn;
-        btn.setAttribute('aria-label', tr.ariaContactBtn);
-      }
-
-      // About + steps
-      $('#aboutTitle').textContent = tr.aboutTitle;
-      $('#aboutP1').innerHTML      = tr.aboutP1;
-      $('#howTitle').textContent   = tr.howTitle;
-      $('#how1').textContent       = tr.how1;
-      $('#how2').textContent       = tr.how2;
-      $('#how3').textContent       = tr.how3;
-
-      $('#stepsTitle').textContent = tr.stepsTitle;
-      const scrollBtn = $('#scrollSteps');
-      if(scrollBtn){
-        scrollBtn.textContent = tr.stepsScroll;
-        scrollBtn.setAttribute('aria-label', locale==='en' ? 'Scroll steps to the right' : 'Гортай кроки вправо');
-      }
-      const stepsTrack = $('#stepsTrack');
-      if(stepsTrack) stepsTrack.setAttribute('aria-label', tr.stepsTrackAria);
-
-      $('#step1Title').textContent = tr.step1Title; $('#step1Text').innerHTML = tr.step1Text;
-      $('#step2Title').textContent = tr.step2Title; $('#step2Text').innerHTML = tr.step2Text;
-      $('#step3Title').textContent = tr.step3Title; $('#step3Text').innerHTML = tr.step3Text;
-      $('#step4Title').textContent = tr.step4Title; $('#step4Text').innerHTML = tr.step4Text;
-      $('#step5Title').textContent = tr.step5Title; $('#step5Text').innerHTML = tr.step5Text;
-      $('#step6Title').textContent = tr.step6Title; $('#step6Text').innerHTML = tr.step6Text;
-
-      // Video
-      $('#videoLead').innerHTML = tr.videoLead;
-      const videoWrap = document.querySelector('.video-wrapper');
-      if(videoWrap) videoWrap.setAttribute('aria-label', tr.ariaVideo);
-      const frame = $('#videoFrame');
-      if(frame) frame.setAttribute('title', tr.videoTitle);
-
-      // Post-video text
-      $('#postVideoText').innerHTML = tr.postVideoText;
-
-      // Reports
-      $('#reportsTitle').textContent = tr.reportsTitle;
-      $('#reportFallback').textContent = tr.reportFallback;
-      const fb = $('#fbReport');
-      if(fb) fb.setAttribute('title', tr.fbTitle);
-
-      // Update number/date localizers
-      numberLocale = locale === 'en' ? 'en-US' : 'uk-UA';
-      dateLocale   = locale === 'en' ? 'en-GB' : 'uk-UA';
-      formatter    = new Intl.NumberFormat(numberLocale);
-
-      // Repaint dynamic pieces
-      refreshStatsFromSeries();
-      if(wrap && canvas){
-        resizeCanvas();
-        drawCanvasChart(1);
-      }
-
-      // Update html dir if ever needed (both are LTR, but left for future)
-      document.documentElement.dir = 'ltr';
-    }
-
-    /* ---------- Language switching handlers ---------- */
-    function bindLangSwitch(){
-      const ukBtn = document.getElementById('btnLangUk');
-      const enBtn = document.getElementById('btnLangEn');
-      if(ukBtn) ukBtn.addEventListener('click', ()=>{
-        locale = 'uk';
-        localStorage.setItem('site:locale', locale);
-        setLangButtons();
-        applyI18n();
-        history.replaceState(null, '', location.pathname + '?lang=uk');
-      });
-      if(enBtn) enBtn.addEventListener('click', ()=>{
-        locale = 'en';
-        localStorage.setItem('site:locale', locale);
-        setLangButtons();
-        applyI18n();
-        history.replaceState(null, '', location.pathname + '?lang=en');
-      });
-    }
-
-    /* ---------- INIT ---------- */
-    window.addEventListener('DOMContentLoaded', ()=>{
-      // init language buttons visual state
-      setLangButtons();
-      bindLangSwitch();
-
-      // dataset and chart
-      initStaticSeries();
-      refreshStatsFromSeries();
-
-      // steps scroll button init
-      setupStepsScrollButton();
-
-      if(initCanvas()){
-        attachResizers();
-        attachInteractions();
-        lazyRenderChart();
-      }
-
-      // apply translations last, to update live strings & meta
-      applyI18n();
+    // --- STATE ---
+    let currentLang = 'uk';
+    let currentTab = 'ebook';
+
+    // --- DOM ELEMENTS ---
+    const $ = id => document.getElementById(id);
+    const $$ = sel => document.querySelectorAll(sel);
+
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+      initTabs();
+      initLang();
+      initNav();
+      initFAQ();
+      renderStats();
+      initChart();
     });
+
+    // --- FUNCTIONS ---
+
+    function initTabs() {
+      const btnE = $('tabEbook');
+      const btnP = $('tabPlastic');
+      const pill = $('initiativePill');
+      const groupE = $('groupEbook');
+      const groupP = $('groupPlastic');
+
+      function switchTab(tab) {
+        currentTab = tab;
+        const isPlastic = tab === 'plastic';
+        
+        // UI Updates
+        pill.className = `initiative-pill ${isPlastic ? 'plastic' : ''}`;
+        btnE.setAttribute('aria-selected', !isPlastic);
+        btnP.setAttribute('aria-selected', isPlastic);
+        
+        // Content visibility
+        groupE.classList.toggle('active', !isPlastic);
+        groupP.classList.toggle('active', isPlastic);
+      }
+
+      btnE.onclick = () => switchTab('ebook');
+      btnP.onclick = () => switchTab('plastic');
+    }
+
+    function initLang() {
+      const btnUk = $('btnLangUk');
+      const btnEn = $('btnLangEn');
+
+      function setLang(lang) {
+        currentLang = lang;
+        btnUk.classList.toggle('active', lang === 'uk');
+        btnEn.classList.toggle('active', lang === 'en');
+        applyTranslations();
+      }
+
+      btnUk.onclick = () => setLang('uk');
+      btnEn.onclick = () => setLang('en');
+    }
+
+    function applyTranslations() {
+      const t = I18N[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key]) el.innerText = t[key];
+      });
+    }
+
+    function initNav() {
+      // Simple navigation that respects the current active tab
+      const links = $$('.mini-nav a');
+      links.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          links.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+
+          const targetName = link.dataset.targetSection; // stats, guide, faq
+          const targetId = `${targetName}-${currentTab}`; // e.g., stats-ebook
+          const el = $(targetId);
+          
+          if (el) {
+            const offset = 80; // Header height approx
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = el.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
+          }
+        });
+      });
+    }
+
+    function initFAQ() {
+      const details = $$('details');
+      details.forEach(targetDetail => {
+        targetDetail.addEventListener('click', () => {
+          details.forEach(detail => {
+            if (detail !== targetDetail) {
+              detail.removeAttribute('open');
+            }
+          });
+        });
+      });
+    }
+
+    function renderStats() {
+      // Helper to animate numbers
+      const animateValue = (id, start, end, duration) => {
+        const obj = $(id);
+        if (!obj) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString('uk-UA');
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+        window.requestAnimationFrame(step);
+      };
+
+      animateValue('statTotal', 0, STATS.total, 1500);
+      animateValue('statDonors', 0, STATS.donors, 1500);
+      animateValue('statItems', 0, STATS.items, 1500);
+
+      // Goal Bar
+      const remaining = Math.max(0, STATS.target - STATS.total);
+      const percent = Math.min(100, Math.round((STATS.total / STATS.target) * 100));
+      
+      $('goalRemains').innerText = remaining.toLocaleString('uk-UA') + ' ₴';
+      $('progressFill').style.width = `${percent}%`;
+      $('progressFill').innerText = `${percent}%`;
+      $('progressText').innerText = `${percent}% зібрано`;
+      
+      // Fallback logic if exceeded
+      if (STATS.total >= STATS.target) {
+        $('goalRemains').innerText = "Ціль закрито!";
+        $('goalRemains').style.background = "rgba(34, 197, 94, 0.3)";
+      }
+    }
+
+    // --- CHART LOGIC ---
+    function initChart() {
+      const canvas = $('growthCanvas');
+      const ctx = canvas.getContext('2d');
+      const wrap = $('chartWrap');
+      const tooltip = $('chartTooltip');
+
+      // Responsive Resize
+      const resize = () => {
+        const rect = wrap.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        draw();
+      };
+      
+      window.addEventListener('resize', resize);
+      
+      // Interaction state
+      let cursorX = -1;
+
+      // Draw Function
+      function draw() {
+        const w = wrap.clientWidth;
+        const h = wrap.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+
+        // Calculate Scales
+        const pad = { top: 20, bottom: 30, left: 10, right: 10 };
+        const chartH = h - pad.top - pad.bottom;
+        const chartW = w - pad.left - pad.right;
+
+        const maxVal = Math.max(...CHART_DATA.map(d => d.amount)) * 1.1;
+        
+        const getX = (i) => pad.left + (i / (CHART_DATA.length - 1)) * chartW;
+        const getY = (val) => pad.top + chartH - (val / maxVal) * chartH;
+
+        // 1. Draw Gradient Area
+        ctx.beginPath();
+        ctx.moveTo(getX(0), getY(CHART_DATA[0].amount));
+        CHART_DATA.forEach((d, i) => {
+          if (i === 0) return;
+          // Simple smoothing
+          const x = getX(i);
+          const y = getY(d.amount);
+          const prevX = getX(i-1);
+          const prevY = getY(CHART_DATA[i-1].amount);
+          const cp1x = prevX + (x - prevX) / 2;
+          const cp1y = prevY;
+          const cp2x = prevX + (x - prevX) / 2;
+          const cp2y = y;
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+        });
+        ctx.lineTo(getX(CHART_DATA.length-1), pad.top + chartH);
+        ctx.lineTo(getX(0), pad.top + chartH);
+        ctx.closePath();
+        
+        const grad = ctx.createLinearGradient(0, pad.top, 0, h);
+        grad.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // 2. Draw Line
+        ctx.beginPath();
+        ctx.moveTo(getX(0), getY(CHART_DATA[0].amount));
+        CHART_DATA.forEach((d, i) => {
+          if (i === 0) return;
+          const x = getX(i);
+          const y = getY(d.amount);
+          const prevX = getX(i-1);
+          const prevY = getY(CHART_DATA[i-1].amount);
+          const cp1x = prevX + (x - prevX) / 2;
+          const cp1y = prevY;
+          const cp2x = prevX + (x - prevX) / 2;
+          const cp2y = y;
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+        });
+        ctx.strokeStyle = '#38BDF8';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // 3. Interaction (Cursor)
+        if (cursorX >= 0) {
+          // Find nearest point
+          let minDist = Infinity;
+          let nearestIdx = 0;
+          
+          CHART_DATA.forEach((d, i) => {
+            const px = getX(i);
+            const dist = Math.abs(px - cursorX);
+            if (dist < minDist) {
+              minDist = dist;
+              nearestIdx = i;
+            }
+          });
+
+          const d = CHART_DATA[nearestIdx];
+          const px = getX(nearestIdx);
+          const py = getY(d.amount);
+
+          // Draw vertical line
+          ctx.beginPath();
+          ctx.moveTo(px, pad.top);
+          ctx.lineTo(px, pad.top + chartH);
+          ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Draw circle
+          ctx.beginPath();
+          ctx.arc(px, py, 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#FACC15';
+          ctx.fill();
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Show Tooltip
+          tooltip.style.opacity = 1;
+          tooltip.innerHTML = `<strong>${d.date}</strong><br>${d.amount.toLocaleString()} ₴`;
+          
+          // Smart positioning
+          const tipRect = tooltip.getBoundingClientRect();
+          const wrapRect = wrap.getBoundingClientRect();
+          
+          // Base left position relative to wrap
+          let leftPos = px + 15;
+          
+          // Check right edge
+          if (leftPos + tipRect.width > wrapRect.width) {
+            leftPos = px - tipRect.width - 15;
+          }
+          
+          tooltip.style.transform = `translate(${leftPos}px, ${py - 20}px)`;
+        } else {
+          tooltip.style.opacity = 0;
+        }
+      }
+
+      // Event Listeners
+      const onMove = (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        cursorX = clientX - rect.left;
+        draw();
+      };
+      
+      const onLeave = () => {
+        cursorX = -1;
+        draw();
+      };
+
+      wrap.addEventListener('mousemove', onMove);
+      wrap.addEventListener('mouseleave', onLeave);
+      wrap.addEventListener('touchstart', onMove, {passive: true});
+      wrap.addEventListener('touchmove', onMove, {passive: true});
+      wrap.addEventListener('touchend', onLeave);
+
+      // Initial call
+      resize();
+    }
+
   </script>
 </body>
 </html>
