@@ -7,7 +7,6 @@
   <meta name="description" content="Ініціатива «єКнига»: спрямовуємо державні 908 грн на книжки для дітей із дитячих будинків" />
   <meta name="theme-color" content="#7423F0" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- Шрифт для стабільних цифр на графіку -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -29,9 +28,9 @@
       --mini-nav-h: 54px;
 
       /* ---- Налаштування нового Canvas-графіка ---- */
-      --chart-ar: 720 / 540;         /* вищий графік на мобільних */
+      --chart-ar: 720 / 540;          /* вищий графік на мобільних */
       --chart-y-steps: 4;
-      --chart-font-scale: .84;       /* зменшені підписи */
+      --chart-font-scale: .84;        /* зменшені підписи */
       --chart-font-scale-y: var(--chart-font-scale);
       --chart-font-scale-x: calc(var(--chart-font-scale) * .9);
       --chart-min-h: 320px;
@@ -302,13 +301,11 @@
   </style>
 </head>
 <body>
-  <!-- LANG SWITCH -->
   <div class="lang-switch" aria-label="Language">
     <button type="button" id="btnLangUk" lang="uk" aria-pressed="true" class="active">UA</button>
     <button type="button" id="btnLangEn" lang="en" aria-pressed="false">EN</button>
   </div>
 
-  <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-inner">
       <div id="heroEyebrow" class="hero-eyebrow" aria-hidden="true">Благодійна ініціатива</div>
@@ -317,7 +314,6 @@
     </div>
   </header>
 
-  <!-- MINI NAV -->
   <nav class="mini-nav" aria-label="Швидка навігація сайтом">
     <ul role="tablist" aria-label="Навігація сторінкою">
       <li><a id="navStats" href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
@@ -327,7 +323,6 @@
   </nav>
 
   <div class="container">
-    <!-- Статистика -->
     <section id="stats" aria-label="Ключова статистика ініціативи">
       <div id="statsTitle" class="dashboard-title">Статистика ініціативи</div>
       <div class="dashboard-kicker" aria-hidden="true">DASHBOARD</div>
@@ -358,7 +353,6 @@
         </div>
       </div>
 
-      <!-- До цілі -->
       <div class="goal-section">
         <div class="goal-card" aria-label="Прогрес до цілі збору коштів">
           <div class="goal-header">
@@ -384,7 +378,6 @@
       </div>
     </section>
 
-    <!-- Інфографіка -->
     <section id="insights" class="info-block" aria-label="Інфографіка ініціативи" data-target="50000">
       <h2 id="infographicsTitle">Інфографіка</h2>
 
@@ -401,7 +394,6 @@
           <div id="chartLive" class="sr-only" aria-live="polite"></div>
         </div>
 
-        <!-- FIXED: даты синхронизированы с лейблами и уникальны -->
         <script id="series-data" type="application/json">
           [
             {"date":"2025-07-26","label":"26.07","amount":15000},
@@ -414,19 +406,18 @@
             {"date":"2025-08-12","label":"12.08","amount":26334},
             {"date":"2025-08-15","label":"15.08","amount":32155},
             {"date":"2025-08-19","label":"19.08","amount":34016},
-            {"date":"2025-10-31","label":"31.10","amount":36142}
+            {"date":"2025-10-31","label":"31.10","amount":36142},
+            {"date":"2025-12-22","label":"22.12","amount":50939}
           ]
         </script>
       </article>
     </section>
 
-    <!-- Контакт -->
     <div class="contact">
       <p id="contactText">Маєш право на <strong>єКнига (908 грн)</strong> і хочеш передати кошти на книжки для дитячих будинків? Долучайся — без жодних власних витрат.</p>
       <a id="contactBtn" href="https://t.me/iamhlixli" target="_blank" rel="noopener" class="contact-button" aria-label="Зв'язатися в Telegram">Зв'язатися в Telegram</a>
     </div>
 
-    <!-- Інформація + Інструкція -->
     <section id="guide" class="info-block" aria-label="Інформація про ініціативу та інструкцію">
       <h2 id="aboutTitle">Про ініціативу</h2>
       <p id="aboutP1">Ми об’єднуємо благодійників для дітей з дитячих будинків (ДБ) та дитячих будинків сімейного типу (ДБСТ). Якщо тобі <strong>виповнилося 18</strong> і ти маєш право на <strong>«єКнига»</strong>, ти можеш направити <strong>908 грн</strong> на книжки для дітей — швидко та прозоро.</p>
@@ -443,7 +434,6 @@
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 id="stepsTitle" class="steps-title">Покрокова інструкція</h3>
-          <!-- КНОПКА ГОРТАЙ -->
           <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо">Гортай →</button>
         </div>
 
@@ -491,7 +481,6 @@
       <p id="postVideoText">Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong></p>
     </section>
 
-    <!-- Звітування -->
     <section id="reports" class="report">
       <div id="reportsTitle" class="dashboard-title">Звітування</div>
       <div class="report-frame">
@@ -660,7 +649,8 @@
     let dateLocale   = locale === 'en' ? 'en-GB' : 'uk-UA';
     let formatter    = new Intl.NumberFormat(numberLocale);
 
-    const fallbackStats = { totalAmount: 36142, donorsCount: 26, orphanagesCount: 7, itemsCount: 146, targetAmount: 50000 };
+    /* ОНОВЛЕНО: fallbackStats для нової суми */
+    const fallbackStats = { totalAmount: 50939, donorsCount: 26, orphanagesCount: 7, itemsCount: 146, targetAmount: 50000 };
 
     /* ---------- SMALL UTILITIES ---------- */
     const $ = sel => document.querySelector(sel);
@@ -698,7 +688,11 @@
       function tick(now){
         const t = clamp((now - start)/dur, 0, 1);
         const currentPercent = Math.floor(t * percent);
-        if(fill){ fill.style.width = currentPercent + '%'; fill.textContent = `${currentPercent}%`; }
+        /* FIX: візуально обмежуємо 100%, але текст показує реальну цифру */
+        if(fill){
+            fill.style.width = Math.min(100, currentPercent) + '%';
+            fill.textContent = `${currentPercent}%`;
+        }
         if(percentText){ percentText.textContent = `${currentPercent}% ${tr.collectedWord}`; }
         if(t < 1) requestAnimationFrame(tick);
       }
@@ -1212,7 +1206,8 @@
       animateCount('orphanagesCount', currentStats.orphanagesCount ?? 0, 700);
       animateCount('itemsCount', currentStats.itemsCount ?? 0, 700);
 
-      const coverage = Math.min(100, Math.round((currentStats.totalAmount / (currentStats.targetAmount||fallbackStats.targetAmount)) * 100));
+      /* ОНОВЛЕНО: Дозволяємо > 100% для розрахунків */
+      const coverage = Math.round((currentStats.totalAmount / (currentStats.targetAmount||fallbackStats.targetAmount)) * 100);
       animateProgress(coverage, 900);
     }
 
