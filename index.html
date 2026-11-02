@@ -25,7 +25,7 @@
       --focus: #FFF380;
       --step-radius: 20px;
       --safe-bottom: env(safe-area-inset-bottom);
-      --mini-nav-h: 54px;
+      --mini-nav-h: 56px;
 
       /* ---- Налаштування Canvas-графіка ---- */
       --chart-ar: 720 / 540;
@@ -43,7 +43,7 @@
     @supports (overflow: clip) { html, body { overflow-x: clip; } }
     img, video, iframe { max-width: 100%; height: auto; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
     body{
       margin:0;
       font-family:'Montserrat',system-ui,-apple-system,sans-serif;
@@ -96,47 +96,62 @@
     .hero::before{ background: radial-gradient(circle at 30% 30%, #CCF2FF, transparent 60%); left:-120px; top:-80px; }
     .hero::after{ background: radial-gradient(circle at 70% 70%, #FFF380, transparent 60%); right:-120px; bottom:-80px; }
 
+    /* ===== FLOATING GLASS CONTROLS ===== */
+    .mini-nav, .lang-switch{
+      --control-tint:rgba(91,46,230,.32);
+      background:linear-gradient(155deg,rgba(255,255,255,.15),rgba(255,255,255,.03) 60%),var(--control-tint);
+      border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:5px;
+      backdrop-filter:saturate(160%) blur(24px); -webkit-backdrop-filter:saturate(160%) blur(24px);
+      box-shadow:0 8px 24px rgba(35,10,95,.18),inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(255,255,255,.05);
+      isolation:isolate;
+    }
+    .mini-nav::before, .lang-switch::before{
+      content:""; position:absolute; top:5px; bottom:5px; left:0; z-index:-1;
+      width:var(--selection-width,0px); transform:translateX(var(--selection-left,5px));
+      border-radius:999px; pointer-events:none;
+      background:linear-gradient(155deg,rgba(255,255,255,.29),rgba(255,255,255,.12));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.32),inset 0 1px 1px rgba(255,255,255,.28),0 2px 5px rgba(32,8,84,.12);
+    }
+    [data-glass-ready]::before{ transition:transform .3s cubic-bezier(.22,1,.36,1),width .3s cubic-bezier(.22,1,.36,1); }
+    .mini-nav a, .lang-switch button{
+      position:relative; display:inline-flex; align-items:center; justify-content:center;
+      height:44px; border:0; border-radius:999px; background:transparent;
+      font-family:inherit; font-weight:600; font-size:.9rem; line-height:1; color:rgba(255,255,255,.92);
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .18s ease,background .18s ease,color .18s ease;
+    }
+    .mini-nav a.active, .lang-switch button.active{ color:#fff; }
+    .mini-nav:not([data-glass-ready]) .active, .lang-switch:not([data-glass-ready]) .active{ background:rgba(255,255,255,.18); }
+    .mini-nav a:focus-visible, .lang-switch button:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+    .mini-nav a:active, .lang-switch button:active{ transform:scale(.96); }
+    @media (hover:hover){
+      .mini-nav a:hover, .lang-switch button:hover{ background:rgba(255,255,255,.08); color:#fff; }
+    }
+    .mini-nav.is-scrolled, .lang-switch.is-scrolled{ --control-tint:rgba(91,46,230,.84); }
+
     /* ===== MINI NAV ===== */
     .mini-nav{
       position:fixed; left:50%; transform:translateX(-50%);
-      bottom:max(10px, var(--safe-bottom)); z-index:50;
-      background:rgba(255,255,255,0.10);
-      border:1px solid var(--glass-border); border-radius:999px; padding:6px;
-      backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
-      height:var(--mini-nav-h); display:inline-flex; align-items:center; white-space:nowrap;
+      bottom:calc(10px + var(--safe-bottom)); z-index:50;
+      height:var(--mini-nav-h); max-width:calc(100% - 24px); display:inline-flex; align-items:center; white-space:nowrap;
     }
-    .mini-nav ul{ list-style:none; display:flex; gap:6px; padding:0; margin:0; align-items:center; justify-content:center; }
-    .mini-nav a{
-      position:relative; display:inline-flex; align-items:center; justify-content:center;
-      height:40px; padding:0 14px; border-radius:12px; border:1px solid var(--glass-border);
-      background:rgba(255,255,255,0.06); font-weight:800; font-size:.95rem; color:rgba(255,255,255,.95);
-      letter-spacing:.2px; outline:none; transition: transform .18s ease, background .2s ease, border-color .2s ease;
-    }
-    .mini-nav a:hover{ transform: translateY(-1px); }
-    .mini-nav a:focus-visible{ box-shadow:0 0 0 3px var(--focus); }
-    .mini-nav .active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); }
+    .mini-nav ul{ list-style:none; display:flex; gap:2px; padding:0; margin:0; align-items:center; justify-content:center; }
+    .mini-nav a{ padding:0 16px; }
     
     @media (min-width:980px){
       body{ padding-bottom:0; }
-      .mini-nav{ top:12px; bottom:auto; height:48px; }
-      .mini-nav a{ height:36px; }
+      .mini-nav{ top:12px; bottom:auto; }
       .hero { padding-top: 110px; }
     }
 
     /* ===== LANG SWITCH ===== */
     .lang-switch{
       position:fixed; right:12px; top:12px; z-index:60;
-      display:flex; gap:6px; align-items:center;
-      background:rgba(255,255,255,0.10); border:1px solid var(--glass-border); border-radius:999px; padding:4px;
-      backdrop-filter:saturate(140%) blur(10px); box-shadow:var(--shadow);
+      display:flex; gap:2px; align-items:center;
     }
     .lang-switch button{
-      appearance:none; border:none; cursor:pointer;
-      padding:8px 12px; border-radius:999px; font-weight:900; font-size:.92rem; letter-spacing:.04em;
-      background:rgba(255,255,255,0.06); color:#fff; border:1px solid var(--glass-border); transition: transform .15s ease, background .2s ease;
+      appearance:none; cursor:pointer; min-width:44px; padding:0 12px; font-size:.8rem; letter-spacing:.02em;
     }
-    .lang-switch button.active{ background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.35); color:#FFF380; }
-    .lang-switch button:focus-visible{ outline:3px solid var(--focus); }
 
     /* ===== BASE LAYOUT ===== */
     .container{ max-width:1100px; margin:0 auto; padding:0 14px 68px; }
@@ -176,25 +191,39 @@
     .info-block ul{ list-style:disc inside; margin:6px 0 0; }
 
     .steps{ display:grid; gap:14px; }
-    .steps-header{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .steps-header{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; }
     .steps-title{ margin:0; font-size:clamp(1.2rem,2vw,1.4rem); font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; }
-    .steps-button{ font-size:.9rem; color:rgba(20,20,20,0.95); background:linear-gradient(135deg,#CCF2FF,#FFF380); padding:10px 14px; border-radius:10px; border:1px solid var(--glass-border); display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-weight:800; box-shadow:none; }
-    .steps-button:focus-visible{ outline:3px solid var(--focus); }
+    .steps-controls{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+    .steps-controls[hidden]{ display:none; }
+    .steps-count{ min-width:62px; text-align:center; font-size:.78rem; font-weight:600; color:rgba(255,255,255,.82); font-variant-numeric:tabular-nums; }
+    .steps-button{
+      appearance:none; min-width:44px; height:44px; padding:0 16px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.36); display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      font:600 .88rem/1 'Montserrat',system-ui,sans-serif; color:#24213b; background:linear-gradient(135deg,#CCF2FF,#FFF380); cursor:pointer;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 3px 8px rgba(35,10,95,.12);
+      transition:transform .18s ease,filter .18s ease,opacity .18s ease;
+    }
+    .steps-button--previous{ padding:0; color:#fff; background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.22); box-shadow:inset 0 1px 0 rgba(255,255,255,.12); }
+    .steps-button svg{ width:18px; height:18px; flex-shrink:0; }
+    .steps-button:disabled{ opacity:.35; cursor:default; box-shadow:none; }
+    .steps-button:not(:disabled):active{ transform:scale(.96); }
+    .steps-button:focus-visible, .steps-track:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    @media (hover:hover){ .steps-button:not(:disabled):hover{ filter:brightness(1.06); } }
 
     .steps-track{
-      display:grid; grid-auto-flow:column; grid-auto-columns:minmax(340px,1fr);
+      display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - 32px) / 3); min-width:0;
       gap:16px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-inline:contain;
-      scroll-snap-type:x mandatory; padding:6px 2px 10px; scrollbar-width:thin; -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x mandatory; border-radius:var(--step-radius); scrollbar-width:none; -webkit-overflow-scrolling:touch;
     }
-    .steps-track::-webkit-scrollbar{ height:8px; }
-    .steps-track::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.25); border-radius:999px; }
+    .steps-track::-webkit-scrollbar{ display:none; }
+    @media (max-width:979px){ .steps-track{ grid-auto-columns:calc((100% - 16px) / 2); } }
 
     .step{
       scroll-snap-align:start; background:var(--glass-bg); border:1px solid var(--glass-border);
-      border-radius:var(--step-radius); padding:24px; display:grid; grid-template-columns:auto 1fr; grid-template-areas:"badge title" "badge text";
-      column-gap:16px; row-gap:10px; min-height:260px; backdrop-filter:saturate(120%) blur(8px);
+      border-radius:var(--step-radius); padding:24px; display:grid; grid-template-columns:auto minmax(0,1fr); grid-template-areas:"badge title" "text text"; grid-template-rows:auto 1fr;
+      column-gap:16px; row-gap:18px; min-height:240px; backdrop-filter:saturate(120%) blur(8px);
     }
-    .step-badge{ grid-area:badge; width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#CCF2FF,#FFF380); color:#1A1A1A; display:grid; place-items:center; font-weight:900; font-size:1.15rem; }
+    .step-badge{ grid-area:badge; width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#CCF2FF,#FFF380); color:#1A1A1A; display:grid; place-items:center; font-weight:800; font-size:1.15rem; }
     .step-title{ grid-area:title; margin:0; font-weight:800; font-size:1.16rem; color:var(--accent-light); letter-spacing:.3px; align-self:center; }
     .step-text{ grid-area:text; margin:0; font-size:1.06rem; color:#fff; }
 
@@ -203,9 +232,18 @@
 
     .report{ margin-top:40px; display:flex; flex-direction:column; gap:14px; }
     .report .dashboard-title{ margin-bottom:8px; }
-    .report-frame{ position:relative; width:100%; max-width:580px; border-radius:14px; overflow:hidden; box-shadow:var(--shadow); background:var(--glass-bg); margin-inline:auto; border:1px solid var(--glass-border); }
-    .report-frame iframe{ width:100%; height:100%; aspect-ratio:500/825; border:none; }
-    .report-fallback{ font-size:.9rem; background:rgba(255,255,255,0.06); padding:12px 16px; border-radius:10px; display:inline-block; margin-top:6px; border:1px solid var(--glass-border); }
+    .report-frame{ position:relative; width:100%; max-width:550px; margin-inline:auto; }
+    .report-embed{ transform-origin:top left; }
+    .report-embed .fb-post, .report-embed .fb-post > span{ display:block; }
+    .report-embed iframe{ display:block; border:none; border-radius:14px; box-shadow:var(--shadow); }
+    .report-embed blockquote{ margin:0; text-align:center; font-size:.9rem; }
+    .report-embed blockquote a{ text-decoration:underline; text-underline-offset:4px; }
+    .faq-item + .faq-item{ border-top:1px solid var(--glass-border); padding-top:22px; }
+    .faq-item summary{ display:block; list-style:none; cursor:pointer; font-size:clamp(1.08rem,1.7vw,1.24rem); line-height:1.5; font-weight:600; padding:4px 0; text-wrap:pretty; }
+    .faq-item summary::-webkit-details-marker{ display:none; }
+    .faq-item summary::marker{ content:""; }
+    .faq-item summary:focus-visible{ outline:2px solid var(--focus); outline-offset:4px; border-radius:4px; }
+    .faq-item p{ margin:10px 0 4px; line-height:1.8; color:rgba(255,255,255,.88); }
 
     .contact{ text-align:center; margin:30px 0 10px; padding:0 10px; }
     .contact p{ margin-bottom:12px; font-size:1rem; line-height:1.4; }
@@ -216,37 +254,32 @@
     .contact-button:hover{ transform:translateY(-2px); filter:brightness(1.05); }
     .contact-button:focus-visible{ outline:3px solid var(--focus); }
 
-    /* ===== TRUST / FOUNDATION BLOCK (ОНОВЛЕНО) ===== */
+    /* ===== TRUST / FOUNDATION BLOCK ===== */
     .trust-block{
       background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:var(--radius);
-      padding:24px 20px; margin:28px 0; /* Зменшено відступи */
-      display:flex; flex-direction:column; align-items:center; text-align:center; gap:20px;
+      padding:28px 28px 30px; margin:28px 0;
+      display:flex; flex-direction:column; align-items:center; text-align:center; gap:24px;
       box-shadow:var(--shadow); position:relative; overflow:hidden;
     }
     .trust-header{
-      display:flex; flex-direction:column; align-items:center; gap:12px;
+      display:flex; flex-direction:column; align-items:center; width:100%; padding-bottom:22px; border-bottom:1px solid var(--glass-border);
     }
-    .trust-row{ display:flex; align-items:center; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .trust-row{ display:flex; align-items:center; gap:16px; justify-content:center; }
     
     /* Логотип без підкладки (чистий SVG) */
     .trust-logo-pure{
-      display:flex; align-items:center; justify-content:center;
+      display:flex; align-items:center; justify-content:center; flex:0 0 42px;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); /* Легка тінь для контрасту */
     }
     
-    .trust-title{ font-size:1rem; text-transform:uppercase; letter-spacing:1px; color:#fff; font-weight:700; max-width:400px; line-height:1.4; }
+    .trust-title{ font-size:.9rem; text-transform:uppercase; letter-spacing:.7px; color:rgba(255,255,255,.92); font-weight:700; max-width:540px; line-height:1.65; }
     .trust-title b{ color:var(--accent); font-weight:800; white-space:nowrap; }
 
     .author-quote{
-      background:rgba(255,255,255,0.05); border:1px solid var(--glass-border);
-      border-radius:12px; padding:20px; width:100%; max-width:640px;
-      position:relative; margin-top:8px;
+      padding:0; width:100%; max-width:740px; margin:0;
     }
-    .author-quote::before{
-      content:"“"; position:absolute; left:12px; top:-4px; font-size:3rem; line-height:1; color:var(--accent); opacity:0.3; font-family:serif; pointer-events:none;
-    }
-    .quote-text{ font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.92); margin:0 0 10px; position:relative; z-index:2; }
-    .quote-author{ display:block; text-align:right; font-size:0.85rem; font-weight:800; color:var(--accent); letter-spacing:.3px; }
+    .quote-text{ font-style:italic; font-size:clamp(.95rem,1.4vw,1.08rem); line-height:1.8; color:rgba(255,255,255,.96); margin:0; text-wrap:pretty; }
+    .quote-author{ display:block; margin-top:18px; font-size:.83rem; line-height:1.6; font-style:normal; font-weight:700; color:var(--accent); letter-spacing:.2px; }
 
     /* ===== CHART (INFOGRAPHICS) ===== */
     .chart-card{
@@ -274,7 +307,7 @@
       position:absolute; top:8px; left:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--glass-border);
       background:rgba(255,255,255,0.12); backdrop-filter:saturate(140%) blur(8px); box-shadow:var(--shadow);
       font-size:calc(.86rem * var(--chart-font-scale));
-      pointer-events:none; display:none; white-space:nowrap;
+      pointer-events:none; display:none; max-width:calc(100% - 16px); white-space:normal;
       font-variant-numeric: tabular-nums lining-nums;
       font-family:'Inter','Montserrat',system-ui,-apple-system,sans-serif;
     }
@@ -304,18 +337,30 @@
       .card h3{ font-size:1.22rem; }
       .card--participants h3{ font-size:1.38rem; }
       .trust-block { padding: 24px 16px; }
+      .trust-row{ flex-direction:column; gap:12px; }
+      .trust-title{ font-size:.82rem; }
+      .steps-header{ flex-wrap:wrap; }
+      .steps-track{ grid-auto-columns:100%; }
+      .step{ padding:20px; column-gap:12px; }
+      .step-badge{ width:44px; height:44px; }
+      .chip{ flex-wrap:wrap; }
+    }
+    @media (max-width:380px){
+      .mini-nav a{ padding-inline:10px; font-size:.8rem; }
+      .card h3, .card--participants h3{ font-size:1rem; overflow-wrap:anywhere; }
+      .card .value{ font-size:1.8rem; }
     }
 
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior:auto; }
-      .card, .contact-button, .progress-fill{ transition:none !important; }
+      .card, .contact-button, .progress-fill, .mini-nav a, .lang-switch button, .mini-nav::before, .lang-switch::before, .steps-button{ transition:none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="lang-switch" aria-label="Language">
-    <button type="button" id="btnLangUk" lang="uk" aria-pressed="true" class="active">UA</button>
-    <button type="button" id="btnLangEn" lang="en" aria-pressed="false">EN</button>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button type="button" id="btnLangUk" lang="uk" aria-label="Українська" aria-pressed="true" class="active">UA</button>
+    <button type="button" id="btnLangEn" lang="en" aria-label="English" aria-pressed="false">EN</button>
   </div>
 
   <header class="hero" id="top">
@@ -327,10 +372,10 @@
   </header>
 
   <nav class="mini-nav" aria-label="Швидка навігація сайтом">
-    <ul role="tablist" aria-label="Навігація сторінкою">
-      <li><a id="navStats" href="#stats" data-nav role="tab" aria-controls="stats" aria-selected="true" class="active">Статистика</a></li>
-      <li><a id="navGuide" href="#guide" data-nav role="tab" aria-controls="guide" aria-selected="false">Інструкція</a></li>
-      <li><a id="navFAQ"   href="#faq"   data-nav role="tab" aria-controls="faq"   aria-selected="false">FAQ</a></li>
+    <ul>
+      <li><a id="navStats" href="#stats" data-nav aria-current="location" class="active">Статистика</a></li>
+      <li><a id="navGuide" href="#guide" data-nav>Інструкція</a></li>
+      <li><a id="navFAQ"   href="#faq"   data-nav>FAQ</a></li>
     </ul>
   </nav>
 
@@ -440,10 +485,10 @@
         </div>
       </div>
 
-      <div class="author-quote">
+      <blockquote class="author-quote">
         <p class="quote-text" id="authorQuote">«Дякую кожному, хто не залишився осторонь. Разом ми перетворюємо цифри на сторінках звітів у реальні емоції дітей.»</p>
         <cite class="quote-author" id="authorSign">— Гліб Суслов, автор ініціативи</cite>
-      </div>
+      </blockquote>
     </section>
 
     <div class="contact">
@@ -467,7 +512,16 @@
       <div class="steps" aria-label="Покрокова інструкція">
         <div class="steps-header">
           <h3 id="stepsTitle" class="steps-title">Покрокова інструкція</h3>
-          <button type="button" id="scrollSteps" class="steps-button" aria-label="Гортай кроки вправо">Гортай →</button>
+          <div class="steps-controls" id="stepsControls">
+            <button type="button" id="previousStep" class="steps-button steps-button--previous" aria-label="Попередній крок" aria-controls="stepsTrack" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>
+            </button>
+            <span id="stepsCount" class="steps-count" aria-live="polite" aria-atomic="true">1–3 / 6</span>
+            <button type="button" id="scrollSteps" class="steps-button" aria-label="Наступний крок" aria-controls="stepsTrack">
+              <span id="stepsNextLabel">Далі</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="steps-track" id="stepsTrack" tabindex="0" role="group" aria-label="Кроки оформлення в застосунку Дія">
@@ -516,15 +570,29 @@
 
     <section id="reports" class="report">
       <div id="reportsTitle" class="dashboard-title">Звітування</div>
-      <div class="report-frame">
-        <iframe
-          id="fbReport"
-          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l%26id%3D100091519694547&show_text=true"
-          loading="lazy"
-          title="Facebook звіт">
-        </iframe>
+      <div class="report-frame" id="reportFrame">
+        <div class="report-embed" id="reportEmbed">
+          <div class="fb-post" data-href="https://www.facebook.com/permalink.php?story_fbid=pfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l&amp;id=100091519694547" data-width="550" data-show-text="true">
+            <blockquote class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/permalink.php?story_fbid=pfbid02NhboPBHCDS94mEUDzyBYGcNUEUiK1iMkzaNoaboaFauw82SU5KEyhZ8ia1SDjQJ1l&amp;id=100091519694547" target="_blank" rel="noopener noreferrer">Facebook</a></blockquote>
+          </div>
+        </div>
       </div>
-      <div id="reportFallback" class="report-fallback">Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.</div>
+    </section>
+
+    <section id="faq" class="info-block" aria-labelledby="faqTitle">
+      <h2 id="faqTitle">Поширені запитання</h2>
+      <details class="faq-item" open>
+        <summary id="faq1Title">Чи потрібно витрачати власні кошти?</summary>
+        <p id="faq1Text">Для участі можна спрямувати вже нараховані кошти «єКнига» на підготовлене замовлення книжок для дітей.</p>
+      </details>
+      <details class="faq-item" open>
+        <summary id="faq2Title">Що робити, коли кошти надійшли?</summary>
+        <p id="faq2Text">Напишіть Глібу в Telegram за кнопкою вище — він надішле посилання для оплати підготовленого замовлення книжок.</p>
+      </details>
+      <details class="faq-item" open>
+        <summary id="faq3Title">Де переглянути звіт?</summary>
+        <p id="faq3Text">У розділі «Звітування» вище можна переглянути допис про ініціативу. Натисніть на допис, щоб відкрити його у Facebook.</p>
+      </details>
     </section>
   </div>
 
@@ -568,7 +636,9 @@
         how2: 'Після нарахування коштів ти оплачуєш підготовлене замовлення на книжки для конкретного закладу.',
         how3: 'Ми публічно звітуємо про кожну передачу книжок.',
         stepsTitle: 'Покрокова інструкція',
-        stepsScroll: 'Гортай →',
+        stepsNext: 'Далі',
+        stepsNextAria: 'Наступний крок',
+        stepsPreviousAria: 'Попередній крок',
         stepsTrackAria: 'Кроки оформлення в застосунку Дія',
         step1Title: 'Відкрий застосунок Дія',
         step1Text: 'Перейди в розділ <strong>«Сервіси»</strong> на головному екрані.',
@@ -586,7 +656,13 @@
         videoTitle: 'Відеоінструкція: як оформити картку єКнига',
         postVideoText: 'Після подачі заявки карта з’являється миттєво, а кошти надходять протягом <strong>до 3 днів</strong>. <br><strong>Як тільки кошти надійдуть — я надішлю посилання для оплати книжок.</strong>',
         reportsTitle: 'Звітування',
-        reportFallback: 'Якщо допис не завантажився — відкрий його у Facebook або онови сторінку.',
+        faqTitle: 'Поширені запитання',
+        faq1Title: 'Чи потрібно витрачати власні кошти?',
+        faq1Text: 'Для участі можна спрямувати вже нараховані кошти «єКнига» на підготовлене замовлення книжок для дітей.',
+        faq2Title: 'Що робити, коли кошти надійшли?',
+        faq2Text: 'Напишіть Глібу в Telegram за кнопкою вище — він надішле посилання для оплати підготовленого замовлення книжок.',
+        faq3Title: 'Де переглянути звіт?',
+        faq3Text: 'У розділі «Звітування» вище можна переглянути допис про ініціативу. Натисніть на допис, щоб відкрити його у Facebook.',
         fbTitle: 'Facebook звіт',
         chartLivePrefix: 'Станом на',
         chartDelta: 'за день',
@@ -635,7 +711,9 @@
         how2: 'Once funds arrive, you pay for a prepared book order for a specific institution.',
         how3: 'We publish transparent reports for every delivery.',
         stepsTitle: 'Step-by-step',
-        stepsScroll: 'Scroll →',
+        stepsNext: 'Next',
+        stepsNextAria: 'Next step',
+        stepsPreviousAria: 'Previous step',
         stepsTrackAria: 'Steps in the Diia app',
         step1Title: 'Open the Diia app',
         step1Text: 'Go to <strong>“Services”</strong> on the home screen.',
@@ -653,7 +731,13 @@
         videoTitle: 'Video: how to get the eBook card',
         postVideoText: 'After submitting, the card appears instantly, and funds arrive within <strong>up to 3 days</strong>.<br><strong>Once they arrive, I’ll send a link to pay for the books.</strong>',
         reportsTitle: 'Reports',
-        reportFallback: 'If the post didn’t load, open it on Facebook or refresh the page.',
+        faqTitle: 'Frequently asked questions',
+        faq1Title: 'Do I need to spend my own money?',
+        faq1Text: 'You can use funds already credited through єКнига to pay for a prepared order of books for children.',
+        faq2Title: 'What should I do when the funds arrive?',
+        faq2Text: 'Contact Hlib using the Telegram button above. He will send you a payment link for the prepared book order.',
+        faq3Title: 'Where can I read the report?',
+        faq3Text: 'You can read the initiative’s post in the Reports section above. Select the post to open it on Facebook.',
         fbTitle: 'Facebook report',
         chartLivePrefix: 'As of',
         chartDelta: 'day',
@@ -671,9 +755,10 @@
 
     /* ---------- Locale detection & persistence ---------- */
     const urlLang = new URLSearchParams(location.search).get('lang');
-    const savedLang = localStorage.getItem('site:locale');
+    let savedLang;
+    try { savedLang = localStorage.getItem('site:locale'); } catch { /* Storage can be disabled. */ }
     const browserDefault = (navigator.language || 'uk').toLowerCase().startsWith('uk') ? 'uk' : 'en';
-    let locale = (urlLang && ['uk','en'].includes(urlLang)) ? urlLang : (savedLang || browserDefault);
+    let locale = ['uk','en'].includes(urlLang) ? urlLang : (['uk','en'].includes(savedLang) ? savedLang : browserDefault);
 
     function setLangButtons(){
       const ukBtn = document.getElementById('btnLangUk');
@@ -697,21 +782,26 @@
     const $$ = sel => Array.from(document.querySelectorAll(sel));
     const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
+    const countFrames = new Map();
+    let progressFrame;
     function animateCount(id, endValue, duration=800){
       const el = document.getElementById(id); if(!el) return;
+      cancelAnimationFrame(countFrames.get(id));
       const startV = 0; const start = performance.now();
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const dur = reduce ? 0 : duration;
       function step(now){
-        const t = clamp((now - start) / dur, 0, 1);
+        const t = dur === 0 ? 1 : clamp((now - start) / dur, 0, 1);
         const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
         el.textContent = formatter.format(Math.floor(startV + eased * (endValue - startV)));
-        if(t < 1) requestAnimationFrame(step);
+        if(t < 1) countFrames.set(id, requestAnimationFrame(step));
+        else countFrames.delete(id);
       }
-      requestAnimationFrame(step);
+      countFrames.set(id, requestAnimationFrame(step));
     }
 
     function animateProgress(percent, duration=900){
+      cancelAnimationFrame(progressFrame);
       const fill = $('#progressFill');
       const percentText = $('#percentText');
       const toGoalText = $('#toGoalText');
@@ -726,16 +816,16 @@
       const start = performance.now();
 
       function tick(now){
-        const t = clamp((now - start)/dur, 0, 1);
+        const t = dur === 0 ? 1 : clamp((now - start)/dur, 0, 1);
         const currentPercent = Math.floor(t * percent);
         if(fill){
             fill.style.width = Math.min(100, currentPercent) + '%';
             fill.textContent = `${currentPercent}%`;
         }
         if(percentText){ percentText.textContent = `${currentPercent}% ${tr.collectedWord}`; }
-        if(t < 1) requestAnimationFrame(tick);
+        if(t < 1) progressFrame = requestAnimationFrame(tick);
       }
-      requestAnimationFrame(tick);
+      progressFrame = requestAnimationFrame(tick);
 
       const target = Number(($('[data-target]')?.dataset.target) || fallbackStats.targetAmount) || fallbackStats.targetAmount;
       const remaining = Math.max(0, target - currentStats.totalAmount);
@@ -747,12 +837,14 @@
         overFlowText.textContent = `${tr.exceededBy} ${formatter.format(over)} ₴`;
         remainingEl.textContent = formatter.format(0);
       }else{
+        overFlowText.className = '';
+        overFlowText.textContent = '';
         toGoalText.textContent = `${tr.remainingPrefix} ${formatter.format(remaining)} ₴`;
         remainingEl.textContent = formatter.format(remaining);
       }
       if(goalUpdated){
-        const d = new Date();
-        goalUpdated.textContent = `${tr.updatedPrefix} ${d.toLocaleString(dateLocale, { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' })}`;
+        const lastDate = currentSeries[currentSeries.length-1]?.date;
+        goalUpdated.textContent = lastDate ? `${tr.updatedPrefix} ${new Date(lastDate + 'T12:00:00').toLocaleDateString(dateLocale, { day:'numeric', month:'long', year:'numeric' })}` : '';
       }
     }
 
@@ -1076,7 +1168,7 @@
           const wrapRect = wrap.getBoundingClientRect();
           const tipBoxWidth = tip.getBoundingClientRect().width || 160;
           const insideX = clamp(hx + 12, 8, wrapRect.width - tipBoxWidth - 8);
-          tip.style.transform = `translate(${insideX}px, 8px)`;
+          tip.style.left = `${Math.max(8, insideX)}px`;
         }
       }else{
         if(tip){
@@ -1153,41 +1245,152 @@
       });
     }
 
-    /* ---------- NEW: Scroll button for steps ---------- */
-    function setupStepsScrollButton(){
-      const btn = document.getElementById('scrollSteps');
-      const track = document.getElementById('stepsTrack');
-      if(!btn || !track) return;
+    /* ---------- Step navigation: buttons, swipe and keyboard ---------- */
+    function setupStepsNavigation(){
+      const next = $('#scrollSteps');
+      const previous = $('#previousStep');
+      const track = $('#stepsTrack');
+      const cards = Array.from(track.children);
+      const count = $('#stepsCount');
 
-      const updateVisibility = () => {
-        const overflow = track.scrollWidth - track.clientWidth > 6;
-        btn.style.display = overflow ? 'inline-flex' : 'none';
-      };
-
-      btn.addEventListener('click', ()=>{
-        const step = Math.max(track.clientWidth * 0.9, 320);
+      const update = () => {
         const maxLeft = track.scrollWidth - track.clientWidth;
-        const next = Math.min(track.scrollLeft + step, maxLeft);
-        track.scrollTo({ left: next, behavior: 'smooth' });
-
-        if(next >= maxLeft - 2){
-          setTimeout(()=> track.scrollTo({ left: 0, behavior: 'smooth' }), 600);
-        }
+        $('#stepsControls').hidden = maxLeft < 2;
+        previous.disabled = track.scrollLeft < 2;
+        next.disabled = track.scrollLeft >= maxLeft - 2;
+        const stride = cards[1].offsetLeft - cards[0].offsetLeft;
+        const first = Math.round(track.scrollLeft / stride) + 1;
+        const visible = Math.max(1, Math.round(track.clientWidth / stride));
+        const last = Math.min(cards.length, first + visible - 1);
+        const label = `${first === last ? first : `${first}–${last}`} / ${cards.length}`;
+        if(count.textContent !== label) count.textContent = label;
+      };
+      const go = left => track.scrollTo({
+        left,
+        behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
       });
-
-      track.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){
-          btn.click(); e.preventDefault();
-        }
-        if(e.key === 'ArrowLeft'){
-          const step = Math.max(track.clientWidth * 0.9, 320);
-          track.scrollBy({ left: -step, behavior: 'smooth' });
-          e.preventDefault();
-        }
+      const move = direction => {
+        const maxLeft = track.scrollWidth - track.clientWidth;
+        const stops = cards.map(card => Math.min(card.offsetLeft - cards[0].offsetLeft, maxLeft));
+        const destination = direction > 0
+          ? stops.find(left => left > track.scrollLeft + 2) ?? maxLeft
+          : stops.reverse().find(left => left < track.scrollLeft - 2) ?? 0;
+        go(destination);
+      };
+      next.addEventListener('click', () => move(1));
+      previous.addEventListener('click', () => move(-1));
+      track.addEventListener('keydown', event => {
+        if(event.target !== track) return;
+        if(event.key === 'ArrowRight') move(1);
+        else if(event.key === 'ArrowLeft') move(-1);
+        else if(event.key === 'Home') go(0);
+        else if(event.key === 'End') go(track.scrollWidth - track.clientWidth);
+        else return;
+        event.preventDefault();
       });
+      track.addEventListener('scroll', update, {passive:true});
+      new ResizeObserver(update).observe(track);
+      update();
+    }
 
-      window.addEventListener('resize', updateVisibility);
-      updateVisibility();
+    function setupFacebookReport(){
+      const frame = $('#reportFrame');
+      const embed = $('#reportEmbed');
+      const template = embed.firstElementChild.cloneNode(true);
+      let sdkReady = false;
+      let renderedWidth = 0;
+      let resizeTimer;
+
+      // Facebook owns the post's height. Keep it in flow instead of cropping
+      // a fixed-height iframe; only scale below the plugin's minimum width.
+      const fit = () => {
+        const available = Math.floor(frame.clientWidth);
+        const width = Math.max(350, available);
+        const displayedWidth = embed.querySelector('iframe') ? (renderedWidth || width) : width;
+        const scale = Math.min(1, available / displayedWidth);
+        embed.style.width = `${width}px`;
+        embed.style.transform = scale < 1 ? `scale(${scale})` : '';
+        frame.style.height = `${Math.ceil(embed.offsetHeight * scale)}px`;
+        return width;
+      };
+      const render = () => {
+        const width = fit();
+        if(!sdkReady || width === renderedWidth) return;
+        renderedWidth = width;
+        const post = template.cloneNode(true);
+        post.dataset.width = String(width);
+        embed.replaceChildren(post);
+        window.FB.XFBML.parse(embed, () => {
+          const iframe = embed.querySelector('iframe');
+          if(iframe) iframe.title = i18n[locale].fbTitle;
+          fit();
+        });
+      };
+      const resized = () => {
+        const width = fit();
+        if(width === renderedWidth) return;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(render, 180);
+      };
+      if('ResizeObserver' in window){
+        const observer = new ResizeObserver(resized);
+        observer.observe(frame);
+        observer.observe(embed);
+      }
+      window.addEventListener('resize', resized);
+      fit();
+
+      window.fbAsyncInit = () => {
+        window.FB.init({ xfbml:false, status:false, cookie:false, autoLogAppEvents:false, version:'v24.0' });
+        sdkReady = true;
+        render();
+      };
+      const sdk = document.createElement('script');
+      sdk.async = true;
+      sdk.defer = true;
+      sdk.src = 'https://connect.facebook.net/en_US/sdk.js';
+      document.head.append(sdk);
+    }
+
+    function updateGlassSelection(){
+      $$('.mini-nav, .lang-switch').forEach(control => {
+        const selected = control.querySelector('.active');
+        if(!selected) return;
+        control.style.setProperty('--selection-left', `${selected.offsetLeft}px`);
+        control.style.setProperty('--selection-width', `${selected.offsetWidth}px`);
+        control.dataset.glassReady = '';
+      });
+    }
+
+    function updateActiveNavigation(){
+      $$('.mini-nav, .lang-switch').forEach(control => control.classList.toggle('is-scrolled', scrollY > 64));
+      const links = $$('[data-nav]');
+      let active = links[0];
+      links.forEach(link => {
+        if($(link.hash)?.getBoundingClientRect().top <= Math.min(innerHeight * .3, 180)) active = link;
+      });
+      const lastLink = links[links.length-1];
+      if($(lastLink.hash).getBoundingClientRect().bottom <= innerHeight || scrollY + innerHeight >= document.documentElement.scrollHeight - 24) active = lastLink;
+      links.forEach(link => {
+        const selected = link === active;
+        link.classList.toggle('active', selected);
+        if(selected) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      updateGlassSelection();
+    }
+
+    function setupNavigation(){
+      let pending = false;
+      const schedule = () => {
+        if(pending) return;
+        pending = true;
+        requestAnimationFrame(() => { updateActiveNavigation(); pending = false; });
+      };
+      window.addEventListener('scroll', schedule, {passive:true});
+      window.addEventListener('resize', schedule);
+      document.fonts.ready.then(schedule);
+      schedule();
     }
 
     /* ---------- INIT & DATA FLOW ---------- */
@@ -1304,6 +1507,8 @@
       $('#navStats').textContent = tr.navStats;
       $('#navGuide').textContent = tr.navGuide;
       $('#navFAQ').textContent   = tr.navFAQ;
+      $('.mini-nav').setAttribute('aria-label', locale === 'en' ? 'Page navigation' : 'Навігація сторінкою');
+      $('.lang-switch').setAttribute('aria-label', locale === 'en' ? 'Page language' : 'Мова сторінки');
 
       // Stats titles/footnotes + aria
       $('#statsTitle').textContent = tr.statsTitle;
@@ -1347,13 +1552,12 @@
       $('#how3').textContent       = tr.how3;
 
       $('#stepsTitle').textContent = tr.stepsTitle;
-      const scrollBtn = $('#scrollSteps');
-      if(scrollBtn){
-        scrollBtn.textContent = tr.stepsScroll;
-        scrollBtn.setAttribute('aria-label', locale==='en' ? 'Scroll steps to the right' : 'Гортай кроки вправо');
-      }
+      $('#stepsNextLabel').textContent = tr.stepsNext;
+      $('#scrollSteps').setAttribute('aria-label', tr.stepsNextAria);
+      $('#previousStep').setAttribute('aria-label', tr.stepsPreviousAria);
       const stepsTrack = $('#stepsTrack');
       if(stepsTrack) stepsTrack.setAttribute('aria-label', tr.stepsTrackAria);
+      $$('.step').forEach((step, index) => step.setAttribute('aria-label', `${locale === 'en' ? 'Step' : 'Крок'} ${index + 1}`));
 
       $('#step1Title').textContent = tr.step1Title; $('#step1Text').innerHTML = tr.step1Text;
       $('#step2Title').textContent = tr.step2Title; $('#step2Text').innerHTML = tr.step2Text;
@@ -1374,8 +1578,10 @@
 
       // Reports
       $('#reportsTitle').textContent = tr.reportsTitle;
-      $('#reportFallback').textContent = tr.reportFallback;
-      const fb = $('#fbReport');
+      ['faqTitle','faq1Title','faq1Text','faq2Title','faq2Text','faq3Title','faq3Text'].forEach(id => {
+        document.getElementById(id).textContent = tr[id];
+      });
+      const fb = $('#reportEmbed iframe');
       if(fb) fb.setAttribute('title', tr.fbTitle);
 
       // Trust/Foundation block
@@ -1398,26 +1604,24 @@
 
       // Update html dir if ever needed
       document.documentElement.dir = 'ltr';
+      $('#stepsTrack').dispatchEvent(new Event('scroll'));
+      requestAnimationFrame(updateActiveNavigation);
     }
 
     /* ---------- Language switching handlers ---------- */
     function bindLangSwitch(){
-      const ukBtn = document.getElementById('btnLangUk');
-      const enBtn = document.getElementById('btnLangEn');
-      if(ukBtn) ukBtn.addEventListener('click', ()=>{
-        locale = 'uk';
-        localStorage.setItem('site:locale', locale);
+      const setLocale = next => {
+        if(locale === next) return;
+        locale = next;
+        try { localStorage.setItem('site:locale', locale); } catch { /* Storage can be disabled. */ }
         setLangButtons();
         applyI18n();
-        history.replaceState(null, '', location.pathname + '?lang=uk');
-      });
-      if(enBtn) enBtn.addEventListener('click', ()=>{
-        locale = 'en';
-        localStorage.setItem('site:locale', locale);
-        setLangButtons();
-        applyI18n();
-        history.replaceState(null, '', location.pathname + '?lang=en');
-      });
+        const url = new URL(location.href);
+        url.searchParams.set('lang', locale);
+        history.replaceState(history.state, '', url);
+      };
+      $('#btnLangUk').addEventListener('click', () => setLocale('uk'));
+      $('#btnLangEn').addEventListener('click', () => setLocale('en'));
     }
 
     /* ---------- INIT ---------- */
@@ -1428,10 +1632,11 @@
 
       // dataset and chart
       initStaticSeries();
-      refreshStatsFromSeries();
 
-      // steps scroll button init
-      setupStepsScrollButton();
+      // step controls and floating navigation
+      setupStepsNavigation();
+      setupNavigation();
+      setupFacebookReport();
 
       if(initCanvas()){
         attachResizers();
